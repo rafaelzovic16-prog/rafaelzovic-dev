@@ -77,6 +77,20 @@ Cuidados registrados na aprovação da especificação v1.1:
 
 ---
 
+## T — Decisões técnicas da Fase 1
+
+Surgiram da implementação e do protótipo obrigatório. Ficam como **Proposta** até a validação da Fase 1 (guardrail 10). Evidências em [`FASE-1.md`](FASE-1.md).
+
+| # | Decisão | Motivo | Data | Status |
+|---|---|---|---|---|
+| T1 | Páginas 404 por idioma entregues por um **proxy** (`proxy.ts`), em vez da rota "pega-tudo" prevista em P2. | O plano original entrega HTML vazio sem JavaScript no Next 16. O proxy mantém a especificação (uma 404 por idioma, `lang` correto, status 404, sem JavaScript) sem recurso experimental. Custo: o proxy roda em cada requisição de página. | 2026-11-06 | Proposta |
+| T2 | Fontes por `next/font/google`: baixadas no build e servidas pelo próprio site. | Nenhuma requisição externa no navegador (testado). Interpretação de "fontes locais" a confirmar; a alternativa é versionar os arquivos e usar `next/font/local`. | 2026-11-06 | Proposta |
+| T3 | ESLint 9.39.5 mantido, embora o npm marque a linha 9 como "não mais suportada". | O modelo oficial do Next.js 16.4.5 ainda usa ESLint 9, e os plugins do `eslint-config-next` não aceitam o 10. Ferramenta só de desenvolvimento. | 2026-11-06 | Proposta |
+| T4 | Alerta moderado em dependência de desenvolvimento (`minimatch` via `typescript-eslint`) aceito; o CI bloqueia qualquer alerta moderado ou acima em dependências de produção. | A correção exigiria forçar uma versão fora da faixa declarada pelo pacote. Não afeta o site publicado. | 2026-11-06 | Proposta |
+| T5 | O site pede para não ser indexado (robots.txt e meta `noindex`) até a publicação aprovada; a liberação é a variável `SITE_INDEXABLE=true`, só em produção. | Ao conectar a Vercel, a `main` vira um endereço público `*.vercel.app` com o site incompleto. | 2026-11-06 | Proposta |
+
+---
+
 ## R — Guardrails e colaboração registrados por Rafa
 
 Registrados por Rafa na `main` em 2026-11-05 (commit `fc69d43`), transcritos aqui sem alteração de conteúdo na reconciliação da Fase 0. Valem junto com G1–G3; em caso de dúvida, prevalece a regra mais restritiva.

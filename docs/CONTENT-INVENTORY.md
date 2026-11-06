@@ -40,7 +40,7 @@ Atualizado em 2026-11-06.
 | Ano, estágio atual, funcionalidades e status | Pendente | Verificados no repositório ou informados por Rafa. |
 | Contexto, decisões técnicas, desafios, processo | Pendente | Base do estudo de caso. |
 | Capturas reais | Pendente | — |
-| Demonstração | Desconhecida | Só aparece se existir. |
+| Demonstração | Desconhecida | Só aparece se existir. Em 2026-11-06 existe um projeto `qualyt-trend` na conta Vercel de Rafa (consulta só de leitura); se há uma demonstração pública e em que estado, verificar na Fase 4. |
 
 ### 3.2 SaldoZen
 

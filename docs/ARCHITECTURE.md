@@ -27,28 +27,26 @@ A lista de componentes é indicativa: cada arquivo só é criado quando a fase c
 rafaelzovic-dev/
 ├── app/
 │   ├── (pt)/                         ← layout raiz PT
-│   │   ├── layout.tsx                <html lang="pt-BR">, fontes, header, footer
+│   │   ├── layout.tsx                <html lang="pt-BR">, fontes, metadados padrão
 │   │   ├── page.tsx                  /
 │   │   ├── projetos/[slug]/
 │   │   │   ├── page.tsx              /projetos/qualyt-trend · /projetos/saldozen
-│   │   │   └── opengraph-image.tsx
-│   │   ├── opengraph-image.tsx
-│   │   ├── not-found.tsx             404 em PT
-│   │   ├── [...rest]/page.tsx        URL inexistente → 404 em PT
-│   │   └── specimen/page.tsx         catálogo do design system (só em preview, noindex)
+│   │   │   └── opengraph-image.tsx   (Fase 5)
+│   │   ├── opengraph-image.tsx       (Fase 5)
+│   │   ├── pagina-nao-encontrada/page.tsx   404 em PT, entregue pelo proxy
+│   │   └── specimen/page.tsx         catálogo do design system (Fase 2; só em preview, noindex)
 │   ├── (en)/                         ← layout raiz EN
 │   │   ├── layout.tsx                <html lang="en">
 │   │   └── en/
 │   │       ├── page.tsx              /en
 │   │       ├── projects/[slug]/{page.tsx, opengraph-image.tsx}
-│   │       ├── opengraph-image.tsx
-│   │       ├── not-found.tsx         404 em EN
-│   │       └── [...rest]/page.tsx    URL inexistente em /en/* → 404 em EN
+│   │       ├── opengraph-image.tsx   (Fase 5)
+│   │       └── page-not-found/page.tsx      404 em EN, entregue pelo proxy
 │   ├── globals.css                   tokens (@theme), superfícies, base
 │   ├── sitemap.ts
 │   └── robots.ts
 ├── components/
-│   ├── layout/        SiteHeader · Nav · MobileMenu · LanguageSwitch · Footer · SkipLink · Folio
+│   ├── layout/        RootDocument · SiteHeader · Nav · MobileMenu · LanguageSwitch · Footer · SkipLink · Folio
 │   ├── primitives/    Container · Surface · Rule · SectionLabel · IndexLink · Button
 │   │                  StatusMarker · Figure · PhotoFrame · MetaTable
 │   ├── home/          Hero · SelectedWork · ProjectFeature · ProjectIndex · About
@@ -78,6 +76,7 @@ rafaelzovic-dev/
 │   └── e2e/                       navegador real: primeira dobra, sem JS, movimento, teclado, a11y, visual
 ├── docs/
 ├── .github/workflows/ci.yml
+├── proxy.ts                       endereços desconhecidos → página 404 do idioma, com status 404
 └── next.config.ts                 redirecionamentos, formatos de imagem
 ```
 
@@ -97,7 +96,7 @@ Mudanças em relação ao plano v1.0, por A5:
 | `/` | `/en` | Home |
 | `/projetos/qualyt-trend` | `/en/projects/qualyt-trend` | Estudo de caso 01 |
 | `/projetos/saldozen` | `/en/projects/saldozen` | Estudo de caso 02 |
-| 404 PT | 404 EN | Página não encontrada no idioma da URL |
+| 404 PT | 404 EN | Página não encontrada no idioma da URL, entregue pelo proxy com status 404 |
 | `/sitemap.xml` · `/robots.txt` | — | SEO |
 | `/specimen` | — | Só quando a variável `ENABLE_SPECIMEN` estiver ativa (previews); retorna 404 em produção |
 
@@ -114,9 +113,11 @@ Todas as páginas são geradas no build. Slugs desconhecidos resultam em 404.
 
 ## 4. Internacionalização (P2, P5)
 
-- **Dois layouts raiz** em grupos de rotas, um por idioma. Cada um gera o `<html lang>` correto no servidor, e as URLs em português existem sem reescritas nem middleware.
+- **Dois layouts raiz** em grupos de rotas, um por idioma. Cada um gera o `<html lang>` correto no servidor, e as URLs em português existem sem reescritas.
   - Efeito documentado pelo Next.js: navegar entre layouts raiz diferentes recarrega a página. Isso só acontece na troca de idioma, o que é aceitável.
-- **404 por idioma** com uma rota "pega-tudo" em cada idioma que chama `notFound()`. Evita o `global-not-found`, ainda experimental no Next 16. A precedência dessa rota sobre `sitemap.xml`, `robots.txt` e as imagens OG é verificada por teste na Fase 1.
+- **404 por idioma via proxy** (`proxy.ts`, decisão T1 — **proposta, aguarda aprovação**). O plano original (rota "pega-tudo" chamando `notFound()`) foi testado na Fase 1 e **não funciona**: no Next 16, `notFound()` numa renderização sob demanda entrega HTML vazio sem JavaScript, e com dois layouts raiz não existe 404 estática por idioma. O proxy deixa passar as páginas conhecidas e reescreve qualquer outro endereço para a página 404 do idioma da URL, com status 404 e HTML completo. Evidências e alternativas em [`FASE-1.md`](FASE-1.md).
+  - Endereços com extensão (`robots.txt`, imagens, ícones) não passam pelo proxy. Rotas novas sem extensão (ex.: imagens Open Graph na Fase 5, `/specimen` na Fase 2) precisam entrar na lista de páginas conhecidas; os testes E2E acusam se não entrarem.
+- **Cabeçalho renderizado pelas views**, não pelo layout: o seletor de idioma precisa do endereço equivalente no outro idioma, que só a página conhece. Assim ele funciona no servidor, sem JavaScript.
 - **Dicionários tipados:** `en.ts` precisa ter exatamente o formato de `pt.ts`; uma chave faltando quebra a compilação. Um teste acusa textos vazios.
 - **Seletor de idioma:**
   - Sem JavaScript: link simples para a página equivalente.
@@ -168,7 +169,7 @@ Todas as páginas são geradas no build. Slugs desconhecidos resultam em 404.
 
 ## 8. Imagens e fontes
 
-- **Fontes:** `next/font`, hospedadas junto com o site, sem requisição externa em tempo de execução; só os pesos da especificação. Se o download das fontes durante o build não for possível em algum ambiente, a alternativa é carregar os mesmos arquivos localmente — decisão registrada na Fase 1.
+- **Fontes (decisão T2, Fase 1):** `next/font/google`. Os arquivos são baixados **no build** e servidos pelo próprio site; o navegador do visitante não faz nenhuma requisição a outro domínio (verificado por teste E2E). Só os pesos da especificação. Se "fontes locais" significar arquivos versionados no repositório, a troca para `next/font/local` muda apenas `lib/fonts.ts`.
 - **Imagens:** importadas dos arquivos de conteúdo (dimensões conhecidas, sem deslocamento de layout), servidas em AVIF/WebP pelo otimizador de imagens. A prioridade de carregamento considera que a foto é o maior elemento da primeira dobra no desktop, mas não no mobile.
 
 ---

@@ -1,8 +1,8 @@
 # Dependências — política e matriz de versões
 
-> **Status:** **proposta, aguarda aprovação de Rafa** (regra A1).
-> Verificação feita em 2026-11-05, consultando apenas o registro do npm (`npm view`), as notas de versão do Next.js e o ambiente de desenvolvimento. **Nada foi instalado.**
-> A matriz é verificada de novo no início da Fase 1, imediatamente antes da instalação, porque versões novas são publicadas quase todos os dias.
+> **Status:** **aprovada por Rafa em 2026-11-06** (E2), reverificada e instalada na Fase 1 (seção 7).
+> Verificação original em 2026-11-05, consultando o registro do npm (`npm view`), as notas de versão do Next.js e o ambiente de desenvolvimento.
+> A matriz é verificada de novo imediatamente antes de cada instalação ou atualização, porque versões novas são publicadas quase todos os dias.
 
 ---
 
@@ -74,3 +74,39 @@
 
 - Node 22.23.4 é o padrão do ambiente; Node 24.22.1 está disponível.
 - Navegador pré-instalado: **apenas Chromium**, correspondente ao Playwright 1.63.0. **WebKit não está instalado** no ambiente de desenvolvimento; os testes em WebKit rodam no CI (GitHub Actions), onde a instalação de navegadores é padrão. Ver [`VALIDATION.md`](VALIDATION.md) §3.
+
+---
+
+## 7. Reverificação e instalação na Fase 1 (2026-11-06)
+
+### 7.1 Reverificação no registro do npm
+
+- **Nenhuma versão da matriz mudou.** Não saiu nova versão de segurança do Next.js depois da 16.4.5.
+- Tailwind 4.3.4, Vitest 5.1.0 e Vite 8.3.6 continuam com menos de 7 dias e sem correção de segurança: mantidas as versões da matriz.
+- `@types/node` já está na linha 26; mantida a 24.19.2, igual à linha do runtime (Node 24).
+- **ESLint 9 está marcado no npm como "não mais suportado"** (todas as versões 9.x). Mantido mesmo assim, porque:
+  - o modelo oficial do Next.js 16.4.5 (`create-next-app`) ainda instala `eslint ^9`;
+  - `eslint-plugin-react`, `eslint-plugin-jsx-a11y` e `eslint-plugin-import`, que vêm com o `eslint-config-next`, ainda não declaram suporte ao ESLint 10;
+  - é uma ferramenta de desenvolvimento: não vai para o site publicado.
+  Reavaliar quando o `eslint-config-next` passar a aceitar o ESLint 10 nos plugins.
+
+### 7.2 Teste de fumaça isolado (política §1.5)
+
+Num diretório temporário fora do repositório, com Node 24.22.1 e npm 11.19.1: instalação sem conflito de `peerDependencies`; lint, verificação de tipos, build de produção, Vitest e Playwright passaram. O protótipo também testou as hipóteses de arquitetura (dois layouts raiz, página 404 por idioma, redirecionamentos com `#`); o resultado está em [`FASE-1.md`](FASE-1.md).
+
+### 7.3 Auditoria de segurança (`npm audit`)
+
+| Escopo | Resultado |
+|---|---|
+| Dependências de produção (`--omit=dev`) | **0 vulnerabilidades.** Verificado no CI a cada execução (nível moderado ou acima bloqueia). |
+| Dependências de desenvolvimento | 8 alertas moderados, todos com **uma única origem**: `minimatch` 10.2.6, usado por `@typescript-eslint/typescript-estree` 8.72.1 (alerta GHSA-g3hv-75wg-m249, negação de serviço com padrões de glob). A correção está no `minimatch` 11.0.1, mas o `typescript-eslint` exige `^10`. A "correção" sugerida pelo `npm audit` é rebaixar o `eslint-config-next` para a versão 15, o que não faz sentido. |
+
+**Decisão proposta:** aceitar o alerta de desenvolvimento, sem forçar versões fora da faixa declarada pelo pacote. O risco é baixo: afeta só o lint, que processa padrões escritos por nós, e nada disso vai para o site publicado. Reavaliar a cada atualização do `typescript-eslint`.
+
+### 7.4 Ainda não instalados
+
+`lucide-react` e `@axe-core/playwright` estão aprovados, mas só são instalados quando forem usados (Fases 2 e 3), com nova reverificação nesse momento (A5).
+
+### 7.5 GitHub Actions
+
+`actions/checkout`, `actions/setup-node` e `actions/upload-artifact` na versão principal v7, a mais recente de cada uma em 2026-11-06 (consulta às tags dos repositórios).

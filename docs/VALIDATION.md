@@ -58,7 +58,7 @@ O que nenhum teste consegue afirmar: qualidade estética, fidelidade de intenç�
 1. Preview na Vercel com a fase concluída.
 2. Pacote de capturas da matriz (seção 4), em duas versões: **limpa** e **com a sobreposição do grid**.
 3. Antes de enviar, uma revisão própria comparando as capturas com os números da especificação; o resultado acompanha o pacote.
-4. Rafa avalia no preview e, no mobile, **num iPhone real com Safari**.
+4. Rafa avalia no preview e, no mobile, **no próprio Galaxy A15** (E3).
 5. Aprovação, ajustes ou recusa são registrados no `FASE-N.md`.
 
 ### 2.2 Critérios de avaliação
@@ -85,7 +85,7 @@ Com a página no topo, **o H1 (posicionamento) e a linha "01 Projetos" ficam int
 
 ### 3.2 Método automatizado
 
-- **Navegador:** WebKit (motor do Safari) com perfis de iPhone do Playwright, e Chromium para Android. O WebKit não está instalado no ambiente de desenvolvimento; esses testes rodam no CI (GitHub Actions).
+- **Navegador:** Chromium para Android — o motor do Chrome e do Samsung Internet, usado no Galaxy A15 de Rafa (E3) — e WebKit (motor do Safari) com perfis de iPhone do Playwright. O Chromium roda no ambiente de desenvolvimento e no CI; o WebKit não está instalado no ambiente de desenvolvimento e roda só no CI (GitHub Actions).
 - **Fontes carregadas:** o teste espera `document.fonts.ready` e confirma que Manrope 500/600, Inter 400 e JetBrains Mono 400 foram de fato carregadas. Medir com a fonte substituta não vale.
 - **Animações concluídas:** o teste espera o fim da entrada do hero; também roda com movimento reduzido.
 - **Medição:** posição inferior do H1 e da linha "Projetos" comparada com `window.innerHeight`.
@@ -96,17 +96,20 @@ Os perfis de iPhone do Playwright já descontam as barras do Safari na maioria d
 
 | Perfil | Viewport efetivo | Origem |
 |---|---|---|
+| **Samsung Galaxy A15 de Rafa** (Chromium, E3) — o perfil iPhone SE abaixo continua sendo o mais restritivo | **412 × 708** para o teste; tela em CSS ≈ 412 × 892 | **Estimativa, a medir no aparelho.** A tela do A15 (1080 × 2340) é a mesma do Galaxy A35/A54, listados com 412 × 892 em CSS e densidade 2,625. A altura efetiva desconta a barra de status, a barra do navegador e a barra de navegação do Android: ≈ 764 no Chrome e ≈ 708 no Samsung Internet, que tem também uma barra inferior. O teste usa o menor valor. A configuração "Zoom da tela" do aparelho pode mudar a largura (ex.: 384 ou 360). |
 | iPhone SE (2ª/3ª geração) no Safari | 375 × 548 | **Estimativa**; o perfil do Playwright não desconta as barras. A confirmar num aparelho real. |
 | iPhone 13 Mini | 375 × 629 | Perfil do Playwright |
 | iPhone 13 / 14 | 390 × 664 | Perfil do Playwright |
 | iPhone 16e | 390 × 651 | Perfil do Playwright |
 | iPhone 16 | 393 × 659 | Perfil do Playwright |
 | iPhone 16 Pro Max | 440 × 763 | Perfil do Playwright |
-| Aparelho de Rafa | a medir | Medido no iPhone de Rafa (a página `/specimen` mostrará `window.innerHeight`) |
+
+
+**Medição no Galaxy A15:** a página `/specimen` (Fase 2, só no preview) mostrará `window.innerWidth`, `window.innerHeight` e `devicePixelRatio`. Rafa abre o preview no navegador que usa no dia a dia (Chrome ou Samsung Internet) e envia os três números; o perfil de teste passa a usar os valores medidos.
 
 ### 3.4 Confirmação humana
 
-O teste automatizado aproxima o Safari; não o substitui. A confirmação final é Rafa abrir o preview no próprio iPhone e enviar uma captura da primeira dobra.
+O teste automatizado aproxima o navegador real; não o substitui. A confirmação final é Rafa abrir o preview **no próprio Galaxy A15** e enviar uma captura da primeira dobra. Como Rafa não usa iPhone, os perfis de iPhone ficam cobertos apenas pelos testes em WebKit no CI.
 
 ### 3.5 Desktop
 
@@ -121,6 +124,7 @@ Todas as páginas, nos dois idiomas:
 | Dimensão | Motor | O que verifica |
 |---|---|---|
 | 320 × 568 | Chromium | Largura mínima, sem rolagem horizontal (não se exige primeira dobra) |
+| 412 × 708 | Chromium (Android) | Galaxy A15 de Rafa (estimativa até a medição) |
 | 375 × 548 | WebKit | iPhone SE no Safari (estimativa) |
 | 390 × 664 | WebKit | iPhone 13/14 |
 | 393 × 659 | WebKit | iPhone 16 |
@@ -143,6 +147,6 @@ Todas as páginas, nos dois idiomas:
 ## 6. Itens que dependem de Rafa
 
 - Avaliação visual de cada fase.
-- Confirmação da primeira dobra num iPhone real.
-- Teste com leitor de tela (VoiceOver no iPhone ou NVDA) na Fase 6, que não pode ser executado no ambiente de desenvolvimento.
+- Confirmação da primeira dobra no Galaxy A15 e medição do viewport efetivo do aparelho.
+- Teste com leitor de tela (TalkBack no Galaxy A15, ou NVDA no computador) na Fase 6, que não pode ser executado no ambiente de desenvolvimento.
 - Revisão de cada afirmação de conteúdo sobre os projetos (Fase 4) e dos textos em inglês (Fase 5).

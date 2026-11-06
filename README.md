@@ -4,7 +4,7 @@
 
 Repositório do portfólio pessoal de Rafa, publicado futuramente em `rafaelzovic.dev`.
 
-> **Status atual:** Fase 0 (documentação) aprovada em 2026-11-06; Fase 1 (fundação) em andamento. Cada fase depende de aprovação explícita; veja o [roadmap](docs/ROADMAP.md).
+> **Status atual:** Fase 0 aprovada em 2026-11-06. Fase 1 (fundação) concluída pelo desenvolvimento e **em validação**: projeto, ferramentas, CI e rotas PT/EN, ainda **sem visual**. Cada fase depende de aprovação explícita; veja o [roadmap](docs/ROADMAP.md).
 
 ## Documentação
 
@@ -18,7 +18,7 @@ Repositório do portfólio pessoal de Rafa, publicado futuramente em `rafaelzovi
 | [Validação](docs/VALIDATION.md) | Testes automatizados × avaliação visual humana |
 | [Inventário de conteúdo](docs/CONTENT-INVENTORY.md) | O que falta e o que já foi verificado |
 | [Roadmap](docs/ROADMAP.md) | Fases e critérios de conclusão |
-| [Fase 0](docs/FASE-0.md) | Registro desta fase |
+| [Fase 0](docs/FASE-0.md) · [Fase 1](docs/FASE-1.md) | Registro de cada fase |
 
 ## Princípios
 
@@ -28,6 +28,31 @@ Repositório do portfólio pessoal de Rafa, publicado futuramente em `rafaelzovi
 - **Simplicidade:** nenhuma abstração antes de ser necessária.
 - **Acessível e independente de JavaScript** para o conteúdo essencial.
 
-## Stack planejada
+## Stack
 
-Next.js · React · TypeScript · Tailwind CSS · Lucide · Vercel. Versões propostas e justificadas em [Dependências](docs/DEPENDENCIES.md), ainda **não instaladas**.
+Next.js 16 · React 19 · TypeScript (estrito) · Tailwind CSS 4 · Vitest · Playwright · Vercel. Versões exatas e justificativas em [Dependências](docs/DEPENDENCIES.md).
+
+## Desenvolvimento
+
+Pré-requisito: **Node.js 24** (`nvm use` lê o `.nvmrc`). O `.npmrc` usa `engine-strict=true`, então a instalação falha com uma mensagem clara em outra versão.
+
+```bash
+npm ci            # instala exatamente o que está no lockfile
+npm run dev       # http://localhost:3000
+```
+
+| Comando | O que faz |
+| --- | --- |
+| `npm run lint` | ESLint (regras do Next.js, TypeScript e acessibilidade), sem tolerar avisos |
+| `npm run format:check` | Confere a formatação (`npm run format` corrige) |
+| `npm run typecheck` | Gera os tipos de rotas e roda `tsc --noEmit` |
+| `npm test` | Testes unitários (Vitest) |
+| `npm run build` | Build de produção |
+| `npm run test:e2e` | Testes E2E no Chromium, contra o build de produção (rode `npm run build` antes; na primeira vez, `npx playwright install chromium`) |
+| `npm run check` | Lint, formatação, tipos, testes unitários e build, em sequência |
+
+### Variáveis de ambiente
+
+| Variável | Efeito |
+| --- | --- |
+| `SITE_INDEXABLE` | Só com `true` o site permite indexação. Sem ela, `robots.txt` e as páginas pedem `noindex` (decisão T5). Será definida apenas em produção, na Fase 7. |
