@@ -101,6 +101,7 @@ Mudanças em relação ao plano v1.0, por A5:
 | 404 PT | 404 EN | Página não encontrada no idioma da URL, entregue pelo proxy com status 404 |
 | `/sitemap.xml` · `/robots.txt` | — | SEO |
 | `/specimen` | — | Só quando a variável `ENABLE_SPECIMEN` estiver ativa (previews); retorna 404 em produção |
+| `/medir` | — | Ferramenta interna de medição do viewport (E9). Liberada pelo proxy só em previews da Vercel (`VERCEL_ENV=preview`, variável de sistema da própria Vercel) e no servidor de desenvolvimento; em produção, 404 |
 
 **Redirecionamentos permanentes (308):**
 
@@ -137,6 +138,7 @@ Todas as páginas são geradas no build. Slugs desconhecidos resultam em 404.
 | **Endereços desconhecidos** | Reescritos para a 404 do idioma, com status 404, `lang` correto e HTML completo, também sem JavaScript. | Testes E2E de 404 com e sem JavaScript. |
 | **Custo de tempo, local** | Medido com o servidor do Next (`next start`), 200 requisições cada: home ≈ 2,2 ms; endereço desconhecido ≈ 1,9 ms. Não representa a Vercel. | — |
 | **Custo na Vercel** | O proxy roda como Routing Middleware: a documentação da Vercel confirma que ele acrescenta latência e custo por requisição. Os limites incluídos no plano Hobby **não constam da documentação consultada**. | A medir no preview (tempo de resposta) e a acompanhar no painel de uso da Vercel. Nenhum serviço pago será contratado (E6). |
+| **Ferramentas de preview** | Rotas internas (`/medir`, E9) ficam numa lista separada (`previewOnlyPaths`) e só passam pelo proxy em previews. | Testes unitários da regra e E2E nos dois cenários (servidor como produção e servidor como preview). |
 | **Manutenção** | Toda rota nova sem extensão precisa entrar no mapa de rotas, senão vira 404. Exemplos já previstos: `/specimen` (Fase 2) e imagens Open Graph (Fase 5). | Teste unitário confere a lista de páginas conhecidas; os testes E2E visitam cada página pública e falham se alguma responder 404. |
 | **Caso de borda** | Endereço desconhecido **com extensão** (ex.: `/qualquer.html`) não passa pelo proxy e recebe a 404 padrão do Next: status 404 correto, mas página sem `lang` e sem conteúdo do site. | Aceito: não é um endereço que o site divulga. Registrado para a Fase 6 (SEO). |
 | **Servidor próprio** | Com `next start --hostname 127.0.0.1`, as reescritas do proxy não respondem (achado da Fase 1). Não afeta a Vercel. | Testes E2E usam o servidor sem `--hostname`; motivo comentado em `playwright.config.ts`. |

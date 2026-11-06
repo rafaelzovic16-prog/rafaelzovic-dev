@@ -1,6 +1,6 @@
 import { defineConfig, devices } from "@playwright/test";
+import { PORT, PREVIEW_PORT } from "./tests/e2e/servers";
 
-const PORT = 3100;
 const baseURL = `http://localhost:${PORT}`;
 
 /*
@@ -25,13 +25,23 @@ export default defineConfig({
       },
     },
   ],
-  webServer: {
-    // Sem --hostname: com o servidor preso a 127.0.0.1, o `next start` encaminha as reescritas
-    // internas do proxy para um endereço em que não escuta, e a resposta 404 nunca chega.
-    // Isso é específico do servidor próprio do Next; na Vercel as reescritas são da plataforma.
-    command: `npm run start -- --port ${PORT}`,
-    url: baseURL,
-    reuseExistingServer: !process.env.CI,
-    timeout: 60_000,
-  },
+  // Sem --hostname: com o servidor preso a 127.0.0.1, o `next start` encaminha as reescritas
+  // internas do proxy para um endereço em que não escuta, e a resposta 404 nunca chega.
+  // Isso é específico do servidor próprio do Next; na Vercel as reescritas são da plataforma.
+  webServer: [
+    {
+      // Como em produção: sem VERCEL_ENV, as ferramentas de preview ficam ocultas.
+      command: `npm run start -- --port ${PORT}`,
+      url: baseURL,
+      reuseExistingServer: !process.env.CI,
+      timeout: 60_000,
+    },
+    {
+      command: `npm run start -- --port ${PREVIEW_PORT}`,
+      url: `http://localhost:${PREVIEW_PORT}`,
+      env: { VERCEL_ENV: "preview" },
+      reuseExistingServer: !process.env.CI,
+      timeout: 60_000,
+    },
+  ],
 });

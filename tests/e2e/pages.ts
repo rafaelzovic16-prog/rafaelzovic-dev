@@ -36,4 +36,6 @@ export const unknownPaths = [
   ["/en/a/b", "en"],
   ["/en/projects/inexistente", "en"],
   ["/en/page-not-found", "en"],
+  // Ferramenta só de preview (E9): fora do preview, é um endereço desconhecido.
+  ["/medir", "pt"],
 ] as const;

@@ -106,6 +106,7 @@ Surgiram da implementação e do protótipo obrigatório (guardrail 10). Evidên
 | E6 | **Vercel autorizada:** criar o projeto `rafaelzovic-dev`, conectado ao repositório GitHub. Limites: não comprar domínio; não contratar serviços pagos; não adicionar variáveis ou integrações desnecessárias; não alterar configurações de outros projetos; manter a proteção e a não indexação dos previews. | 2026-11-06 | Aprovada |
 | E7 | **Aparelho de referência:** Samsung Galaxy A15, **Google Chrome**. Viewport de referência inicial 412 × 892 CSS px, a confirmar no aparelho. **Área útil medida com as barras do Chrome abertas, sem depender de estimativas.** | 2026-11-06 | Aprovada |
 | E8 | A Fase 2 **não** está autorizada. O merge da PR #1 depende da validação do resultado final e dos critérios da Fase 1 por Rafa. | 2026-11-06 | Registrada |
+| E9 | **Página de medição no preview autorizada:** `/medir`, ferramenta interna para medir a área útil do Galaxy A15 no Chrome (E7). Só existe em previews da Vercel (e no servidor de desenvolvimento); em produção responde 404. | 2026-11-06 | Aprovada |
 
 ---
 

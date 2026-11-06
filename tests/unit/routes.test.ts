@@ -10,6 +10,7 @@ import {
   sectionHref,
   sections,
 } from "@/i18n/routes";
+import { previewOnlyPaths, previewToolsEnabled } from "@/lib/site";
 import nextConfig from "@/next.config";
 
 describe("mapa de rotas", () => {
@@ -73,5 +74,26 @@ describe("redirecionamentos", () => {
     expect(destinationOf("/projetos")).toBe(sectionHref("pt", "projects"));
     expect(destinationOf("/en/projects")).toBe(sectionHref("en", "projects"));
     expect(redirects.every((redirect) => redirect.permanent)).toBe(true);
+  });
+});
+
+describe("ferramentas só de preview (E9)", () => {
+  it("ficam liberadas em previews da Vercel e no servidor de desenvolvimento", () => {
+    expect(previewToolsEnabled({ VERCEL_ENV: "preview" })).toBe(true);
+    expect(previewToolsEnabled({ NODE_ENV: "development" })).toBe(true);
+  });
+
+  it("ficam ocultas em produção e fora da Vercel", () => {
+    expect(
+      previewToolsEnabled({ VERCEL_ENV: "production", NODE_ENV: "production" }),
+    ).toBe(false);
+    expect(previewToolsEnabled({ NODE_ENV: "production" })).toBe(false);
+    expect(previewToolsEnabled({})).toBe(false);
+  });
+
+  it("não fazem parte das páginas públicas", () => {
+    for (const path of previewOnlyPaths) {
+      expect(knownPaths.has(path)).toBe(false);
+    }
   });
 });

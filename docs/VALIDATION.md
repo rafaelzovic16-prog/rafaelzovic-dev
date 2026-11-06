@@ -105,7 +105,7 @@ Os perfis de iPhone do Playwright já descontam as barras do Safari na maioria d
 | iPhone 16 Pro Max | 440 × 763 | Perfil do Playwright |
 
 
-**Medição no Galaxy A15 (E7):** no Google Chrome, com a página aberta no topo e **sem rolar** (a barra de endereço do Chrome fica visível; ao rolar ela se recolhe e a área cresce), ler `window.innerWidth`, `window.innerHeight` e `devicePixelRatio`. Esses números aparecerão numa página do preview: o `/specimen` da Fase 2, ou antes, se Rafa autorizar uma página de medição isolada. Rafa envia os três números e o "Zoom da tela" usado; o perfil de teste é criado com eles.
+**Medição no Galaxy A15 (E7):** no Google Chrome, com a página aberta no topo e **sem rolar** (a barra de endereço do Chrome fica visível; ao rolar ela se recolhe e a área cresce), ler `window.innerWidth`, `window.innerHeight` e `devicePixelRatio`. A página **`/medir` do preview** (E9) mostra esses números: a leitura "Na abertura" fica registrada no instante em que a página abre, com a barra do Chrome visível, e não muda depois. Rafa envia a largura × altura de "Na abertura", a densidade de pixels e o "Zoom da tela" usado; o perfil de teste é criado com eles.
 
 ### 3.4 Confirmação humana
 

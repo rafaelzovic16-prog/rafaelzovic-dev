@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { knownPaths, localeOfPath, notFoundPaths } from "@/i18n/routes";
+import { previewOnlyPaths, previewToolsEnabled } from "@/lib/site";
 
 /**
  * Endereços desconhecidos recebem a página "não encontrada" do idioma da URL,
@@ -12,6 +13,10 @@ import { knownPaths, localeOfPath, notFoundPaths } from "@/i18n/routes";
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   if (knownPaths.has(pathname)) return NextResponse.next();
+  // Ferramentas internas (ex.: /medir): só em preview; em produção viram 404 como qualquer outro endereço.
+  if (previewOnlyPaths.has(pathname) && previewToolsEnabled()) {
+    return NextResponse.next();
+  }
 
   // `nextUrl.clone()` mantém o endereço interno do servidor; montar a URL a partir de
   // `request.url` pode apontar para outro host e transformar a reescrita em requisição externa.

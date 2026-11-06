@@ -145,6 +145,23 @@ Depois da criação, conferir no projeto: proteção dos previews ativa ("Vercel
 
 **Ocorrência:** a primeira publicação, pedida pela API a partir da branch `fase-1/fundacao`, foi marcada pela Vercel como **produção** (primeira publicação de um projeto novo). Como produção deve vir só da `main` depois do merge, ela foi **cancelada antes de terminar o build**. O preview passou a ser gerado pela integração com o GitHub, a partir do envio desta atualização para a branch.
 
+## Página de medição do Galaxy A15 (E9, 2026-11-06)
+
+Autorizada por Rafa para medir a área útil no Chrome com as barras abertas (E7), sem depender de estimativas.
+
+| Item | Situação |
+|---|---|
+| Endereço | `/medir`, no preview: `https://rafaelzovic-dev-git-fase-1-fundacao-rdz14.vercel.app/medir` |
+| O que mostra | "Na abertura": largura × altura e densidade de pixels no instante em que a página abre, antes de qualquer rolagem; "Agora": valores atuais; "Tela inteira" |
+| Onde existe | Só em previews da Vercel e no servidor de desenvolvimento. Em produção, o proxy responde 404, como qualquer endereço desconhecido |
+| Variáveis | Nenhuma adicionada: usa `VERCEL_ENV`, que a própria Vercel define em cada publicação |
+| Visual | Sem a identidade do site, que é da Fase 2; só texto legível no celular. `noindex` |
+| Testes | 3 unitários da regra de liberação; E2E: 404 no servidor como produção (com e sem JavaScript) e leitura correta no servidor como preview (412 × 892, densidade 2,625, leitura de abertura estável) |
+
+Suíte depois desta mudança: unitários 32 de 32; E2E 49 de 49.
+
+**Como medir:** abrir o endereço acima no Chrome do Galaxy A15, com a tela na vertical, sem rolar; enviar a largura × altura de "Na abertura", a densidade de pixels e o "Zoom da tela" (Configurações → Tela). O perfil de teste do A15 é criado com esses valores.
+
 ## Fora do escopo desta fase
 
 - Qualquer visual: cores, tipografia, grid, componentes (Fase 2).
