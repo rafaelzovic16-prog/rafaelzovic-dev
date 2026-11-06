@@ -1,0 +1,39 @@
+# Dependências
+node_modules/
+
+# Next.js e build
+.next/
+out/
+build/
+next-env.d.ts
+*.tsbuildinfo
+
+# Variáveis de ambiente e segredos
+.env
+.env.*
+!.env.example
+*.pem
+
+# Vercel
+.vercel/
+
+# Testes
+coverage/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# Logs e caches
+*.log
+.eslintcache
+.cache/
+
+# Sistema operacional e editores
+.DS_Store
+Thumbs.db
+.idea/
+
+# Claude Code — configurações locais e pessoais
+.claude/settings.local.json
+CLAUDE.local.md
