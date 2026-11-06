@@ -3,7 +3,7 @@
 > Tudo o que o site precisa mostrar e ainda não está disponível, ou que precisa de confirmação.
 > **Regra C2:** nada é publicado sem fonte verificável ou confirmação de Rafa. Durante o desenvolvimento, item pendente aparece como marcador "pendente"; na publicação, o comando `check:release` falha se algum item obrigatório continuar pendente.
 
-Atualizado em 2026-11-05.
+Atualizado em 2026-11-06.
 
 ---
 
@@ -11,8 +11,11 @@ Atualizado em 2026-11-05.
 
 | Item | Situação | Necessário a partir de | Bloqueia publicação | Observações |
 |---|---|---|---|---|
+| Nome público | Disponível | — | — | Rafa |
+| Posicionamento PT/EN | Aprovado | — | — | D1/D2 em [`DECISIONS.md`](DECISIONS.md) |
+| Assinatura | Aprovada | — | — | Menos ruído. Mais intenção. |
 | Fotografia profissional | Pendente | Fase 3 (moldura "pendente" até lá) | Sim | Especificação em [`DESIGN-SPEC.md`](DESIGN-SPEC.md) §7. |
-| URL do GitHub | Pendente | Fase 3 | Sim | Os repositórios estão na conta `rafaelzovic16-prog`. **Confirmar se é este o perfil a exibir.** |
+| URL do GitHub | **Confirmada em 2026-11-06** (E4) | Fase 3 | — | Perfil `rafaelzovic16-prog` → `https://github.com/rafaelzovic16-prog` |
 | URL do LinkedIn | Pendente | Fase 3 | Sim | — |
 | E-mail profissional | Pendente | Fase 3 | Sim | — |
 | WhatsApp | **Decisão pendente:** exibir ou não | Fase 3 | Só se Rafa decidir exibir | Nenhum número fictício. |
@@ -33,7 +36,7 @@ Atualizado em 2026-11-05.
 | Item | Situação | Observações |
 |---|---|---|
 | Fonte | Repositório **privado** `rafaelzovic16-prog/qualyt-trend` | Leitura apenas com autorização, na Fase 4. Sem link público (C1). |
-| Fatos conhecidos | Só os do briefing, **não verificados** | E-commerce com Next.js e Supabase, catálogo real, estrutura de dados e experiência de compra. |
+| Fatos conhecidos | Só os informados, **não verificados** | Briefing: e-commerce com Next.js e Supabase, catálogo real, estrutura de dados e experiência de compra. Registro de Rafa (commit `b869a2c`): em desenvolvimento; comércio digital/catálogo de produtos mineiros e mercearia. |
 | Ano, estágio atual, funcionalidades e status | Pendente | Verificados no repositório ou informados por Rafa. |
 | Contexto, decisões técnicas, desafios, processo | Pendente | Base do estudo de caso. |
 | Capturas reais | Pendente | — |
@@ -52,7 +55,24 @@ Atualizado em 2026-11-05.
 
 **Status do SaldoZen muda com o tempo:** os fatos acima são relidos na Fase 4 e de novo antes da publicação.
 
-## 4. Publicação
+## 4. Evidências aceitas
+
+Registrado por Rafa (commit `b869a2c`): commit/PR identificável; arquivo/documento; deploy verificável; captura real; teste automatizado/CI; demonstração verificável. Cada funcionalidade registra status (concluída/em andamento/planejada), data de verificação e evidência obrigatória se concluída.
+
+## 5. Bloqueios de release
+
+- [ ] Foto final.
+- [x] URL GitHub confirmada (E4).
+- [ ] URL LinkedIn.
+- [ ] E-mail profissional.
+- [ ] Decisão sobre WhatsApp.
+- [ ] Texto Sobre aprovado.
+- [ ] Inventário e capturas reais dos projetos.
+- [ ] Links de demonstração/repositórios, conforme visibilidade.
+- [ ] Domínio e configuração externa autorizados.
+- [ ] Revisão final PT/EN.
+
+## 6. Publicação
 
 | Item | Situação | Observações |
 |---|---|---|

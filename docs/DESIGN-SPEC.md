@@ -170,6 +170,7 @@ Ivory tem o mesmo valor de Bone: é um único valor com dois papéis semânticos
 | Tratamento (D4) | Cores naturais, saturação −15%, sem filtro de cor, sem vinheta, sem retoque perceptível |
 | Onde aplicar | Na exportação da imagem, **não via CSS** |
 | Fundo ideal | Neutro e quente, próximo a Bone ou Stone |
+| Entrega | AVIF e WebP em 3 larguras (480 / 960 / 1440), com ponto focal definido |
 | Texto alternativo | PT: "Retrato de Rafa" · EN: "Portrait of Rafa" |
 | Enquanto pendente | Moldura Stone com o rótulo mono "Fotografia — pendente". **Nunca** uma imagem de substituição. |
 

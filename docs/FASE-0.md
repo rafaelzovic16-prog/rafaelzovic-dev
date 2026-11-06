@@ -1,6 +1,6 @@
 # Fase 0 — Documentação
 
-> **Status:** concluída pelo desenvolvimento; **aguarda revisão e aprovação de Rafa.**
+> **Status:** **aprovada por Rafa em 2026-11-06.**
 > **Autorização:** início aprovado por Rafa em 2026-11-05, após a criação do repositório e o anexo à sessão.
 
 ## Objetivo
@@ -53,8 +53,19 @@ Registrar no repositório tudo o que foi aprovado — briefing, especificação 
 
 A Fase 1 (Fundação) **só começa com aprovação explícita de Rafa**. Ela inclui a reverificação das versões, o teste de fumaça isolado e, no momento certo, um pedido de autorização específico para conectar o repositório à Vercel.
 
+## Reconciliação com a `main` (2026-11-06)
+
+Ao integrar a Fase 0, a `main` já continha quatro documentos registrados por Rafa em 2026-11-05 (commits `7ff5554`, `fc69d43`, `9f9501d`, `b869a2c`), com os mesmos nomes de arquivo. Nenhum conteúdo foi descartado:
+
+- **`DESIGN-SPEC.md`:** mantida a versão detalhada; incluída a linha de entrega da fotografia (AVIF/WebP em 480/960/1440 com ponto focal), que constava da especificação v1.1 aprovada e havia ficado de fora.
+- **`DECISIONS.md`:** incluídos os guardrails 1–10 e as regras de colaboração de Rafa (seção R), além das decisões da aprovação da Fase 0 (seção E).
+- **`ROADMAP.md`:** incluídos o fluxo de cada fase e as validações técnicas obrigatórias; explicada a relação entre a matriz de Rafa e a de `VALIDATION.md`.
+- **`CONTENT-INVENTORY.md`:** incluídos o fato informado sobre o Qualyt Trend, a lista de evidências aceitas e a lista de bloqueios de release.
+
+Uma tentativa de atualizar a `main` diretamente foi recusada pelo GitHub (a `main` remota tinha esses commits). Nenhum push foi feito na `main`; a integração segue por PR, conforme o guardrail 2.
+
 ## Registro de aprovação
 
 | Data | Decisão | Observações |
 |---|---|---|
-| — | Aguardando revisão | — |
+| 2026-11-06 | **Aprovada integralmente por Rafa** | Decisões E1–E5 em [`DECISIONS.md`](DECISIONS.md). Fase 1 autorizada. |

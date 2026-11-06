@@ -13,6 +13,8 @@ Portfólio pessoal de Rafa. Toda a direção do projeto está em `docs/`. Leia a
 6. **Validação (A3, A4):** CI verde não é aprovação estética. Lighthouse é meta, não justificativa para mudar o design.
 7. **Ações externas (P7, G2):** Vercel, domínio e qualquer serviço só com autorização específica de Rafa. Nenhuma compra.
 8. **Separação (G3):** nada deste projeto é gravado no repositório do SaldoZen.
+9. **Merge (R):** nenhum push direto na `main` e nenhum merge sem autorização explícita de Rafa. Cada fase segue: branch → PR → CI → preview → revisão → aprovação → merge por Rafa.
+10. **Documentos existentes:** antes de sobrescrever um arquivo, leia a versão atual da branch de destino; nunca descarte conteúdo registrado por Rafa sem registrar a mudança.
 
 ## Idioma
 

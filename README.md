@@ -4,7 +4,7 @@
 
 Repositório do portfólio pessoal de Rafa, publicado futuramente em `rafaelzovic.dev`.
 
-> **Status atual:** Fase 0 (documentação) concluída e em revisão. **A implementação ainda não começou.** Cada fase depende de aprovação explícita; veja o [roadmap](docs/ROADMAP.md).
+> **Status atual:** Fase 0 (documentação) aprovada em 2026-11-06; Fase 1 (fundação) em andamento. Cada fase depende de aprovação explícita; veja o [roadmap](docs/ROADMAP.md).
 
 ## Documentação
 

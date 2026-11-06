@@ -65,6 +65,46 @@ Cuidados registrados na aprovação da especificação v1.1:
 
 ---
 
+## E — Aprovação da Fase 0
+
+| # | Decisão | Data | Status |
+|---|---|---|---|
+| E1 | Fase 0 aprovada integralmente; início da Fase 1 autorizado. A Fase 2 só começa após apresentação e validação do resultado da Fase 1. | 2026-11-06 | Aprovada |
+| E2 | Versões e dependências propostas em [`DEPENDENCIES.md`](DEPENDENCIES.md) aprovadas (com reverificação imediatamente antes da instalação, conforme a política). | 2026-11-06 | Aprovada |
+| E3 | Aparelho de Rafa: **Samsung Galaxy A15**. A estratégia de testes mobile considera o viewport real desse aparelho. | 2026-11-06 | Aprovada |
+| E4 | Perfil GitHub a exibir: `rafaelzovic16-prog`. | 2026-11-06 | Aprovada |
+| E5 | `CLAUDE.md` é parte permanente da documentação e da governança do projeto. | 2026-11-06 | Aprovada |
+
+---
+
+## R — Guardrails e colaboração registrados por Rafa
+
+Registrados por Rafa na `main` em 2026-11-05 (commit `fc69d43`), transcritos aqui sem alteração de conteúdo na reconciliação da Fase 0. Valem junto com G1–G3; em caso de dúvida, prevalece a regra mais restritiva.
+
+### Guardrails
+
+1. Nunca implementar no repositório saldozen-financeiro.
+2. Cada fase: branch, PR, CI, preview quando aplicável, revisão do usuário e aprovação explícita antes do merge.
+3. Não iniciar fase seguinte sem aprovação da anterior.
+4. Funcionalidade concluída exige evidência rastreável.
+5. Não inventar links, capturas, métricas, credenciais ou experiência.
+6. Pendências podem existir durante desenvolvimento, mas bloqueiam release.
+7. Domínio, compra, DNS e ações externas exigem autorização explícita no momento da ação.
+8. Dados de contato só com confirmação.
+9. Preservar funcionamento essencial sem JavaScript.
+10. Limitações técnicas e divergências devem ser documentadas e aprovadas antes de mudar escopo.
+
+### Colaboração
+
+- Claude: implementação conforme escopo da fase.
+- ChatGPT: planejamento, revisão independente e auditoria.
+- Rafa: decisões, validação visual e aprovação de PR/merge.
+- Nenhum agente faz merge sem autorização explícita de Rafa.
+
+Observação sobre P7 no registro de Rafa: "Aprovado como plano; conexão pendente" — a conexão com a Vercel depende de autorização no momento da ação.
+
+---
+
 ## C — Conteúdo
 
 | # | Regra | Data | Status |
