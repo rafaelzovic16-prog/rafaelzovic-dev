@@ -36,6 +36,17 @@ jobs:
       - name: Vulnerabilidades em dependências de produção
         run: npm audit --omit=dev --audit-level=moderate
 
+      # Decisão T4: os alertas das ferramentas de desenvolvimento foram aceitos temporariamente.
+      # Este passo não bloqueia; registra a situação no resumo de cada execução para monitoramento.
+      - name: Alertas em dependências de desenvolvimento (informativo, T4)
+        run: |
+          {
+            echo "### Alertas em dependências de desenvolvimento (T4)"
+            echo '```'
+            npm audit --audit-level=moderate 2>&1 | tail -n 4 || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Lint
         run: npm run lint
 
