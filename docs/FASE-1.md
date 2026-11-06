@@ -1,6 +1,6 @@
 # Fase 1 — Fundação
 
-> **Status:** concluída pelo desenvolvimento, **exceto o preview na Vercel**, que aguarda autorização específica (P7). **Aguarda a validação de Rafa.**
+> **Status:** decisões T1–T5 aprovadas e ajustes aplicados (rodada de validação de 2026-11-06, abaixo). **Preview na Vercel bloqueado por permissão da conexão** (ver "Vercel"). Aguarda a validação final de Rafa; o merge da PR #1 depende dela (E8).
 > **Autorização:** início aprovado por Rafa em 2026-11-06 (E1). A Fase 2 só começa após a validação desta fase.
 
 ## Objetivo
@@ -71,7 +71,7 @@ Custo da escolha: o proxy roda em cada requisição de página (na Vercel, uma e
 
 Com o servidor de testes preso a `127.0.0.1`, o `next start` encaminha as reescritas do proxy para um endereço em que não escuta, e a resposta 404 nunca chega. É específico do servidor próprio do Next (na Vercel, as reescritas são da plataforma). Os testes E2E usam o servidor sem `--hostname`; o motivo está comentado em `playwright.config.ts`.
 
-## Decisões técnicas propostas (aguardam validação)
+## Decisões técnicas (propostas na primeira entrega; aprovadas em 2026-11-06)
 
 Registradas em [`DECISIONS.md`](DECISIONS.md), seção T:
 
@@ -81,7 +81,7 @@ Registradas em [`DECISIONS.md`](DECISIONS.md), seção T:
 - **T4** — alerta moderado de desenvolvimento aceito; produção auditada no CI.
 - **T5** — `noindex` até a publicação, liberado por `SITE_INDEXABLE=true`.
 
-## Pendente para concluir a fase: preview na Vercel (P7)
+## Preview na Vercel (P7) — situação na primeira entrega
 
 Consulta só de leitura em 2026-11-06: a conta Vercel de Rafa tem os projetos `cafe-com-prosa`, `way` e `qualyt-trend`; não existe projeto para o portfólio. **Nada foi criado.**
 
@@ -92,6 +92,45 @@ Ação que precisa de autorização específica:
 - Efeitos: cada push numa branch gera um preview; um merge na `main` gera uma publicação em `*.vercel.app`, que continua `noindex` (T5). Enquanto a `main` só tiver documentação, a primeira publicação de produção não terá o que mostrar.
 
 Pode ser feito por mim, com as ferramentas da Vercel, depois da autorização; ou por Rafa, no painel da Vercel ("Add New → Project", importando o repositório).
+
+## Rodada de validação (2026-11-06)
+
+Rafa aprovou T1, T3, T4 e T5, trocou T2 por **T2.1 (fontes com `next/font/local`, arquivos no repositório)**, autorizou a Vercel com limites (E6) e informou o aparelho de referência (E7). Registro completo em [`DECISIONS.md`](DECISIONS.md).
+
+### O que mudou
+
+| Pedido | Feito |
+|---|---|
+| T1 — documentar o impacto do proxy | [`ARCHITECTURE.md`](ARCHITECTURE.md) §4.1: quando roda, custo medido localmente, custo na Vercel (a medir no preview), manutenção, caso de borda (endereço desconhecido com extensão recebe a 404 padrão do Next) e o achado do `--hostname`. Testes de 404 por idioma, sem JavaScript e de rotas desconhecidas mantidos. |
+| T2.1 — `next/font/local` com os arquivos no repositório | 5 arquivos WOFF2 em `assets/fonts/` (Manrope 500/600, Inter 400/500, JetBrains Mono 400; "latin" + "latin-ext"), gerados de `google/fonts` por `scripts/build-fonts.sh`, com as licenças OFL. Proveniência em [`DEPENDENCIES.md`](DEPENDENCIES.md) §8. Medido na home: 178,7 KB em 5 arquivos, contra 201,9 KB em 6 arquivos com o Google Fonts. |
+| T2.1 — independência também no build | Build executado com a rede de saída bloqueada: passou, sem nenhuma referência ao Google no resultado. Novo teste unitário recusa `next/font/google` e confere a presença dos arquivos e licenças. |
+| T4 — monitorar os alertas | Passo informativo no CI registra o `npm audit` das dependências de desenvolvimento no resumo de cada execução; verificação a cada início de fase ([`DEPENDENCIES.md`](DEPENDENCIES.md) §7.3). |
+| E7 — Galaxy A15, Chrome, área medida | [`VALIDATION.md`](VALIDATION.md) §3.3: o perfil do A15 só entra nos testes com os valores medidos no Chrome, com as barras abertas; a estimativa anterior (412 × 708) foi retirada. |
+
+### Suíte completa, executada de novo (ambiente de desenvolvimento, Node 24.22.1)
+
+| Etapa | Resultado |
+|---|---|
+| `npm ci` (instalação limpa a partir do lockfile) | 389 pacotes, sem erro |
+| `npm audit --omit=dev` | 0 vulnerabilidades |
+| `npm audit` (desenvolvimento, T4) | 8 moderadas — as mesmas, de origem única (`minimatch`) |
+| `npm run check` (lint, formatação, tipos, unitários, build) | Passa |
+| Testes unitários | 29 de 29 (eram 20; +9 de fontes) |
+| Build com a rede de saída bloqueada | Passa; 0 referências ao Google |
+| Testes E2E (Chromium, build de produção) | 45 de 45 |
+
+O resultado do CI no GitHub fica registrado na PR #1.
+
+### Vercel (E6)
+
+A criação do projeto foi tentada dentro dos limites autorizados (projeto `rafaelzovic-dev`, conectado ao repositório, sem deploy da `main`, que só tem documentação). **A Vercel recusou (403):** a conexão usada aqui consegue ler a conta, mas não tem permissão de escrita no time da conta (`rdz14`). **Nada foi criado nem alterado na Vercel**, e nenhum outro projeto foi tocado.
+
+Dois caminhos, ambos dentro de E6:
+
+1. Rafa aprova, num link de consentimento da Vercel (válido por 10 minutos), o acesso desta conexão ao time; em seguida o projeto é criado por aqui.
+2. Rafa cria o projeto no painel da Vercel ("Add New → Project", importando `rafaelzovic16-prog/rafaelzovic-dev`, sem variáveis de ambiente e sem domínio). A partir daí, cada push na branch gera o preview.
+
+Depois da criação, conferir no projeto: proteção dos previews ativa ("Vercel Authentication"), nenhuma variável de ambiente, nenhum domínio, Node 24, e o cabeçalho de não indexação nas respostas.
 
 ## Fora do escopo desta fase
 
@@ -109,4 +148,5 @@ Pode ser feito por mim, com as ferramentas da Vercel, depois da autorização; o
 
 | Data | Decisão | Observações |
 |---|---|---|
-| — | Aguardando validação | — |
+| 2026-11-06 | Decisões T1, T3, T4, T5 aprovadas; T2 substituída por T2.1; Vercel autorizada com limites | Ajustes aplicados nesta rodada. Fase 2 não autorizada. |
+| — | Validação final da Fase 1 e merge da PR #1 | Aguardando Rafa (E8) |

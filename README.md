@@ -51,6 +51,10 @@ npm run dev       # http://localhost:3000
 | `npm run test:e2e` | Testes E2E no Chromium, contra o build de produção (rode `npm run build` antes; na primeira vez, `npx playwright install chromium`) |
 | `npm run check` | Lint, formatação, tipos, testes unitários e build, em sequência |
 
+### Fontes
+
+As fontes ficam versionadas em `assets/fonts/` (decisão T2.1): nem o build nem o site dependem de serviço externo. Elas só precisam ser geradas de novo para atualizar a versão, com `scripts/build-fonts.sh` (procedimento e proveniência em [Dependências](docs/DEPENDENCIES.md) §8).
+
 ### Variáveis de ambiente
 
 | Variável | Efeito |

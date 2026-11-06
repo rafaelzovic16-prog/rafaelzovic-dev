@@ -101,7 +101,13 @@ Num diretório temporário fora do repositório, com Node 24.22.1 e npm 11.19.1:
 | Dependências de produção (`--omit=dev`) | **0 vulnerabilidades.** Verificado no CI a cada execução (nível moderado ou acima bloqueia). |
 | Dependências de desenvolvimento | 8 alertas moderados, todos com **uma única origem**: `minimatch` 10.2.6, usado por `@typescript-eslint/typescript-estree` 8.72.1 (alerta GHSA-g3hv-75wg-m249, negação de serviço com padrões de glob). A correção está no `minimatch` 11.0.1, mas o `typescript-eslint` exige `^10`. A "correção" sugerida pelo `npm audit` é rebaixar o `eslint-config-next` para a versão 15, o que não faz sentido. |
 
-**Decisão proposta:** aceitar o alerta de desenvolvimento, sem forçar versões fora da faixa declarada pelo pacote. O risco é baixo: afeta só o lint, que processa padrões escritos por nós, e nada disso vai para o site publicado. Reavaliar a cada atualização do `typescript-eslint`.
+**Decisão T4, aprovada temporariamente por Rafa em 2026-11-06:** aceitar o alerta de desenvolvimento, sem forçar versões fora da faixa declarada pelo pacote. O risco é baixo: afeta só o lint, que processa padrões escritos por nós, e nada disso vai para o site publicado.
+
+**Monitoramento:**
+
+- O CI registra, a cada execução, o resumo do `npm audit` das dependências de desenvolvimento (passo informativo, que não bloqueia).
+- No início de cada fase, antes de qualquer instalação, verificar se o `typescript-eslint` passou a aceitar o `minimatch` 11.0.1 ou superior, e registrar o resultado no `FASE-N.md`.
+- Assim que houver correção dentro da faixa declarada, atualizar seguindo a política (§1) e retirar esta exceção.
 
 ### 7.4 Ainda não instalados
 
@@ -110,3 +116,29 @@ Num diretório temporário fora do repositório, com Node 24.22.1 e npm 11.19.1:
 ### 7.5 GitHub Actions
 
 `actions/checkout`, `actions/setup-node` e `actions/upload-artifact` na versão principal v7, a mais recente de cada uma em 2026-11-06 (consulta às tags dos repositórios).
+
+---
+
+## 8. Fontes versionadas (decisão T2.1)
+
+As fontes não são dependência npm: são arquivos WOFF2 gerados uma vez e versionados em `assets/fonts/`, para que nem o build nem o visitante dependam de serviço externo.
+
+| Item | Valor |
+|---|---|
+| Origem | Repositório oficial [`google/fonts`](https://github.com/google/fonts), commit `86aced91de05cd4f96a06838124cca45be337b2b` (2026-11-06), pastas `ofl/manrope`, `ofl/inter`, `ofl/jetbrainsmono` |
+| Arquivos de origem | `Manrope[wght].ttf`, `Inter[opsz,wght].ttf`, `JetBrainsMono[wght].ttf` (fontes variáveis) |
+| Licença | SIL Open Font License 1.1, sem "Reserved Font Name" declarado. Cópia de cada `OFL.txt` em `assets/fonts/<família>/`. |
+| Geração | `scripts/build-fonts.sh`: fixa o peso (e, no Inter, o tamanho óptico 14, o padrão para texto), mantém os caracteres "latin" + "latin-ext" nos intervalos do Google Fonts e salva em WOFF2 com todos os recursos OpenType |
+| Ferramentas de geração | Python com `fonttools` 4.68.0 e `brotli` 1.2.1, usadas fora do projeto. Não são dependências do site. |
+
+| Arquivo | Peso | Tamanho |
+|---|---|---|
+| `manrope/Manrope-500.woff2` | 500 | 18 092 bytes |
+| `manrope/Manrope-600.woff2` | 600 | 18 308 bytes |
+| `inter/Inter-400.woff2` | 400 | 58 560 bytes |
+| `inter/Inter-500.woff2` | 500 | 60 336 bytes |
+| `jetbrains-mono/JetBrainsMono-400.woff2` | 400 | 23 420 bytes |
+
+Verificado em cada arquivo: peso correto, arquivo estático (não variável), presença dos caracteres usados em PT e EN (acentos, `ç`, `—`, `·`, aspas tipográficas, `€`) e dos recursos OpenType. Os tamanhos combinados equivalem aos do Google Fonts para "latin" + "latin-ext" (Inter 400: 58,6 KB no Google; 58,5 KB aqui).
+
+**Atualizar as fontes:** gerar de novo com o script a partir de um commit mais recente de `google/fonts`, comparar com os arquivos atuais e registrar o novo commit nesta seção.

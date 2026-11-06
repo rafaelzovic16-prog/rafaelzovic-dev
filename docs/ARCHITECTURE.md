@@ -70,7 +70,9 @@ rafaelzovic-dev/
 │   ├── content.ts
 │   ├── metadata.ts
 │   └── fonts.ts
+├── assets/fonts/                  fontes WOFF2 versionadas + licenças OFL (T2.1)
 ├── assets/photo/                  foto mestre já tratada (D4)
+├── scripts/build-fonts.sh         gera assets/fonts/ a partir de google/fonts
 ├── tests/
 │   ├── unit/                      dados: paridade, rotas, evidência, linguagem, publicação
 │   └── e2e/                       navegador real: primeira dobra, sem JS, movimento, teclado, a11y, visual
@@ -115,7 +117,7 @@ Todas as páginas são geradas no build. Slugs desconhecidos resultam em 404.
 
 - **Dois layouts raiz** em grupos de rotas, um por idioma. Cada um gera o `<html lang>` correto no servidor, e as URLs em português existem sem reescritas.
   - Efeito documentado pelo Next.js: navegar entre layouts raiz diferentes recarrega a página. Isso só acontece na troca de idioma, o que é aceitável.
-- **404 por idioma via proxy** (`proxy.ts`, decisão T1 — **proposta, aguarda aprovação**). O plano original (rota "pega-tudo" chamando `notFound()`) foi testado na Fase 1 e **não funciona**: no Next 16, `notFound()` numa renderização sob demanda entrega HTML vazio sem JavaScript, e com dois layouts raiz não existe 404 estática por idioma. O proxy deixa passar as páginas conhecidas e reescreve qualquer outro endereço para a página 404 do idioma da URL, com status 404 e HTML completo. Evidências e alternativas em [`FASE-1.md`](FASE-1.md).
+- **404 por idioma via proxy** (`proxy.ts`, decisão T1, **aprovada em 2026-11-06**; impacto na §4.1). O plano original (rota "pega-tudo" chamando `notFound()`) foi testado na Fase 1 e **não funciona**: no Next 16, `notFound()` numa renderização sob demanda entrega HTML vazio sem JavaScript, e com dois layouts raiz não existe 404 estática por idioma. O proxy deixa passar as páginas conhecidas e reescreve qualquer outro endereço para a página 404 do idioma da URL, com status 404 e HTML completo. Evidências e alternativas em [`FASE-1.md`](FASE-1.md).
   - Endereços com extensão (`robots.txt`, imagens, ícones) não passam pelo proxy. Rotas novas sem extensão (ex.: imagens Open Graph na Fase 5, `/specimen` na Fase 2) precisam entrar na lista de páginas conhecidas; os testes E2E acusam se não entrarem.
 - **Cabeçalho renderizado pelas views**, não pelo layout: o seletor de idioma precisa do endereço equivalente no outro idioma, que só a página conhece. Assim ele funciona no servidor, sem JavaScript.
 - **Dicionários tipados:** `en.ts` precisa ter exatamente o formato de `pt.ts`; uma chave faltando quebra a compilação. Um teste acusa textos vazios.
@@ -125,6 +127,19 @@ Todas as páginas são geradas no build. Slugs desconhecidos resultam em 404.
 - **Sem redirecionamento automático** pelo idioma do navegador. PT é o padrão; `hreflang` orienta os buscadores.
 - **Metadados por página e idioma:** título e descrição próprios, `canonical`, `hreflang` (`pt-BR`, `en`, `x-default` → `/`), imagem Open Graph gerada com a tipografia do site.
 - **Textos EN** são escritos junto com os PT em cada fase; a Fase 5 revisa naturalidade, metadados e o seletor.
+
+### 4.1 Impacto do proxy (T1)
+
+| Aspecto | Impacto | Como é controlado |
+|---|---|---|
+| **Quando roda** | Em toda requisição de página. Não roda para arquivos internos do Next (`/_next/…`) nem para endereços com extensão (`robots.txt`, fontes, imagens). | `matcher` em `proxy.ts`. |
+| **Páginas conhecidas** | O proxy só confere o endereço numa lista e deixa passar; a página continua estática, gerada no build. | Lista gerada do mapa de rotas (`knownPaths`), sem duplicação manual. |
+| **Endereços desconhecidos** | Reescritos para a 404 do idioma, com status 404, `lang` correto e HTML completo, também sem JavaScript. | Testes E2E de 404 com e sem JavaScript. |
+| **Custo de tempo, local** | Medido com o servidor do Next (`next start`), 200 requisições cada: home ≈ 2,2 ms; endereço desconhecido ≈ 1,9 ms. Não representa a Vercel. | — |
+| **Custo na Vercel** | O proxy roda como Routing Middleware: a documentação da Vercel confirma que ele acrescenta latência e custo por requisição. Os limites incluídos no plano Hobby **não constam da documentação consultada**. | A medir no preview (tempo de resposta) e a acompanhar no painel de uso da Vercel. Nenhum serviço pago será contratado (E6). |
+| **Manutenção** | Toda rota nova sem extensão precisa entrar no mapa de rotas, senão vira 404. Exemplos já previstos: `/specimen` (Fase 2) e imagens Open Graph (Fase 5). | Teste unitário confere a lista de páginas conhecidas; os testes E2E visitam cada página pública e falham se alguma responder 404. |
+| **Caso de borda** | Endereço desconhecido **com extensão** (ex.: `/qualquer.html`) não passa pelo proxy e recebe a 404 padrão do Next: status 404 correto, mas página sem `lang` e sem conteúdo do site. | Aceito: não é um endereço que o site divulga. Registrado para a Fase 6 (SEO). |
+| **Servidor próprio** | Com `next start --hostname 127.0.0.1`, as reescritas do proxy não respondem (achado da Fase 1). Não afeta a Vercel. | Testes E2E usam o servidor sem `--hostname`; motivo comentado em `playwright.config.ts`. |
 
 ---
 
@@ -169,7 +184,11 @@ Todas as páginas são geradas no build. Slugs desconhecidos resultam em 404.
 
 ## 8. Imagens e fontes
 
-- **Fontes (decisão T2, Fase 1):** `next/font/google`. Os arquivos são baixados **no build** e servidos pelo próprio site; o navegador do visitante não faz nenhuma requisição a outro domínio (verificado por teste E2E). Só os pesos da especificação. Se "fontes locais" significar arquivos versionados no repositório, a troca para `next/font/local` muda apenas `lib/fonts.ts`.
+- **Fontes (decisão T2.1, aprovada em 2026-11-06):** `next/font/local`, com os arquivos **versionados em `assets/fonts/`**. Nem o build nem o navegador dependem de serviço externo: o build foi testado com a rede de saída bloqueada, e um teste unitário recusa o uso de `next/font/google`.
+  - Origem: repositório oficial `google/fonts`, licença SIL OFL 1.1 (cópia de cada licença ao lado dos arquivos). Gerados por `scripts/build-fonts.sh`; proveniência e versões em [`DEPENDENCIES.md`](DEPENDENCIES.md) §8.
+  - Um arquivo WOFF2 estático por peso: Manrope 500/600, Inter 400/500, JetBrains Mono 400, cada um com os caracteres "latin" e "latin-ext" nos intervalos do Google Fonts.
+  - Limitação do `next/font/local`: não aceita intervalo de caracteres por arquivo, por isso "latin" e "latin-ext" ficam juntos no mesmo arquivo e são sempre baixados. Medido na home: 5 arquivos, 178,7 KB — 23 KB a menos que a configuração anterior com Google Fonts (6 arquivos, 201,9 KB).
+  - Todos os 5 arquivos são pré-carregados hoje. Quais pré-carregar de fato (os da primeira dobra) é decisão de desempenho da Fase 6.
 - **Imagens:** importadas dos arquivos de conteúdo (dimensões conhecidas, sem deslocamento de layout), servidas em AVIF/WebP pelo otimizador de imagens. A prioridade de carregamento considera que a foto é o maior elemento da primeira dobra no desktop, mas não no mobile.
 
 ---

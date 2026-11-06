@@ -273,7 +273,7 @@ Prioridade: compreensão imediata do posicionamento e acesso aos projetos antes 
 ```
 
 - Estimativa até o fim da linha "Projetos": ≈ 503px.
-- **Critério:** H1 e linha "Projetos" inteiramente visíveis na área efetiva do navegador — Safari no iPhone (A2) e Chrome/Samsung Internet no Android, incluindo o Galaxy A15 de Rafa (E3) —, com fontes carregadas. O método de verificação está em [`VALIDATION.md`](VALIDATION.md) (regra A2).
+- **Critério:** H1 e linha "Projetos" inteiramente visíveis na área efetiva do navegador — Safari no iPhone (A2) e Chrome no Android, incluindo o Galaxy A15 de Rafa com a área útil medida no aparelho (E3, E7) —, com fontes carregadas. O método de verificação está em [`VALIDATION.md`](VALIDATION.md) (regra A2).
 - Altura total do hero ≈ 1,4 tela, contra quase 2 se a foto ocupasse 4 colunas.
 - No mobile, o maior elemento visível da primeira dobra é texto, não a foto.
 

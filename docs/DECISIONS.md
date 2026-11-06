@@ -79,15 +79,33 @@ Cuidados registrados na aprovação da especificação v1.1:
 
 ## T — Decisões técnicas da Fase 1
 
-Surgiram da implementação e do protótipo obrigatório. Ficam como **Proposta** até a validação da Fase 1 (guardrail 10). Evidências em [`FASE-1.md`](FASE-1.md).
+Surgiram da implementação e do protótipo obrigatório (guardrail 10). Evidências em [`FASE-1.md`](FASE-1.md). **Aprovadas por Rafa em 2026-11-06**, com as observações da tabela seguinte; T2 foi substituída por T2.1.
 
 | # | Decisão | Motivo | Data | Status |
 |---|---|---|---|---|
-| T1 | Páginas 404 por idioma entregues por um **proxy** (`proxy.ts`), em vez da rota "pega-tudo" prevista em P2. | O plano original entrega HTML vazio sem JavaScript no Next 16. O proxy mantém a especificação (uma 404 por idioma, `lang` correto, status 404, sem JavaScript) sem recurso experimental. Custo: o proxy roda em cada requisição de página. | 2026-11-06 | Proposta |
-| T2 | Fontes por `next/font/google`: baixadas no build e servidas pelo próprio site. | Nenhuma requisição externa no navegador (testado). Interpretação de "fontes locais" a confirmar; a alternativa é versionar os arquivos e usar `next/font/local`. | 2026-11-06 | Proposta |
-| T3 | ESLint 9.39.5 mantido, embora o npm marque a linha 9 como "não mais suportada". | O modelo oficial do Next.js 16.4.5 ainda usa ESLint 9, e os plugins do `eslint-config-next` não aceitam o 10. Ferramenta só de desenvolvimento. | 2026-11-06 | Proposta |
-| T4 | Alerta moderado em dependência de desenvolvimento (`minimatch` via `typescript-eslint`) aceito; o CI bloqueia qualquer alerta moderado ou acima em dependências de produção. | A correção exigiria forçar uma versão fora da faixa declarada pelo pacote. Não afeta o site publicado. | 2026-11-06 | Proposta |
-| T5 | O site pede para não ser indexado (robots.txt e meta `noindex`) até a publicação aprovada; a liberação é a variável `SITE_INDEXABLE=true`, só em produção. | Ao conectar a Vercel, a `main` vira um endereço público `*.vercel.app` com o site incompleto. | 2026-11-06 | Proposta |
+| T1 | Páginas 404 por idioma entregues por um **proxy** (`proxy.ts`), em vez da rota "pega-tudo" prevista em P2. | O plano original entrega HTML vazio sem JavaScript no Next 16. O proxy mantém a especificação (uma 404 por idioma, `lang` correto, status 404, sem JavaScript) sem recurso experimental. Custo: o proxy roda em cada requisição de página. | 2026-11-06 | Aprovada (2026-11-06) |
+| T2 | Fontes por `next/font/google`: baixadas no build e servidas pelo próprio site. | Nenhuma requisição externa no navegador (testado). Interpretação de "fontes locais" a confirmar; a alternativa é versionar os arquivos e usar `next/font/local`. | 2026-11-06 | Substituída por T2.1 |
+| T3 | ESLint 9.39.5 mantido, embora o npm marque a linha 9 como "não mais suportada". | O modelo oficial do Next.js 16.4.5 ainda usa ESLint 9, e os plugins do `eslint-config-next` não aceitam o 10. Ferramenta só de desenvolvimento. | 2026-11-06 | Aprovada (2026-11-06) |
+| T4 | Alerta moderado em dependência de desenvolvimento (`minimatch` via `typescript-eslint`) aceito; o CI bloqueia qualquer alerta moderado ou acima em dependências de produção. | A correção exigiria forçar uma versão fora da faixa declarada pelo pacote. Não afeta o site publicado. | 2026-11-06 | Aprovada (2026-11-06) |
+| T5 | O site pede para não ser indexado (robots.txt e meta `noindex`) até a publicação aprovada; a liberação é a variável `SITE_INDEXABLE=true`, só em produção. | Ao conectar a Vercel, a `main` vira um endereço público `*.vercel.app` com o site incompleto. | 2026-11-06 | Aprovada (2026-11-06) |
+
+### Validação de Rafa (2026-11-06)
+
+| # | Decisão / observação de Rafa | Status |
+|---|---|---|
+| T1 | Aprovada. Manter os testes de 404 por idioma, de funcionamento sem JavaScript e de rotas desconhecidas. **Documentar o impacto do proxy** → [`ARCHITECTURE.md`](ARCHITECTURE.md) §4.1. | Aprovada |
+| T2.1 | **Fontes com `next/font/local`, com os arquivos dentro do repositório**: independência de serviços externos também durante o build. Substitui T2. | Aprovada (implementada na Fase 1) |
+| T3 | Aprovado manter o ESLint 9, pela compatibilidade com o Next.js 16.4.5. | Aprovada |
+| T4 | Aceitos **temporariamente** os 8 alertas moderados das ferramentas de desenvolvimento. Mantê-los documentados e monitorar atualizações e correções → [`DEPENDENCIES.md`](DEPENDENCIES.md) §7.3. | Aprovada (temporária) |
+| T5 | Aprovada. O site permanece fora dos índices de buscadores até a publicação oficial. | Aprovada |
+
+### Autorizações e dados registrados na mesma validação
+
+| # | Registro | Data | Status |
+|---|---|---|---|
+| E6 | **Vercel autorizada:** criar o projeto `rafaelzovic-dev`, conectado ao repositório GitHub. Limites: não comprar domínio; não contratar serviços pagos; não adicionar variáveis ou integrações desnecessárias; não alterar configurações de outros projetos; manter a proteção e a não indexação dos previews. | 2026-11-06 | Aprovada |
+| E7 | **Aparelho de referência:** Samsung Galaxy A15, **Google Chrome**. Viewport de referência inicial 412 × 892 CSS px, a confirmar no aparelho. **Área útil medida com as barras do Chrome abertas, sem depender de estimativas.** | 2026-11-06 | Aprovada |
+| E8 | A Fase 2 **não** está autorizada. O merge da PR #1 depende da validação do resultado final e dos critérios da Fase 1 por Rafa. | 2026-11-06 | Registrada |
 
 ---
 
