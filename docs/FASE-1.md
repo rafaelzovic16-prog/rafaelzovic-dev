@@ -132,6 +132,19 @@ Dois caminhos, ambos dentro de E6:
 
 Depois da criação, conferir no projeto: proteção dos previews ativa ("Vercel Authentication"), nenhuma variável de ambiente, nenhum domínio, Node 24, e o cabeçalho de não indexação nas respostas.
 
+**Atualização (2026-11-06):** Rafa aprovou o acesso da conexão ao time e o projeto foi criado.
+
+| Item | Situação |
+|---|---|
+| Projeto | `rafaelzovic-dev` (`prj_Qxf9GkUjNKXAGyFhC53qnty7Z3Vu`), conectado a `rafaelzovic16-prog/rafaelzovic-dev`; branch de produção: `main` |
+| Proteção | Vercel Authentication ativa em **todas** as publicações, exceto domínios próprios (não há nenhum) — mais restritiva que "só previews" |
+| Variáveis de ambiente | Nenhuma (`SITE_INDEXABLE` ausente → `noindex`, T5) |
+| Domínios | Nenhum |
+| Node | A Vercel criou o projeto com Node **26.x** por padrão; ajustado para **24.x**, a versão aprovada (E2). Foi a única configuração alterada. |
+| Outros projetos | Não tocados |
+
+**Ocorrência:** a primeira publicação, pedida pela API a partir da branch `fase-1/fundacao`, foi marcada pela Vercel como **produção** (primeira publicação de um projeto novo). Como produção deve vir só da `main` depois do merge, ela foi **cancelada antes de terminar o build**. O preview passou a ser gerado pela integração com o GitHub, a partir do envio desta atualização para a branch.
+
 ## Fora do escopo desta fase
 
 - Qualquer visual: cores, tipografia, grid, componentes (Fase 2).
