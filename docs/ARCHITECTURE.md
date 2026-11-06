@@ -101,7 +101,7 @@ Mudanças em relação ao plano v1.0, por A5:
 | 404 PT | 404 EN | Página não encontrada no idioma da URL, entregue pelo proxy com status 404 |
 | `/sitemap.xml` · `/robots.txt` | — | SEO |
 | `/specimen` | — | Só quando a variável `ENABLE_SPECIMEN` estiver ativa (previews); retorna 404 em produção |
-| `/medir` | — | Ferramenta interna de medição do viewport (E9). Liberada pelo proxy só em previews da Vercel (`VERCEL_ENV=preview`, variável de sistema da própria Vercel) e no servidor de desenvolvimento; em produção, 404 |
+| `/medir` | — | Ferramenta interna de diagnóstico de viewport (E9, E10). Liberada pelo proxy só em previews da Vercel (`VERCEL_ENV=preview`, variável de sistema da própria Vercel) e no servidor de desenvolvimento; em produção, 404 |
 
 **Redirecionamentos permanentes (308):**
 

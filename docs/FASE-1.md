@@ -145,22 +145,22 @@ Depois da criação, conferir no projeto: proteção dos previews ativa ("Vercel
 
 **Ocorrência:** a primeira publicação, pedida pela API a partir da branch `fase-1/fundacao`, foi marcada pela Vercel como **produção** (primeira publicação de um projeto novo). Como produção deve vir só da `main` depois do merge, ela foi **cancelada antes de terminar o build**. O preview passou a ser gerado pela integração com o GitHub, a partir do envio desta atualização para a branch.
 
-## Página de medição do Galaxy A15 (E9, 2026-11-06)
+## Página de medição do Galaxy A15 (E9, E10 — 2026-11-06)
 
 Autorizada por Rafa para medir a área útil no Chrome com as barras abertas (E7), sem depender de estimativas.
 
 | Item | Situação |
 |---|---|
 | Endereço | `/medir`, no preview: `https://rafaelzovic-dev-git-fase-1-fundacao-rdz14.vercel.app/medir` |
-| O que mostra | "Na abertura": largura × altura e densidade de pixels no instante em que a página abre, antes de qualquer rolagem; "Agora": valores atuais; "Tela inteira" |
+| O que mostra | Diagnóstico de viewport com as APIs nativas do navegador (E10): leitura de abertura (barras do Chrome visíveis), orientação, tela e área disponível, altura somada da interface do Chrome + Android, variações por orientação (barra recolhida, rotação), `visualViewport` e o JSON completo para copiar |
 | Onde existe | Só em previews da Vercel e no servidor de desenvolvimento. Em produção, o proxy responde 404, como qualquer endereço desconhecido |
 | Variáveis | Nenhuma adicionada: usa `VERCEL_ENV`, que a própria Vercel define em cada publicação |
 | Visual | Sem a identidade do site, que é da Fase 2; só texto legível no celular. `noindex` |
-| Testes | 3 unitários da regra de liberação; E2E: 404 no servidor como produção (com e sem JavaScript) e leitura correta no servidor como preview (412 × 892, densidade 2,625, leitura de abertura estável) |
+| Testes | 3 unitários da regra de liberação; E2E: 404 no servidor como produção (com e sem JavaScript) e, no servidor como preview, leitura de abertura e densidade corretas, orientação, variações (barra recolhida e rotação) sem alterar a leitura de abertura, e os campos do JSON |
 
-Suíte depois desta mudança: unitários 32 de 32; E2E 49 de 49.
+Suíte depois do diagnóstico (E10): unitários 32 de 32; E2E 50 de 50.
 
-**Como medir:** abrir o endereço acima no Chrome do Galaxy A15, com a tela na vertical, sem rolar; enviar a largura × altura de "Na abertura", a densidade de pixels e o "Zoom da tela" (Configurações → Tela). O perfil de teste do A15 é criado com esses valores.
+**Como medir:** abrir o endereço acima no Chrome do Galaxy A15, na vertical e sem rolar; depois rolar até o fim da página (a barra do Chrome se recolhe) e, se quiser, girar para a horizontal e voltar; tocar em "Copiar diagnóstico" e enviar o resultado com o valor de "Zoom da tela" (Configurações → Tela). Com o diagnóstico, o perfil "Galaxy A15 · Chrome" entra no Playwright como descrito em [`VALIDATION.md`](VALIDATION.md) §3.3, e a suíte existente passa a rodar também nele.
 
 ## Fora do escopo desta fase
 

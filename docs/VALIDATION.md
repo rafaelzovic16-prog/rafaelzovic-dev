@@ -105,7 +105,17 @@ Os perfis de iPhone do Playwright já descontam as barras do Safari na maioria d
 | iPhone 16 Pro Max | 440 × 763 | Perfil do Playwright |
 
 
-**Medição no Galaxy A15 (E7):** no Google Chrome, com a página aberta no topo e **sem rolar** (a barra de endereço do Chrome fica visível; ao rolar ela se recolhe e a área cresce), ler `window.innerWidth`, `window.innerHeight` e `devicePixelRatio`. A página **`/medir` do preview** (E9) mostra esses números: a leitura "Na abertura" fica registrada no instante em que a página abre, com a barra do Chrome visível, e não muda depois. Rafa envia a largura × altura de "Na abertura", a densidade de pixels e o "Zoom da tela" usado; o perfil de teste é criado com eles.
+**Diagnóstico do Galaxy A15 (E7, E9, E10):** a página **`/medir` do preview** lê, no próprio Chrome do aparelho, as APIs nativas `window.innerWidth`/`innerHeight`, `screen.width`/`height` (e `availWidth`/`availHeight`), `window.devicePixelRatio`, `window.visualViewport` e `screen.orientation`. As medidas só podem vir do aparelho: o Playwright emula um perfil, não detecta o celular de Rafa.
+
+| Leitura | O que registra |
+|---|---|
+| Na abertura | A primeira leitura, antes de qualquer rolagem: área útil **com a barra do Chrome visível**. Não muda depois. |
+| Interface do Chrome + Android | `screen.height − innerHeight` na abertura: barra de status e de navegação do Android somadas à barra do Chrome. |
+| Variações | Menor e maior altura útil em cada orientação. A rolagem recolhe a barra do Chrome e a altura cresce; a diferença estima a barra. A rotação registra a horizontal. |
+| `visualViewport` | Área realmente visível e escala (difere do `innerHeight` com zoom de pinça ou teclado aberto). |
+| Diagnóstico completo | JSON copiado pelo botão "Copiar diagnóstico", com todas as leituras e o identificador do navegador (`userAgent`). |
+
+**Como os dados entram no Playwright:** um perfil "Galaxy A15 · Chrome" (Chromium, `isMobile`, `hasTouch`) com `deviceScaleFactor` = densidade medida, `screen` = tela medida, `userAgent` do aparelho e dois viewports — **barras visíveis** (leitura de abertura) e **barra recolhida** (maior altura na vertical). Na Fase 1, a suíte existente (rotas, 404 por idioma, funcionamento sem JavaScript, fontes) passa a rodar também nesse perfil; na Fase 3, ele é o perfil de referência dos testes de primeira dobra, que usam a leitura com as barras visíveis, a mais restritiva.
 
 ### 3.4 Confirmação humana
 
