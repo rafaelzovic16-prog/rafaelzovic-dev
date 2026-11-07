@@ -162,11 +162,29 @@ Suíte depois do diagnóstico (E10): unitários 32 de 32; E2E 50 de 50.
 
 **Como medir:** abrir o endereço acima no Chrome do Galaxy A15, na vertical e sem rolar; depois rolar até o fim da página (a barra do Chrome se recolhe) e, se quiser, girar para a horizontal e voltar; tocar em "Copiar diagnóstico" e enviar o resultado com o valor de "Zoom da tela" (Configurações → Tela). Com o diagnóstico, o perfil "Galaxy A15 · Chrome" entra no Playwright como descrito em [`VALIDATION.md`](VALIDATION.md) §3.3, e a suíte existente passa a rodar também nele.
 
+## Medição real do Galaxy A15 e perfis no Playwright (E11, 2026-11-07)
+
+Rafa executou o diagnóstico no próprio aparelho, no Chrome, e enviou o JSON completo, guardado sem alteração em `tests/e2e/devices/galaxy-a15-chrome.json`. Análise completa em [`VALIDATION.md`](VALIDATION.md) §3.3.
+
+| Leitura | Vertical | Horizontal |
+|---|---|---|
+| Barras visíveis | **400 × 766** | 837 × 299 |
+| Barra do Chrome recolhida | 400 × 822 (barra: 56 px) | 837 × 370 (barra: ≈ 71 px) |
+| Tela | 400 × 867, densidade 2,7 | 867 × 400 |
+
+- A referência inicial 412 × 892 foi substituída: a largura real do aparelho é 400.
+- Interface somada na abertura (vertical): 101 px = barra do Chrome (56) + barras do Android (45).
+- Três projetos novos no Playwright, montados só com esses valores: barras visíveis, barra recolhida e horizontal. Os testes da página `/medir` passaram a usar o perfil medido.
+
+Suíte depois da medição: unitários 32 de 32; **E2E 191 de 191** (desktop 50; cada perfil do Galaxy A15, 47).
+
+Pendente: o valor de "Zoom da tela" usado na medição (os números valem para essa configuração).
+
 ## Fora do escopo desta fase
 
 - Qualquer visual: cores, tipografia, grid, componentes (Fase 2).
 - `lucide-react` e `@axe-core/playwright` (instalados quando usados).
-- Perfis mobile nos testes E2E (Fase 3, junto com os testes de primeira dobra).
+- Perfis de iPhone em WebKit e os testes de primeira dobra (Fase 3). O Galaxy A15 já entrou na Fase 1 com valores medidos (E11).
 
 ## Como revisar
 

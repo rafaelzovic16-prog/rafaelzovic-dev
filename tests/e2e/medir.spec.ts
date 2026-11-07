@@ -1,17 +1,15 @@
 import { expect, test } from "@playwright/test";
+import { galaxyA15Chrome } from "./devices";
 import { PREVIEW_PORT } from "./servers";
 
 /*
- * Diagnóstico de viewport (E9, E10), no servidor que simula um preview da Vercel.
- * O viewport de teste usa a referência inicial do Galaxy A15 (412 × 892 CSS px, densidade 2,625)
- * só para conferir que a página lê e registra os valores; a área útil real vem do aparelho (E7).
+ * Diagnóstico de viewport (E9, E10), no servidor que simula um preview da Vercel, com o perfil
+ * medido no Galaxy A15 de Rafa (E11): a página emulada precisa reproduzir os números que o
+ * aparelho real informou.
  */
 test.use({
+  ...galaxyA15Chrome.barrasVisiveis,
   baseURL: `http://localhost:${PREVIEW_PORT}`,
-  viewport: { width: 412, height: 892 },
-  deviceScaleFactor: 2.625,
-  isMobile: true,
-  hasTouch: true,
 });
 
 test("no preview, /medir mostra a área útil, a densidade e a orientação", async ({
@@ -24,11 +22,11 @@ test("no preview, /medir mostra a área útil, a densidade e a orientação", as
     "content",
     /noindex/,
   );
-  await expect(page.getByTestId("abertura")).toHaveText("412 × 892");
-  await expect(page.getByTestId("dpr")).toHaveText("2.625");
+  await expect(page.getByTestId("abertura")).toHaveText("400 × 766");
+  await expect(page.getByTestId("dpr")).toHaveText(/^2\.7/);
   await expect(page.getByTestId("orientacao")).toContainText("portrait");
   await expect(page.getByTestId("variacao-vertical")).toContainText(
-    "largura 412 · altura 892 a 892",
+    "largura 400 · altura 766 a 766",
   );
 });
 
@@ -36,21 +34,21 @@ test("registra as variações da barra do Chrome sem alterar a leitura de abertu
   page,
 }) => {
   await page.goto("/medir");
-  await expect(page.getByTestId("abertura")).toHaveText("412 × 892");
+  await expect(page.getByTestId("abertura")).toHaveText("400 × 766");
 
-  // Barra do Chrome recolhida: a altura útil aumenta.
-  await page.setViewportSize({ width: 412, height: 940 });
+  // Barra do Chrome recolhida, como medido no aparelho: a altura útil vai a 822.
+  await page.setViewportSize(galaxyA15Chrome.barraRecolhida.viewport);
   await expect(page.getByTestId("variacao-vertical")).toContainText(
-    "altura 892 a 940 · barra do Chrome ≈ 48 px",
+    "altura 766 a 822 · barra do Chrome ≈ 56 px",
   );
 
-  // Rotação para a horizontal.
-  await page.setViewportSize({ width: 892, height: 412 });
+  // Rotação para a horizontal, com as barras visíveis.
+  await page.setViewportSize(galaxyA15Chrome.horizontal.viewport);
   await expect(page.getByTestId("variacao-horizontal")).toContainText(
-    "largura 892",
+    "largura 837",
   );
 
-  await expect(page.getByTestId("abertura")).toHaveText("412 × 892");
+  await expect(page.getByTestId("abertura")).toHaveText("400 × 766");
 });
 
 test("o diagnóstico completo tem os campos usados no perfil do Playwright", async ({
@@ -63,10 +61,10 @@ test("o diagnóstico completo tem os campos usados no perfil do Playwright", asy
   );
 
   expect(diagnostic.abertura).toMatchObject({
-    innerWidth: 412,
-    innerHeight: 892,
-    devicePixelRatio: 2.625,
+    innerWidth: 400,
+    innerHeight: 766,
   });
+  expect(diagnostic.abertura.devicePixelRatio).toBeCloseTo(2.7, 3);
   expect(diagnostic.abertura.screen).toEqual(
     expect.objectContaining({
       width: expect.any(Number),

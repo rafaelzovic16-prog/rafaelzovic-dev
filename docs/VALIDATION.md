@@ -96,7 +96,7 @@ Os perfis de iPhone do Playwright já descontam as barras do Safari na maioria d
 
 | Perfil | Viewport efetivo | Origem |
 |---|---|---|
-| **Samsung Galaxy A15 de Rafa, Google Chrome** (E3, E7) | **A medir** no aparelho, com as barras do Chrome abertas. Referência inicial da tela: 412 × 892 CSS px, a confirmar. | **Sem estimativa (E7):** o teste de primeira dobra deste perfil só é criado com os valores medidos. A referência 412 × 892 vem de aparelhos Samsung com a mesma tela (1080 × 2340, densidade 2,625) e serve apenas de ponto de partida. A configuração "Zoom da tela" do aparelho pode mudar a largura; a medição registra a configuração usada. |
+| **Samsung Galaxy A15 de Rafa, Google Chrome** (E3, E7, E11) | **400 × 766** com as barras visíveis (vertical); 400 × 822 com a barra do Chrome recolhida; 837 × 299 na horizontal. Densidade 2,7; tela 400 × 867. | **Medido no aparelho** pelo diagnóstico `/medir` (E10, E11). A referência inicial 412 × 892 foi substituída: a largura real é 400. Valores válidos para o "Zoom da tela" usado na medição. |
 | iPhone SE (2ª/3ª geração) no Safari | 375 × 548 | **Estimativa**; o perfil do Playwright não desconta as barras. A confirmar num aparelho real. |
 | iPhone 13 Mini | 375 × 629 | Perfil do Playwright |
 | iPhone 13 / 14 | 390 × 664 | Perfil do Playwright |
@@ -115,7 +115,24 @@ Os perfis de iPhone do Playwright já descontam as barras do Safari na maioria d
 | `visualViewport` | Área realmente visível e escala (difere do `innerHeight` com zoom de pinça ou teclado aberto). |
 | Diagnóstico completo | JSON copiado pelo botão "Copiar diagnóstico", com todas as leituras e o identificador do navegador (`userAgent`). |
 
-**Como os dados entram no Playwright:** um perfil "Galaxy A15 · Chrome" (Chromium, `isMobile`, `hasTouch`) com `deviceScaleFactor` = densidade medida, `screen` = tela medida, `userAgent` do aparelho e dois viewports — **barras visíveis** (leitura de abertura) e **barra recolhida** (maior altura na vertical). Na Fase 1, a suíte existente (rotas, 404 por idioma, funcionamento sem JavaScript, fontes) passa a rodar também nesse perfil; na Fase 3, ele é o perfil de referência dos testes de primeira dobra, que usam a leitura com as barras visíveis, a mais restritiva.
+**Resultado da medição (E11, Galaxy A15 · Chrome):**
+
+| Leitura | Vertical | Horizontal |
+|---|---|---|
+| Barras visíveis (abertura) | **400 × 766** | 837 × 299 |
+| Barra do Chrome recolhida | 400 × 822 | 837 × 370 |
+| Barra do Chrome (diferença) | 56 px | ≈ 71 px |
+| Tela (`screen`) | 400 × 867 | 867 × 400 |
+| Área disponível (`availWidth` × `availHeight`) | 400 × 823 | 838 × 355 |
+| `visualViewport` | igual ao viewport, escala 1 | igual ao viewport, escala 1 |
+| Orientação | `portrait-primary`, 0° | `landscape-primary`, 90° |
+
+- Densidade de pixels: **2,7** (o navegador informa 2.700000047683716, efeito de ponto flutuante). 400 × 2,7 = 1080 e 867 × 2,7 ≈ 2340: exatamente a tela física do A15.
+- Interface somada na abertura, na vertical: **101 px** = barra do Chrome (56) + barras do Android (45 = 867 − 822), coerente com a área disponível (867 − 823 = 44).
+- `userAgent` reduzido pelo Chrome (`Android 10; K`): não identifica o modelo nem a versão real do Android. Guardado como veio.
+- Diagnóstico completo, sem alteração: `tests/e2e/devices/galaxy-a15-chrome.json`.
+
+**Como os dados entram no Playwright (implementado, E11):** `tests/e2e/devices.ts` monta, só a partir do diagnóstico medido, três projetos Chromium com `isMobile`, `hasTouch`, densidade 2,7, tela e `userAgent` do aparelho: `galaxy-a15-chrome` (400 × 766, barras visíveis), `galaxy-a15-chrome-barra-recolhida` (400 × 822) e `galaxy-a15-chrome-horizontal` (837 × 299). Na Fase 1, a suíte existente (rotas, 404 por idioma, funcionamento sem JavaScript, fontes) roda nos três; os testes da própria página `/medir` usam o perfil medido e conferem que a emulação reproduz os números do aparelho. Na Fase 3, `galaxy-a15-chrome` (barras visíveis, a leitura mais restritiva do aparelho) é a referência dos testes de primeira dobra.
 
 ### 3.4 Confirmação humana
 
@@ -134,7 +151,9 @@ Todas as páginas, nos dois idiomas:
 | Dimensão | Motor | O que verifica |
 |---|---|---|
 | 320 × 568 | Chromium | Largura mínima, sem rolagem horizontal (não se exige primeira dobra) |
-| medido | Chromium (Android) | Galaxy A15 de Rafa no Chrome — entra na matriz quando medido (E7) |
+| 400 × 766 | Chromium (Android) | Galaxy A15 de Rafa no Chrome, barras visíveis (medido, E11) |
+| 400 × 822 | Chromium (Android) | Galaxy A15, barra do Chrome recolhida (medido) |
+| 837 × 299 | Chromium (Android) | Galaxy A15 na horizontal, barras visíveis (medido) |
 | 375 × 548 | WebKit | iPhone SE no Safari (estimativa) |
 | 390 × 664 | WebKit | iPhone 13/14 |
 | 393 × 659 | WebKit | iPhone 16 |
@@ -157,6 +176,6 @@ Todas as páginas, nos dois idiomas:
 ## 6. Itens que dependem de Rafa
 
 - Avaliação visual de cada fase.
-- Medição da área útil do Galaxy A15 no Chrome, com as barras abertas, e confirmação da primeira dobra no aparelho.
+- ~~Medição da área útil do Galaxy A15~~ (feita em 2026-11-07, E11). Falta informar o valor de "Zoom da tela" usado e, na Fase 3, confirmar a primeira dobra no aparelho.
 - Teste com leitor de tela (TalkBack no Galaxy A15, ou NVDA no computador) na Fase 6, que não pode ser executado no ambiente de desenvolvimento.
 - Revisão de cada afirmação de conteúdo sobre os projetos (Fase 4) e dos textos em inglês (Fase 5).
