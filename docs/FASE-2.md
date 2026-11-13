@@ -1,6 +1,6 @@
 # Fase 2 — Sistema visual
 
-> **Status:** implementada e verificada automaticamente; **aguarda a validação visual da identidade por Rafa** (critério do [roadmap](ROADMAP.md)). Autorizada pelo prompt mestre de 2026-11-13 (E12).
+> **Status:** implementada, verificada e **aprovada tecnicamente por Rafa** em 2026-11-13 (E13); **aguarda a validação no Galaxy A15 real** (critério do [roadmap](ROADMAP.md)). Sem merge até essa validação. Autorizada pelo prompt mestre de 2026-11-13 (E12).
 > **Branch:** `fase-2/sistema-visual`, empilhada sobre `fase-1/fundacao` (E12). A PR tem como base a branch da Fase 1; depois do merge da PR #1, a base passa a ser a `main`.
 
 ## Objetivo
@@ -52,9 +52,9 @@ Mantém tudo o que foi validado no Galaxy A15 (E10, E11) e acrescenta:
 
 **Limitações, explicadas na própria página:** todos os valores são pixels CSS informados pelo navegador. Nenhum valor físico (centímetros, pixels do painel) é calculado ou estimado. A largura em pixels CSS depende do zoom da tela do Android e do zoom do navegador; a altura útil muda com a barra do Chrome e com o teclado; `screen.availHeight` no Android nem sempre desconta a barra de navegação do sistema; `screen.orientation` pode faltar em navegadores antigos. As dimensões de elementos são as da própria página `/specimen`; a primeira dobra da home é verificada na Fase 3.
 
-## Interpretações técnicas (para validação de Rafa)
+## Interpretações técnicas (aprovadas em 2026-11-13, E13)
 
-Pontos em que a especificação não define o detalhe. Nenhum altera cor, tipografia, grid ou composição aprovados. Registrados também em [`DECISIONS.md`](DECISIONS.md) (S1–S8).
+Pontos em que a especificação não define o detalhe. Nenhum altera cor, tipografia, grid ou composição aprovados. Registrados também em [`DECISIONS.md`](DECISIONS.md) (S1–S8). Rafa aprovou S3 explicitamente e manteve S1–S8 como implementadas.
 
 | # | Interpretação | Motivo |
 |---|---|---|
@@ -81,7 +81,9 @@ O teste unitário calcula o contraste WCAG 2 a partir dos valores do CSS. Todos 
 | Stone sobre Bone | ≈ 1,3:1 | 1,3:1 |
 | Graphite sobre Stone (rótulo da moldura pendente) | — | 12,4:1 |
 
-**Nenhuma cor foi alterada** (A6). O `/specimen` mostra os valores medidos, e o teste fixa esses números para que qualquer mudança de cor apareça. Proposta: corrigir os números da DESIGN-SPEC §3.2 (só o texto; as cores ficam). **Depende de Rafa.**
+**Nenhuma cor foi alterada** (A6). O `/specimen` mostra os valores medidos, e o teste fixa esses números para que qualquer mudança de cor apareça.
+
+**Resolvido (E13):** com a autorização de Rafa, a DESIGN-SPEC §3.2 passou a trazer os valores medidos, e o cabeçalho da especificação registra a correção e os valores anteriores. Cores, opacidades e composição não mudaram.
 
 ## Dependência instalada
 
@@ -96,7 +98,7 @@ Ambiente de desenvolvimento, Node 24, build de produção:
 | Verificação | Resultado |
 |---|---|
 | `npm run check` (lint, formatação, tipos, testes unitários, build) | Verde |
-| Testes unitários (Vitest) | 44 aprovados, 12 deles novos (`tests/unit/sistema-visual.test.ts`) |
+| Testes unitários (Vitest) | 45 aprovados: 12 novos desta fase (`tests/unit/sistema-visual.test.ts`) e 1 do fechamento da Fase 1 (`tests/unit/publicacao.test.ts`, T6) |
 | Testes E2E (Playwright, Chromium) | 225 aprovados; 20 capturas puladas (só rodam quando pedidas) |
 
 Novos testes:
@@ -123,9 +125,9 @@ Geradas por `tests/e2e/capturas.spec.ts` (só roda com `CAPTURAS_DIR` definido),
 
 ## Pendências e riscos
 
-- **Validação visual da identidade por Rafa** — critério de conclusão da fase.
-- S3 (container e margens acima de 1440 px) e F2-1 (números de contraste da especificação) aguardam decisão.
-- O diagnóstico do `/specimen` ainda não foi aberto no Galaxy A15 real; os testes usam o perfil medido.
+- **Validação de Rafa no Galaxy A15 real** — critério de conclusão da fase (passo a passo abaixo).
+- O diagnóstico do `/specimen` ainda não foi aberto no aparelho; os testes usam o perfil medido (E11).
+- Na horizontal, o Galaxy A15 tem 837 × 299 px CSS: pela largura, entra na faixa tablet (8 colunas, display de 64 px ou mais) com pouca altura. A especificação define as faixas só pela largura. Para o `/specimen` não há problema; o efeito na primeira dobra da home será avaliado com os dados reais do aparelho, antes da Fase 3.
 - "Zoom da tela" do Galaxy A15 continua sem registro (VALIDATION §6).
 - O alvo de toque de 48 px é verificado na Fase 3 (S7).
 
@@ -133,17 +135,29 @@ Geradas por `tests/e2e/capturas.spec.ts` (só roda com `CAPTURAS_DIR` definido),
 
 Composição da home (hero, projetos, seções), navegação e menu, rodapé, animações de entrada e de rolagem (Fases 3 e 6), estudos de caso (Fase 4).
 
-## Como revisar
+## Validação no Galaxy A15 (E13)
 
-1. Abrir o preview da branch `fase-2/sistema-visual` em `/specimen` (protegido pelo login da Vercel).
-2. No Galaxy A15, no Chrome: conferir a seção 00 e, se quiser, tocar em "Copiar diagnóstico" e enviar.
-3. Usar "Mostrar grid" para ver as colunas sobre a página.
-4. Comparar com as capturas enviadas na conversa.
+O preview é protegido pela Vercel Authentication: só abre com o login da conta Vercel de Rafa. Endereço (sempre aponta para o último commit da branch):
+
+`https://rafaelzovic-dev-git-fase-2-sistema-visual-rdz14.vercel.app/specimen`
+
+1. **Zoom da tela:** em Configurações, buscar "Zoom da tela" e anotar a posição atual, **sem mudar**. Os números em pixels CSS dependem dela.
+2. **Abrir:** no Chrome do Galaxy A15, com o celular na vertical, abrir o endereço. Se aparecer a tela da Vercel, entrar com a mesma conta usada no computador; o Chrome volta para a página. Se o Chrome estiver em "Versão para computador", desligar.
+3. **Não rolar** até a página carregar: o bloco "Na abertura" registra a área com as barras do Chrome visíveis.
+4. **Rolar** devagar até o fim da página e voltar ao topo (a barra do Chrome recolhe e reaparece).
+5. **Girar** para a horizontal, esperar a página se ajustar e voltar para a vertical (com a rotação automática ligada).
+6. **Copiar:** na seção 00, tocar em "Copiar diagnóstico" e colar na conversa. Se não copiar: tocar em "Ver o diagnóstico completo", tocar e segurar o texto, "Selecionar tudo" e "Copiar".
+7. **Enviar também:** o valor do Zoom da tela e duas capturas de tela (vertical e horizontal), feitas no próprio aparelho.
+8. **Avaliação visual:** percorrer a página, usar "Mostrar grid" e responder se a identidade (cores, tipografia, componentes nas duas superfícies) está aprovada ou o que precisa de ajuste.
+
+**O que será conferido com o diagnóstico:** se a abertura repete 400 × 766 e a densidade 2,7 medidas em E11; faixa ativa `mobile`; largura útil de 360 px; grid de 4 colunas de 78 px com intervalo de 16 px; dimensões das amostras do display e do H1 com as fontes carregadas; as variações da barra do Chrome e da horizontal. Um ajuste responsivo só será proposto se o aparelho mostrar diferença em relação a esses valores ou um problema visível.
 
 ## Registro de aprovação
 
 | Data | Item | Decisão de Rafa |
 |---|---|---|
-| — | Identidade visual (Fase 2) | Pendente |
-| — | S1–S8 | Pendente |
-| — | F2-1 | Pendente |
+| 2026-11-13 | Implementação da Fase 2 (E13) | Aprovada tecnicamente para seguir à validação visual; sem merge até a validação no Galaxy A15 |
+| 2026-11-13 | S3 | Aprovada (margens dentro do container de 1440 px) |
+| 2026-11-13 | S1–S8 | Mantidas como implementadas |
+| 2026-11-13 | F2-1 | Correção autorizada e aplicada na DESIGN-SPEC §3.2 |
+| — | Identidade visual no Galaxy A15 | Pendente |

@@ -131,6 +131,15 @@ Pontos em que a especificação não define o detalhe, resolvidos na implementa�
 | S8 | Token semântico `placeholder` (Stone) para molduras pendentes. | 2026-11-13 | Proposta |
 | F2-1 | Contrastes medidos diferem de três aproximações da DESIGN-SPEC §3.2 (ivory sobre Charcoal 14,2:1; graphite 72% 6,7:1; ivory 70% 7,6:1). Todos passam AA. Cores mantidas; proposta de corrigir só os números do documento. | 2026-11-13 | Achado — depende de Rafa |
 
+### Validação de Rafa (2026-11-13, E13)
+
+| # | Decisão de Rafa | Status |
+|---|---|---|
+| S3 | Aprovada a implementação atual: margens dentro do container de 1440 px. | Aprovada |
+| S1–S8 | Mantidas como implementadas, desde que respeitem a especificação de design e não introduzam alteração visual não aprovada. | Aprovadas |
+| F2-1 | Autorizada a correção dos números de contraste na especificação e na documentação, para os valores medidos, sem alterar cores, opacidades ou composição. Aplicada na DESIGN-SPEC §3.2 (com registro da correção no cabeçalho). | Resolvido |
+| Fase 2 | Aprovada tecnicamente para seguir à validação visual; **sem merge** até a validação de Rafa no Galaxy A15 real. | Aguarda validação no aparelho |
+
 ---
 
 ## R — Guardrails e colaboração registrados por Rafa

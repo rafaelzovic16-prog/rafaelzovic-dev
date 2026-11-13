@@ -84,8 +84,8 @@ describe("contrastes (§3.2, §3.3, §13)", () => {
   });
 
   /*
-   * Contraste WCAG 2 medido a partir dos valores do CSS. A especificação arredonda alguns para
-   * cima (≈ 15:1, ≈ 7:1 e ≈ 9:1); os medidos estão registrados em docs/FASE-2.md (achado F2-1).
+   * Contraste WCAG 2 medido a partir dos valores do CSS: os mesmos números da DESIGN-SPEC §3.2,
+   * corrigida com os valores medidos (achado F2-1, autorizado em E13).
    * Todos passam AA (4,5:1), exigido em todo texto (§13). Os valores ficam fixados aqui para
    * que qualquer mudança de cor apareça no teste.
    */
