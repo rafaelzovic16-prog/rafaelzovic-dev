@@ -109,6 +109,13 @@ Num diretório temporário fora do repositório, com Node 24.22.1 e npm 11.19.1:
 - No início de cada fase, antes de qualquer instalação, verificar se o `typescript-eslint` passou a aceitar o `minimatch` 11.0.1 ou superior, e registrar o resultado no `FASE-N.md`.
 - Assim que houver correção dentro da faixa declarada, atualizar seguindo a política (§1) e retirar esta exceção.
 
+**Registro do monitoramento:**
+
+| Data | Alertas de desenvolvimento | `typescript-eslint` | Situação |
+|---|---|---|---|
+| 2026-11-06 | 8 moderados | 8.72.1, exige `minimatch ^10` | aceito (T4) |
+| 2026-11-13 | 7 moderados | 8.72.2, ainda exige `minimatch ^10` | aceito (T4); um dos alertas foi resolvido na origem |
+
 ### 7.4 Ainda não instalados
 
 `lucide-react` e `@axe-core/playwright` estão aprovados, mas só são instalados quando forem usados (Fases 2 e 3), com nova reverificação nesse momento (A5).

@@ -180,6 +180,27 @@ Suíte depois da medição: unitários 32 de 32; **E2E 191 de 191** (desktop 50;
 
 Pendente: o valor de "Zoom da tela" usado na medição (os números valem para essa configuração).
 
+## Auditoria de encerramento (2026-11-13)
+
+Nova verificação completa antes de preparar o encerramento (E12), a partir de uma instalação limpa, no commit `2d9363e`.
+
+| Critério | Resultado |
+|---|---|
+| PR #1 | Aberta, sem conflitos com a `main`, nenhuma revisão pendente (o único comentário é o aviso automático da Vercel) |
+| CI no GitHub (`2d9363e`) | Verde nas execuções de push e de PR |
+| `npm ci` | 389 pacotes, sem erro |
+| `npm audit --omit=dev` | 0 vulnerabilidades |
+| `npm audit` (desenvolvimento, T4) | 7 moderadas (eram 8; uma foi resolvida na origem). Mesma origem: `minimatch` via `typescript-eslint` 8.72.2, que ainda exige `^10` |
+| `npm run check` | Passa (unitários 32 de 32) |
+| Build com a rede de saída bloqueada | Passa |
+| E2E | 191 de 191 (desktop e os 3 perfis medidos do Galaxy A15): rotas PT/EN, 404 por idioma com e sem JavaScript, redirecionamentos, fontes locais, diagnóstico de viewport |
+| Vercel | Node 24.x; Vercel Authentication ativa; nenhuma variável de ambiente; nenhum domínio próprio; último preview (`2d9363e`) pronto; nenhuma publicação de produção ativa |
+| Dependências | Next.js 16.4.6 saiu em 09/11 só com correções de bugs (sem segurança); pela regra dos 7 dias, pode entrar a partir de 16/11 |
+
+**Conclusão:** todos os critérios técnicos da Fase 1 estão satisfeitos. **O encerramento depende só do merge da PR #1 por Rafa.**
+
+**Efeito do merge, a confirmar por Rafa:** a Vercel publica a primeira versão de produção em `rafaelzovic-dev-rdz14.vercel.app`. Com a proteção no modo "todas as publicações, exceto domínios do projeto", esse endereço provavelmente fica acessível sem login (é o que acontece com a URL de produção de outros projetos da conta). Continua sem indexação (T5), sem visual e sem as ferramentas de preview. Recomendação para o merge: usar "Create a merge commit" (não "Squash"), porque a PR da Fase 2 é empilhada sobre esta branch.
+
 ## Fora do escopo desta fase
 
 - Qualquer visual: cores, tipografia, grid, componentes (Fase 2).
@@ -197,4 +218,5 @@ Pendente: o valor de "Zoom da tela" usado na medição (os números valem para e
 | Data | Decisão | Observações |
 |---|---|---|
 | 2026-11-06 | Decisões T1, T3, T4, T5 aprovadas; T2 substituída por T2.1; Vercel autorizada com limites | Ajustes aplicados nesta rodada. Fase 2 não autorizada. |
-| — | Validação final da Fase 1 e merge da PR #1 | Aguardando Rafa (E8) |
+| 2026-11-13 | Auditoria de encerramento: todos os critérios técnicos satisfeitos | Ver "Auditoria de encerramento". Fase 2 autorizada (E12), empilhada sobre esta branch. |
+| — | Merge da PR #1 | Aguardando Rafa |
