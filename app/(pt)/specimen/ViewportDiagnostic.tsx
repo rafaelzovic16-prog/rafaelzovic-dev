@@ -308,7 +308,17 @@ export function ViewportDiagnostic() {
           <summary className="min-h-12 cursor-pointer py-3">
             Ver o diagnóstico completo
           </summary>
-          <pre className="mt-2 overflow-x-auto" data-testid="json">
+          {/*
+           * Área com rolagem própria: focável e nomeada para que o teclado também consiga
+           * rolar o JSON quando ele for mais largo que a tela (WCAG 2.1.1; defeito D1, E15).
+           */}
+          <pre
+            className="mt-2 overflow-x-auto"
+            data-testid="json"
+            tabIndex={0}
+            role="region"
+            aria-label="Diagnóstico completo em JSON"
+          >
             {json}
           </pre>
         </details>

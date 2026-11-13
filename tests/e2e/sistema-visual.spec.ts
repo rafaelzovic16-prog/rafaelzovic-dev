@@ -72,8 +72,10 @@ async function measureSamples(page: Page) {
   );
 }
 
+/* Larguras da matriz (matriz.ts) e os limites de cada regra (379/380, 767/768, 1023/1024). */
 const widths = [
-  320, 375, 379, 380, 500, 767, 768, 900, 1023, 1024, 1280, 1440, 1920,
+  320, 360, 375, 379, 380, 390, 400, 412, 500, 767, 768, 837, 900, 1023, 1024,
+  1280, 1440, 1920,
 ];
 
 for (const width of widths) {
@@ -97,52 +99,7 @@ for (const width of widths) {
   });
 }
 
-/* §5: colunas, intervalo e margens do container em cada faixa. */
-const gridCases = [
-  { width: 320, columns: 4, gap: 16, margin: 20 },
-  { width: 767, columns: 4, gap: 16, margin: 20 },
-  { width: 768, columns: 8, gap: 20, margin: 768 * 0.07 },
-  { width: 1023, columns: 8, gap: 20, margin: 1023 * 0.07 },
-  { width: 1024, columns: 12, gap: 24, margin: 1024 * 0.07 },
-  { width: 1440, columns: 12, gap: 24, margin: 1440 * 0.07 },
-  // Acima de 1440, o container para em 1440 px e a margem chega ao teto de 112 px.
-  { width: 1920, columns: 12, gap: 24, margin: 112 },
-];
-
-for (const { width, columns, gap, margin } of gridCases) {
-  test(`grid de ${columns} colunas e margens em ${width} px`, async ({
-    page,
-  }) => {
-    await page.setViewportSize({ width, height: 900 });
-    await page.goto("/specimen");
-    const grid = await page
-      .locator("[data-measure-grid]")
-      .evaluate((element) => {
-        const style = getComputedStyle(element);
-        const rect = element.getBoundingClientRect();
-        return {
-          columns: style.gridTemplateColumns.split(" ").length,
-          gap: parseFloat(style.columnGap),
-          left: rect.left,
-          width: rect.width,
-        };
-      });
-    const container = Math.min(width, 1440);
-    expect(grid.columns).toBe(columns);
-    expect(grid.gap).toBe(gap);
-    expect(grid.width).toBeCloseTo(container - 2 * margin, 0);
-    expect(grid.left).toBeCloseTo((width - container) / 2 + margin, 0);
-  });
-}
-
-test("sem rolagem horizontal em 320 px", async ({ page }) => {
-  await page.setViewportSize({ width: 320, height: 568 });
-  await page.goto("/specimen");
-  const scrollWidth = await page.evaluate(
-    () => document.documentElement.scrollWidth,
-  );
-  expect(scrollWidth).toBeLessThanOrEqual(320);
-});
+/* Grid, container, rolagem horizontal e teclado em toda a matriz: responsivo.spec.ts. */
 
 test("foco visível: contorno de 2 px na cor de foco de cada superfície", async ({
   page,

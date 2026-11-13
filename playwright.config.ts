@@ -16,7 +16,7 @@ const baseURL = `http://localhost:${PORT}`;
  * Galaxy A15); não precisam rodar em cada aparelho. As capturas só rodam quando pedidas.
  */
 const deviceProject = {
-  testIgnore: /(specimen|sistema-visual|capturas)\.spec\.ts$/,
+  testIgnore: /(specimen|sistema-visual|responsivo|capturas)\.spec\.ts$/,
 };
 export default defineConfig({
   testDir: "tests/e2e",

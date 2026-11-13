@@ -25,7 +25,7 @@ O que os testes conseguem afirmar com segurança: regras objetivas, mensuráveis
 | Alvos de toque ≥ 48px no mobile | Playwright (medição das caixas) | 3 |
 | Nenhuma rolagem horizontal a partir de 320px | Playwright | 3 |
 | Linhas de texto com no máximo 68 caracteres | Playwright | 3 |
-| Acessibilidade: zero violação séria ou crítica | axe (`@axe-core/playwright`) | 3 |
+| Acessibilidade: zero violação séria ou crítica | axe (`@axe-core/playwright`) | 3 (já usado no `/specimen` desde a Fase 2, E15, com zero violação de qualquer nível) |
 | Evidência: funcionalidade concluída tem evidência; status tem data; tecnologia usada tem projeto e consta na stack dele | Vitest | 4 |
 | Linguagem: termos de senioridade ou exagero recusados em PT e EN | Vitest | 3 |
 | Nenhum link para repositório privado (C1) | Vitest | 4 |
@@ -156,6 +156,8 @@ Todas as páginas, nos dois idiomas:
 | 837 × 299 | Chromium (Android) | Galaxy A15 na horizontal, barras visíveis (medido) |
 | 390 × 844 | Chromium | Matriz de Rafa (E12): tela inteira de um iPhone 12–14, não o viewport efetivo do Safari |
 | 412 × 708 | Chromium | Matriz de Rafa (E12): Android com as barras do navegador visíveis |
+| 360 × 800 | Chromium | Largura comum de Android (E15); a altura é só referência |
+| 837 × 355 | Chromium (Android) | Galaxy A15 na horizontal, leitura de 2026-11-13 (E15), dentro da faixa de 299 a 370 medida em E11 |
 | 375 × 548 | WebKit (Chromium até a Fase 3) | iPhone SE no Safari (estimativa) |
 | 390 × 664 | WebKit | iPhone 13/14 |
 | 393 × 659 | WebKit | iPhone 16 |
@@ -178,6 +180,6 @@ Todas as páginas, nos dois idiomas:
 ## 6. Itens que dependem de Rafa
 
 - Avaliação visual de cada fase.
-- ~~Medição da área útil do Galaxy A15~~ (feita em 2026-11-07, E11). Falta informar o valor de "Zoom da tela" usado e, na Fase 3, confirmar a primeira dobra no aparelho.
+- ~~Medição da área útil do Galaxy A15~~ (feita em 2026-11-07, E11; confirmada no `/specimen` em 2026-11-13, E15, com os mesmos valores, portanto com a mesma configuração de zoom). Na Fase 3, a primeira dobra é verificada pelos perfis medidos; nenhuma nova coleta manual é necessária (E15).
 - Teste com leitor de tela (TalkBack no Galaxy A15, ou NVDA no computador) na Fase 6, que não pode ser executado no ambiente de desenvolvimento.
 - Revisão de cada afirmação de conteúdo sobre os projetos (Fase 4) e dos textos em inglês (Fase 5).
