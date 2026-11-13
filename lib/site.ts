@@ -6,7 +6,7 @@
 export const isIndexable = process.env.SITE_INDEXABLE === "true";
 
 /** Ferramentas internas de validação, que nunca aparecem em produção (E9). */
-export const previewOnlyPaths: ReadonlySet<string> = new Set(["/medir"]);
+export const previewOnlyPaths: ReadonlySet<string> = new Set(["/specimen"]);
 
 /**
  * As ferramentas internas só ficam disponíveis em previews da Vercel e no servidor de

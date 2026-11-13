@@ -105,7 +105,7 @@ Os perfis de iPhone do Playwright já descontam as barras do Safari na maioria d
 | iPhone 16 Pro Max | 440 × 763 | Perfil do Playwright |
 
 
-**Diagnóstico do Galaxy A15 (E7, E9, E10):** a página **`/medir` do preview** lê, no próprio Chrome do aparelho, as APIs nativas `window.innerWidth`/`innerHeight`, `screen.width`/`height` (e `availWidth`/`availHeight`), `window.devicePixelRatio`, `window.visualViewport` e `screen.orientation`. As medidas só podem vir do aparelho: o Playwright emula um perfil, não detecta o celular de Rafa.
+**Diagnóstico do Galaxy A15 (E7, E9, E10):** a página **`/medir` do preview** (incorporada ao **`/specimen`** na Fase 2, E12, com faixa ativa, largura útil, grid e dimensões de elementos) lê, no próprio Chrome do aparelho, as APIs nativas `window.innerWidth`/`innerHeight`, `screen.width`/`height` (e `availWidth`/`availHeight`), `window.devicePixelRatio`, `window.visualViewport` e `screen.orientation`. As medidas só podem vir do aparelho: o Playwright emula um perfil, não detecta o celular de Rafa.
 
 | Leitura | O que registra |
 |---|---|
@@ -132,7 +132,7 @@ Os perfis de iPhone do Playwright já descontam as barras do Safari na maioria d
 - `userAgent` reduzido pelo Chrome (`Android 10; K`): não identifica o modelo nem a versão real do Android. Guardado como veio.
 - Diagnóstico completo, sem alteração: `tests/e2e/devices/galaxy-a15-chrome.json`.
 
-**Como os dados entram no Playwright (implementado, E11):** `tests/e2e/devices.ts` monta, só a partir do diagnóstico medido, três projetos Chromium com `isMobile`, `hasTouch`, densidade 2,7, tela e `userAgent` do aparelho: `galaxy-a15-chrome` (400 × 766, barras visíveis), `galaxy-a15-chrome-barra-recolhida` (400 × 822) e `galaxy-a15-chrome-horizontal` (837 × 299). Na Fase 1, a suíte existente (rotas, 404 por idioma, funcionamento sem JavaScript, fontes) roda nos três; os testes da própria página `/medir` usam o perfil medido e conferem que a emulação reproduz os números do aparelho. Na Fase 3, `galaxy-a15-chrome` (barras visíveis, a leitura mais restritiva do aparelho) é a referência dos testes de primeira dobra.
+**Como os dados entram no Playwright (implementado, E11):** `tests/e2e/devices.ts` monta, só a partir do diagnóstico medido, três projetos Chromium com `isMobile`, `hasTouch`, densidade 2,7, tela e `userAgent` do aparelho: `galaxy-a15-chrome` (400 × 766, barras visíveis), `galaxy-a15-chrome-barra-recolhida` (400 × 822) e `galaxy-a15-chrome-horizontal` (837 × 299). Na Fase 1, a suíte existente (rotas, 404 por idioma, funcionamento sem JavaScript, fontes) roda nos três; os testes da própria página `/medir` (hoje `/specimen`, `tests/e2e/specimen.spec.ts`) usam o perfil medido e conferem que a emulação reproduz os números do aparelho. Na Fase 3, `galaxy-a15-chrome` (barras visíveis, a leitura mais restritiva do aparelho) é a referência dos testes de primeira dobra.
 
 ### 3.4 Confirmação humana
 
@@ -154,7 +154,9 @@ Todas as páginas, nos dois idiomas:
 | 400 × 766 | Chromium (Android) | Galaxy A15 de Rafa no Chrome, barras visíveis (medido, E11) |
 | 400 × 822 | Chromium (Android) | Galaxy A15, barra do Chrome recolhida (medido) |
 | 837 × 299 | Chromium (Android) | Galaxy A15 na horizontal, barras visíveis (medido) |
-| 375 × 548 | WebKit | iPhone SE no Safari (estimativa) |
+| 390 × 844 | Chromium | Matriz de Rafa (E12): tela inteira de um iPhone 12–14, não o viewport efetivo do Safari |
+| 412 × 708 | Chromium | Matriz de Rafa (E12): Android com as barras do navegador visíveis |
+| 375 × 548 | WebKit (Chromium até a Fase 3) | iPhone SE no Safari (estimativa) |
 | 390 × 664 | WebKit | iPhone 13/14 |
 | 393 × 659 | WebKit | iPhone 16 |
 | 768 × 1024 | Chromium | Tablet em pé |

@@ -13,7 +13,7 @@ import { previewOnlyPaths, previewToolsEnabled } from "@/lib/site";
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   if (knownPaths.has(pathname)) return NextResponse.next();
-  // Ferramentas internas (ex.: /medir): só em preview; em produção viram 404 como qualquer outro endereço.
+  // Ferramentas internas (ex.: /specimen): só em preview; em produção viram 404 como qualquer outro endereço.
   if (previewOnlyPaths.has(pathname) && previewToolsEnabled()) {
     return NextResponse.next();
   }

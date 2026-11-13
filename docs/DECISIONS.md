@@ -113,6 +113,24 @@ Surgiram da implementação e do protótipo obrigatório (guardrail 10). Evidên
 
 ---
 
+## S — Interpretações técnicas da Fase 2
+
+Pontos em que a especificação não define o detalhe, resolvidos na implementação do sistema visual sem alterar cor, tipografia, grid ou composição aprovados. Motivos e evidências em [`FASE-2.md`](FASE-2.md). **Aguardam a validação de Rafa.**
+
+| # | Interpretação | Data | Status |
+|---|---|---|---|
+| S1 | Tipografia interpolada linearmente entre 375, 768 e 1440 px, com os valores exatos da especificação nessas larguras; display de 44 px abaixo de 380 px e de 48 a 64 px entre 380 e 768 px (M1). | 2026-11-13 | Proposta |
+| S2 | Alturas de linha por faixa (mobile < 768 ≤ tablet < 1024 ≤ desktop), sem interpolação. | 2026-11-13 | Proposta |
+| S3 | O container de 1440 px inclui as margens: conteúdo de 1238 px em 1440 de largura e de 1216 px a partir de ~1600. | 2026-11-13 | Proposta — pergunta para Rafa |
+| S4 | Hover de links e botões com sublinhado Sage e seta de 4 px; `:active` no toque; foco só com o contorno. | 2026-11-13 | Proposta |
+| S5 | `/specimen` liberado pela variável de sistema `VERCEL_ENV`, sem a variável `ENABLE_SPECIMEN` prevista. `/medir` foi incorporado ao `/specimen` (E12) e deixou de existir. | 2026-11-13 | Proposta |
+| S6 | Container, regra e grid como utilitários CSS; `ButtonLink`; setas → ↓ ↗ ↑ no `IndexLink` (← na Fase 4); `Figure` e `MetaTable` na Fase 4. | 2026-11-13 | Proposta |
+| S7 | Alvo de toque de 48 px garantido pela composição das seções (Fase 3), não pelo link isolado. | 2026-11-13 | Proposta |
+| S8 | Token semântico `placeholder` (Stone) para molduras pendentes. | 2026-11-13 | Proposta |
+| F2-1 | Contrastes medidos diferem de três aproximações da DESIGN-SPEC §3.2 (ivory sobre Charcoal 14,2:1; graphite 72% 6,7:1; ivory 70% 7,6:1). Todos passam AA. Cores mantidas; proposta de corrigir só os números do documento. | 2026-11-13 | Achado — depende de Rafa |
+
+---
+
 ## R — Guardrails e colaboração registrados por Rafa
 
 Registrados por Rafa na `main` em 2026-11-05 (commit `fc69d43`), transcritos aqui sem alteração de conteúdo na reconciliação da Fase 0. Valem junto com G1–G3; em caso de dúvida, prevalece a regra mais restritiva.

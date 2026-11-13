@@ -42,7 +42,7 @@
 | `vite` | 8.3.5 | 2026-10-21 | Dependência obrigatória do Vitest (`^6.4 \|\| ^7 \|\| ^8`). A 8.3.6 saiu em 2026-11-05. |
 | `@playwright/test` | **1.63.0** | 2026-09-04 | Os navegadores pré-instalados no ambiente de desenvolvimento correspondem a esta versão, o que evita configuração especial de caminho de navegador (A5). No CI, os navegadores são instalados para a versão fixada. A 1.64.0 (2026-10-07) é a alternativa se houver motivo concreto. |
 | `@axe-core/playwright` | 4.14.0 | 2026-10-15 | Auditoria automática de acessibilidade. Aceita qualquer `playwright-core`. Exige Node ≥ 22.12. |
-| `lucide-react` | 1.64.0 | 2026-10-29 | O pacote publica quase diariamente; escolher a versão mais recente com 7 dias ou mais no momento da instalação. Aceita React 19. |
+| `lucide-react` | 1.64.0 → **instalado 1.70.0** (Fase 2) | 2026-10-29 → 2026-11-06 | O pacote publica quase diariamente; escolher a versão mais recente com 7 dias ou mais no momento da instalação. Aceita React 19. Na instalação (2026-11-13), a 1.70.0 era a mais recente com 7 dias; as 1.71.0 e 1.72.0 eram mais novas. |
 | `@types/node` | 24.19.2 | 2026-10-09 | Mesma linha principal do runtime (Node 24). |
 | `@types/react` · `@types/react-dom` | 19.3.0 | 2026-09-09 | Versões atuais dos tipos do React 19. |
 
@@ -118,7 +118,7 @@ Num diretório temporário fora do repositório, com Node 24.22.1 e npm 11.19.1:
 
 ### 7.4 Ainda não instalados
 
-`lucide-react` e `@axe-core/playwright` estão aprovados, mas só são instalados quando forem usados (Fases 2 e 3), com nova reverificação nesse momento (A5).
+`@axe-core/playwright` está aprovado, mas só é instalado quando for usado (Fase 3), com nova reverificação nesse momento (A5). `lucide-react` foi instalado na Fase 2 (1.70.0, reverificado; ver a tabela da §3 e [`FASE-2.md`](FASE-2.md)).
 
 ### 7.5 GitHub Actions
 

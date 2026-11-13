@@ -3,19 +3,19 @@ import { galaxyA15Chrome } from "./devices";
 import { PREVIEW_PORT } from "./servers";
 
 /*
- * Diagnóstico de viewport (E9, E10), no servidor que simula um preview da Vercel, com o perfil
- * medido no Galaxy A15 de Rafa (E11): a página emulada precisa reproduzir os números que o
- * aparelho real informou.
+ * Diagnóstico de viewport do /specimen (E9, E10, E12), no servidor que simula um preview da
+ * Vercel, com o perfil medido no Galaxy A15 de Rafa (E11): a página emulada precisa reproduzir
+ * os números que o aparelho real informou.
  */
 test.use({
   ...galaxyA15Chrome.barrasVisiveis,
   baseURL: `http://localhost:${PREVIEW_PORT}`,
 });
 
-test("no preview, /medir mostra a área útil, a densidade e a orientação", async ({
+test("no preview, /specimen mostra a área útil, a densidade e a orientação", async ({
   page,
 }) => {
-  const response = await page.goto("/medir");
+  const response = await page.goto("/specimen");
   expect(response?.status()).toBe(200);
   await expect(page.locator("html")).toHaveAttribute("lang", "pt-BR");
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
@@ -23,7 +23,7 @@ test("no preview, /medir mostra a área útil, a densidade e a orientação", as
     /noindex/,
   );
   await expect(page.getByTestId("abertura")).toHaveText("400 × 766");
-  await expect(page.getByTestId("dpr")).toHaveText(/^2\.7/);
+  await expect(page.getByTestId("dpr")).toHaveText("2.7");
   await expect(page.getByTestId("orientacao")).toContainText("portrait");
   await expect(page.getByTestId("variacao-vertical")).toContainText(
     "largura 400 · altura 766 a 766",
@@ -33,7 +33,7 @@ test("no preview, /medir mostra a área útil, a densidade e a orientação", as
 test("registra as variações da barra do Chrome sem alterar a leitura de abertura", async ({
   page,
 }) => {
-  await page.goto("/medir");
+  await page.goto("/specimen");
   await expect(page.getByTestId("abertura")).toHaveText("400 × 766");
 
   // Barra do Chrome recolhida, como medido no aparelho: a altura útil vai a 822.
@@ -54,7 +54,7 @@ test("registra as variações da barra do Chrome sem alterar a leitura de abertu
 test("o diagnóstico completo tem os campos usados no perfil do Playwright", async ({
   page,
 }) => {
-  await page.goto("/medir");
+  await page.goto("/specimen");
   await page.getByText("Ver o diagnóstico completo").click();
   const diagnostic = JSON.parse(
     (await page.getByTestId("json").textContent()) ?? "{}",
@@ -75,4 +75,30 @@ test("o diagnóstico completo tem os campos usados no perfil do Playwright", asy
   expect(diagnostic.abertura).toHaveProperty("orientation");
   expect(diagnostic.variacoes).toHaveProperty("vertical");
   expect(typeof diagnostic.userAgent).toBe("string");
+});
+
+test("mostra a faixa ativa, a largura útil do conteúdo, o grid e os elementos", async ({
+  page,
+}) => {
+  await page.goto("/specimen");
+  // 400 px de largura: faixa mobile, margens de 20 px, 4 colunas com intervalo de 16 px.
+  await expect(page.getByTestId("breakpoint")).toHaveText(
+    "Faixa ativa: mobile",
+  );
+  await expect(page.getByTestId("conteudo")).toHaveText(
+    "Largura útil do conteúdo: 360 px",
+  );
+  await expect(page.getByTestId("grade")).toHaveText(
+    "Grid: 4 colunas de 78 px, intervalo de 16 px",
+  );
+  const elements = page.getByTestId("elementos");
+  await expect(elements).toContainText("amostra display: 360 ×");
+  await expect(elements).toContainText("amostra h1-position: 360 ×");
+  await expect(elements).toContainText("grid: 360 ×");
+
+  // Na horizontal, o mesmo aparelho passa para a faixa tablet (837 px).
+  await page.setViewportSize(galaxyA15Chrome.horizontal.viewport);
+  await expect(page.getByTestId("breakpoint")).toHaveText(
+    "Faixa ativa: tablet",
+  );
 });
