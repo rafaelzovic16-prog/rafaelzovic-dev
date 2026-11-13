@@ -79,6 +79,7 @@ rafaelzovic-dev/
 ├── docs/
 ├── .github/workflows/ci.yml
 ├── proxy.ts                       endereços desconhecidos → página 404 do idioma, com status 404
+├── vercel.json                    publicação automática da main desligada até a Fase 7 (T6)
 └── next.config.ts                 redirecionamentos, formatos de imagem
 ```
 
@@ -207,3 +208,4 @@ O menu usa a **Popover API** nativa do HTML: abre e fecha sem JavaScript, fica n
 - CI verde + preview na Vercel + pacote de capturas + **aprovação de Rafa** → merge.
 - Nenhuma fase começa sem aprovação explícita (G1).
 - Ações externas (Vercel, domínio) só com autorização específica (P7, G2).
+- **Publicação (T6):** a `main` não gera publicação automática na Vercel até a Fase 7 (`vercel.json`, `git.deploymentEnabled`). Todas as outras branches geram previews, protegidos pela Vercel Authentication. Religar a publicação exige autorização expressa de Rafa (E13).

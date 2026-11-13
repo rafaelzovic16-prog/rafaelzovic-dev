@@ -55,6 +55,10 @@ npm run dev       # http://localhost:3000
 
 As fontes ficam versionadas em `assets/fonts/` (decisão T2.1): nem o build nem o site dependem de serviço externo. Elas só precisam ser geradas de novo para atualizar a versão, com `scripts/build-fonts.sh` (procedimento e proveniência em [Dependências](docs/DEPENDENCIES.md) §8).
 
+### Publicação
+
+Nenhum merge na `main` publica o site: a publicação automática da `main` na Vercel está desligada no `vercel.json` até a Fase 7 (decisão T6). Cada branch gera um preview, protegido pela Vercel Authentication.
+
 ### Variáveis de ambiente
 
 | Variável | Efeito |

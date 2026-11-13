@@ -199,7 +199,11 @@ Nova verificação completa antes de preparar o encerramento (E12), a partir de 
 
 **Conclusão:** todos os critérios técnicos da Fase 1 estão satisfeitos. **O encerramento depende só do merge da PR #1 por Rafa.**
 
-**Efeito do merge, a confirmar por Rafa:** a Vercel publica a primeira versão de produção em `rafaelzovic-dev-rdz14.vercel.app`. Com a proteção no modo "todas as publicações, exceto domínios do projeto", esse endereço provavelmente fica acessível sem login (é o que acontece com a URL de produção de outros projetos da conta). Continua sem indexação (T5), sem visual e sem as ferramentas de preview. Recomendação para o merge: usar "Create a merge commit" (não "Squash"), porque a PR da Fase 2 é empilhada sobre esta branch.
+**Efeito do merge, a confirmar por Rafa (texto original da auditoria):** a Vercel publica a primeira versão de produção em `rafaelzovic-dev-rdz14.vercel.app`. Com a proteção no modo "todas as publicações, exceto domínios do projeto", esse endereço provavelmente fica acessível sem login (é o que acontece com a URL de produção de outros projetos da conta). Continua sem indexação (T5), sem visual e sem as ferramentas de preview. Recomendação para o merge: usar "Create a merge commit" (não "Squash"), porque a PR da Fase 2 é empilhada sobre esta branch.
+
+**Atualização (2026-11-13, E13 e T6):** a autorização complementar de Rafa proíbe publicar em produção sem autorização expressa e lembra que `noindex` não é autenticação. A documentação da Vercel confirma que, com a proteção atual, o endereço de produção do projeto fica público. Por isso, antes do merge, esta branch passou a ter um `vercel.json` que desliga a publicação automática **só da `main`** (`git.deploymentEnabled`), com um teste unitário que confere a regra. Efeito: o merge da PR #1 não publica nada em produção; os previews das branches continuam protegidos. A publicação volta a ser ligada na Fase 7, com autorização de Rafa.
+
+Reconferência no mesmo dia: PR #1 aberta e sem conflitos; base `main` inalterada desde `b869a2c` (só os documentos de Rafa); CI verde nas execuções de push e de PR do `935613f`; 11 commits na branch.
 
 ## Fora do escopo desta fase
 
@@ -219,4 +223,5 @@ Nova verificação completa antes de preparar o encerramento (E12), a partir de 
 |---|---|---|
 | 2026-11-06 | Decisões T1, T3, T4, T5 aprovadas; T2 substituída por T2.1; Vercel autorizada com limites | Ajustes aplicados nesta rodada. Fase 2 não autorizada. |
 | 2026-11-13 | Auditoria de encerramento: todos os critérios técnicos satisfeitos | Ver "Auditoria de encerramento". Fase 2 autorizada (E12), empilhada sobre esta branch. |
-| — | Merge da PR #1 | Aguardando Rafa |
+| 2026-11-13 | Rafa considera a auditoria da Fase 1 concluída (E13) | Merge só com autorização específica. T6 (publicação automática da `main` desligada) acrescentada antes do merge. |
+| — | Merge da PR #1 | Aguardando autorização específica de Rafa |
