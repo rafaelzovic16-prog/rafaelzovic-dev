@@ -143,6 +143,7 @@ O preview é protegido pela Vercel Authentication: só abre com o login da conta
 
 1. **Zoom da tela:** em Configurações, buscar "Zoom da tela" e anotar a posição atual, **sem mudar**. Os números em pixels CSS dependem dela.
 2. **Abrir:** no Chrome do Galaxy A15, com o celular na vertical, abrir o endereço. Se aparecer a tela da Vercel, entrar com a mesma conta usada no computador; o Chrome volta para a página. Se o Chrome estiver em "Versão para computador", desligar.
+   - *Opcional, para confirmar a proteção:* abrir o mesmo endereço numa guia anônima do Chrome. Deve aparecer a tela de login da Vercel, e não a página. (Daqui não é possível abrir endereços `*.vercel.app`, e um link de compartilhamento enfraqueceria a proteção; a configuração foi conferida pela API: Vercel Authentication ativa.)
 3. **Não rolar** até a página carregar: o bloco "Na abertura" registra a área com as barras do Chrome visíveis.
 4. **Rolar** devagar até o fim da página e voltar ao topo (a barra do Chrome recolhe e reaparece).
 5. **Girar** para a horizontal, esperar a página se ajustar e voltar para a vertical (com a rotação automática ligada).
@@ -160,4 +161,5 @@ O preview é protegido pela Vercel Authentication: só abre com o login da conta
 | 2026-11-13 | S3 | Aprovada (margens dentro do container de 1440 px) |
 | 2026-11-13 | S1–S8 | Mantidas como implementadas |
 | 2026-11-13 | F2-1 | Correção autorizada e aplicada na DESIGN-SPEC §3.2 |
+| 2026-11-13 | Merges (E14) | Nenhuma PR é mergeada por enquanto; fechamento formal da Fase 2 depois da validação no aparelho |
 | — | Identidade visual no Galaxy A15 | Pendente |
