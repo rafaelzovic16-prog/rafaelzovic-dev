@@ -5,7 +5,9 @@ import { columnVisibility } from "./columns";
 
 /*
  * Sobreposição do grid editorial (Fase 2): mostra as colunas do container sobre a página
- * inteira, para conferir o alinhamento. Ferramenta do /specimen; não existe no site.
+ * inteira (posição absoluta sobre o <main>, para aparecer também nas capturas de página
+ * inteira). Ferramenta do /specimen; não existe no site. Usa Sage translúcido porque precisa
+ * ser visível nas duas superfícies; não é um dos usos de Sage do site (§3.3).
  */
 export function GridOverlay() {
   const [visible, setVisible] = useState(false);
@@ -26,13 +28,13 @@ export function GridOverlay() {
         <div
           aria-hidden="true"
           data-testid="grid-overlay"
-          className="pointer-events-none fixed inset-0 z-50"
+          className="pointer-events-none absolute inset-0 z-50"
         >
           <div className="container-editorial grid-editorial h-full">
             {Array.from({ length: 12 }, (_, index) => (
               <div
                 key={index}
-                className={`bg-text/6 border-text/20 h-full border-x ${columnVisibility(index)}`}
+                className={`bg-accent/10 border-accent/50 h-full border-x ${columnVisibility(index)}`}
               />
             ))}
           </div>

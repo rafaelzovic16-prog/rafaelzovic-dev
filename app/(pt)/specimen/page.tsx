@@ -139,7 +139,7 @@ const spaceScale = [
 
 export default function Page() {
   return (
-    <main id="topo" className="pb-24">
+    <main id="topo" className="relative pb-24">
       <div className="container-editorial pt-6 md:pt-12">
         <header data-measure="cabeçalho do specimen" className="space-y-4">
           <p className="type-meta text-text-muted">

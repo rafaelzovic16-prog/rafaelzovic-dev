@@ -196,6 +196,15 @@ test("a sobreposição do grid liga e desliga", async ({ page }) => {
   await page.getByRole("button", { name: "Mostrar grid" }).click();
   const overlay = page.getByTestId("grid-overlay");
   await expect(overlay).toBeVisible();
+  // Cobre a página inteira, não só a primeira tela.
+  const { overlayHeight, pageHeight } = await page.evaluate(() => ({
+    overlayHeight:
+      document
+        .querySelector('[data-testid="grid-overlay"]')
+        ?.getBoundingClientRect().height ?? 0,
+    pageHeight: document.documentElement.scrollHeight,
+  }));
+  expect(overlayHeight).toBeGreaterThan(pageHeight * 0.95);
   await expect(
     page.getByRole("button", { name: "Ocultar grid" }),
   ).toHaveAttribute("aria-pressed", "true");

@@ -23,7 +23,7 @@ Materializar a identidade aprovada (DESIGN-SPEC v1.1, §3–§6 e §12) em token
 | Primitivos | `components/primitives/` | `Surface`, `SectionLabel`, `IndexLink`, `ButtonLink`, `StatusMarker`, `PhotoFrame`. Interpretação S6. |
 | Estados de interação e foco | `app/globals.css` | Hover com sublinhado Sage e seta de 4 px; `:active` no toque; foco de 2 px, afastamento de 3 px, raio de 4 px na cor `focus` de cada superfície. Interpretação S4. |
 | Página `/specimen` com o diagnóstico de viewport | `app/(pt)/specimen/` | Só em preview e no servidor de desenvolvimento; `noindex`; em produção, 404. `/medir` deixou de existir (agora é 404 em todos os ambientes). |
-| Sobreposição do grid | botão "Mostrar grid" no `/specimen` | Usada nas capturas "com grid" (VALIDATION §2.1). |
+| Sobreposição do grid | botão "Mostrar grid" no `/specimen` | Usada nas capturas "com grid" (VALIDATION §2.1). Cobre a página inteira (inclusive nas capturas de página inteira) e usa Sage translúcido para ser visível nas duas superfícies; é ferramenta interna, não um dos usos de Sage do site (§3.3). |
 
 ### O que o `/specimen` mostra
 
