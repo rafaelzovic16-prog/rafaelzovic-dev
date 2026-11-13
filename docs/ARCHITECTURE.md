@@ -209,4 +209,28 @@ O menu usa a **Popover API** nativa do HTML: abre e fecha sem JavaScript, fica n
 - CI verde + preview na Vercel + pacote de capturas + **aprovação de Rafa** → merge.
 - Nenhuma fase começa sem aprovação explícita (G1).
 - Ações externas (Vercel, domínio) só com autorização específica (P7, G2).
-- **Publicação (T6):** a `main` não gera publicação automática na Vercel até a Fase 7 (`vercel.json`, `git.deploymentEnabled`). Todas as outras branches geram previews, protegidos pela Vercel Authentication. Religar a publicação exige autorização expressa de Rafa (E13).
+- **Publicação (T6):** a `main` não gera publicação automática na Vercel até a Fase 7 (`vercel.json`, `git.deploymentEnabled`). Todas as outras branches geram previews, protegidos pela Vercel Authentication. Religar a publicação exige autorização expressa de Rafa (E13). Detalhes na §10.1.
+
+### 10.1 Publicação de produção (T6)
+
+**Como funciona hoje.** O `vercel.json` contém `"git": { "deploymentEnabled": { "main": false } }`. A Vercel lê esse arquivo no próprio commit que receberia a publicação: um commit na `main` (inclusive o de um merge) não gera publicação; qualquer outra branch gera um preview. A regra vale só para publicações automáticas pelo Git: uma publicação manual (painel, CLI ou API) continua possível, e por isso também exige autorização expressa (E13). O teste `tests/unit/publicacao.test.ts` falha se a regra mudar.
+
+Domínios do projeto (consulta de 2026-11-13): `rafaelzovic-dev.vercel.app` é o domínio de produção; `rafaelzovic-dev-rdz14.vercel.app` também aparece entre os endereços do projeto. Com a proteção atual ("todas as publicações, exceto domínios do projeto"), esses endereços ficariam públicos se houvesse uma publicação de produção. Hoje não há nenhuma.
+
+**Conferência antes de qualquer merge na `main` (até a Fase 7):**
+
+1. A branch que vai entrar na `main` tem o `vercel.json` com `{ "main": false }`, e o CI da PR está verde (o teste de publicação faz parte dele).
+2. Vercel, projeto `rafaelzovic-dev`: nenhuma publicação de produção ativa (`live: false`; a lista de publicações com alvo "production" não tem nenhuma pronta).
+3. Proteção: Vercel Authentication ativa; nenhum link de compartilhamento ou exceção de proteção criado.
+4. Domínios: só os gerados pela Vercel; nenhum domínio próprio.
+5. Variáveis de ambiente: nenhuma (em especial, `SITE_INDEXABLE` ausente, T5).
+6. Depois do merge: conferir que a Vercel não criou publicação para o commit da `main`.
+
+**Reativação na Fase 7 (só com autorização expressa de Rafa, registrada em [`DECISIONS.md`](DECISIONS.md)):**
+
+1. Na branch da Fase 7, retirar o bloco `git` do `vercel.json` e atualizar `tests/unit/publicacao.test.ts` no mesmo commit; registrar a substituição de T6.
+2. Decidir com Rafa, à parte, a indexação: `SITE_INDEXABLE=true` só no ambiente de produção (T5).
+3. Revisar a proteção: a produção passa a ser pública (é o objetivo); os previews continuam protegidos.
+4. Rodar `npm run check`, `check:release`, a suíte E2E e conferir o preview da branch.
+5. O merge dessa PR na `main` gera a primeira publicação de produção. Conferir o build, os endereços de produção, os cabeçalhos (`robots`) e as rotas PT/EN.
+6. Domínio próprio (`rafaelzovic.dev`): consulta, compra e DNS são passos separados, cada um com autorização (G2).

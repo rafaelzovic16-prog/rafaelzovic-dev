@@ -65,7 +65,7 @@ As fontes ficam versionadas em `assets/fonts/` (decisão T2.1): nem o build nem 
 
 ### Publicação
 
-Nenhum merge na `main` publica o site: a publicação automática da `main` na Vercel está desligada no `vercel.json` até a Fase 7 (decisão T6). Cada branch gera um preview, protegido pela Vercel Authentication.
+Nenhum merge na `main` publica o site: a publicação automática da `main` na Vercel está desligada no `vercel.json` até a Fase 7 (decisão T6). Cada branch gera um preview, protegido pela Vercel Authentication. A conferência antes de cada merge e o procedimento para reativar a produção estão em [Arquitetura §10.1](docs/ARCHITECTURE.md).
 
 ### Variáveis de ambiente
 

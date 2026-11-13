@@ -100,6 +100,13 @@ Surgiram da implementação e do protótipo obrigatório (guardrail 10). Evidên
 | T4 | Aceitos **temporariamente** os 8 alertas moderados das ferramentas de desenvolvimento. Mantê-los documentados e monitorar atualizações e correções → [`DEPENDENCIES.md`](DEPENDENCIES.md) §7.3. | Aprovada (temporária) |
 | T5 | Aprovada. O site permanece fora dos índices de buscadores até a publicação oficial. | Aprovada |
 
+### Validação de Rafa (2026-11-13) — T6
+
+| # | Decisão / observação de Rafa | Status |
+|---|---|---|
+| T6 | Aprovada, **com a condição de bloquear somente os deploys automáticos da `main`**, mantendo os previews funcionando e protegidos. Manter documentado como reativar a produção na Fase 7 → [`ARCHITECTURE.md`](ARCHITECTURE.md) §10.1. **Antes de qualquer merge**, confirmar de novo que a configuração está correta e que não existe publicação de produção ativa nem exposição indevida (lista de conferência na mesma seção). Verificado na aprovação: os previews de `fase-1/fundacao` (`13617ad`) e `fase-2/sistema-visual` (`391ac23`) foram gerados depois do `vercel.json`. Correção de dado: pela API da Vercel, o domínio de produção do projeto é `rafaelzovic-dev.vercel.app`; `rafaelzovic-dev-rdz14.vercel.app`, citado na linha T6, também aparece entre os endereços do projeto. | Aprovada (condicional) |
+| E14 | Nenhuma PR é mergeada por enquanto. Rafa valida o `/specimen` no Galaxy A15 e envia o diagnóstico; depois, fechamento formal da Fase 2 e decisão sobre os merges. | Registrada |
+
 ### Autorizações e dados registrados na mesma validação
 
 | # | Registro | Data | Status |
