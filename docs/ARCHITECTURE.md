@@ -49,14 +49,14 @@ rafaelzovic-dev/
 │   ├── layout/        RootDocument · SiteHeader · Nav · MobileMenu · LanguageSwitch · Footer · SkipLink · Folio
 │   ├── primitives/    Surface · SectionLabel · IndexLink · ButtonLink · StatusMarker · PhotoFrame
 │   │                  (Fase 2) · Figure · MetaTable (Fase 4)
-│   ├── home/          Hero · SelectedWork · ProjectFeature · ProjectIndex · About
-│   │                  Capabilities · Contact
+│   ├── home/          Hero · SelectedWork (com ProjectFeature) · About · Capabilities · Contact
+│   │                  (Fase 3; ProjectIndex só a partir do terceiro projeto)
 │   ├── case-study/    CaseHeader · CaseToc · MarginNote · ArchitectureDiagram · NextProject
 │   ├── views/         HomeView · CaseStudyView · NotFoundView  ← compartilhadas por PT e EN
-│   └── enhance/       ilhas de cliente, uma por comportamento aprovado
+│   └── enhance/       ilhas de cliente, uma por comportamento aprovado (Fase 3: MobileMenu)
 ├── content/
 │   ├── site.ts                    identidade, domínio, links (null até serem fornecidos)
-│   ├── capabilities.ts            áreas e tecnologias, com evidência
+│   ├── capabilities.ts            áreas do briefing e registro técnico derivado das stacks (Fase 3)
 │   └── projects/
 │       ├── index.ts               ordem: qualyt-trend, saldozen
 │       ├── qualyt-trend/  facts.ts · pt.ts · en.ts · images/
@@ -89,6 +89,7 @@ Mudanças em relação ao plano v1.0, por A5:
 - `EditorialGrid` foi retirado: o grid usa as classes de grid do próprio Tailwind dentro do `Container`.
 - Fase 2 (interpretação S6, [`FASE-2.md`](FASE-2.md)): `Container`, `Rule` e o grid viraram utilitários CSS no `globals.css` (`container-editorial`, `<hr>`, `grid-editorial`), não componentes; `Button` se chama `ButtonLink`, porque sempre leva a um endereço.
 - `CaseSection` e `StageLedger` foram retirados: são marcação simples dentro de `CaseStudyView`.
+- Fase 3: `LanguageSwitch` e `SiteFooter` entraram em `layout/`; `Pending` em `primitives/`, para todo conteúdo que Rafa ainda vai fornecer (com `data-pending`). Os projetos ficaram num único `content/projects.ts`, com categoria, resumo, status datado e stack; a divisão em `facts.ts`/`pt.ts`/`en.ts` por projeto entra na Fase 4, com os estudos de caso.
 - As ilhas de cliente não têm lista fixa: são criadas uma por comportamento aprovado (estado da navegação, seção ativa, revelação na rolagem, copiar e-mail, menu, seletor de idioma), e podem ser agrupadas se compartilharem estado.
 
 ---

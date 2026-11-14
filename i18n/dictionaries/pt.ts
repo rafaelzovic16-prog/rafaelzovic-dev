@@ -11,8 +11,14 @@ export const pt = {
     caseStudyTitle: "{project} — Estudo de caso · Rafa",
     notFoundTitle: "Página não encontrada · Rafa",
   },
+  skipLink: "Pular para o conteúdo",
+  /** Marcador de conteúdo que Rafa ainda vai fornecer (C2). Bloqueia a publicação (Fase 7). */
+  pending: "pendente",
   nav: {
     label: "Navegação principal",
+    menu: "Menu",
+    close: "Fechar",
+    footerLabel: "Navegação do rodapé",
     home: "Início",
     projects: "Projetos",
     about: "Sobre",
@@ -29,12 +35,48 @@ export const pt = {
     signature: "Menos ruído. Mais intenção.",
     position:
       "Desenvolvedor em formação, com foco em desenvolvimento web e objetivo de me tornar Software Engineer.",
+    photo: "Fotografia",
+    index: "Índice",
+    indexProjects: "Projetos selecionados",
+    indexProjectsShort: "Projetos",
   },
   sections: {
     projects: "Trabalhos selecionados",
     about: "Sobre",
     capabilities: "Competências",
     contact: "Contato",
+  },
+  work: {
+    readCase: "Ler estudo de caso",
+    capture: "Captura",
+    status: {
+      done: "Concluído",
+      "in-progress": "Em desenvolvimento",
+      planned: "Planejado",
+    },
+    statusDate: "status em",
+  },
+  about: {
+    opening: "Abertura do Sobre",
+    body: "Texto do Sobre",
+    howTitle: "Como trabalho",
+    how: ["Intenção", "Engenharia", "Evolução"],
+    statement: "Afirmação",
+  },
+  capabilities: {
+    area: "Frase e evidência",
+    used: "Usado em projetos",
+    studying: "Em estudo",
+    studyingList: "Lista",
+  },
+  contact: {
+    primary: "Canais principais",
+    secondary: "Outros contatos",
+    email: "E-mail",
+    whatsapp: "WhatsApp — decisão",
+  },
+  footer: {
+    top: "Topo",
   },
   caseStudy: {
     label: "Estudo de caso",

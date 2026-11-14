@@ -6,9 +6,8 @@ const baseURL = `http://localhost:${PORT}`;
 
 /*
  * Os testes E2E rodam contra o build de produção: execute `npm run build` antes.
- * Projetos: Chromium desktop e o Galaxy A15 de Rafa no Chrome, com valores medidos no
- * aparelho (E11; docs/VALIDATION.md §3.3). Os perfis de iPhone em WebKit entram na Fase 3,
- * junto com os testes de primeira dobra.
+ * Projetos: Chromium desktop, o Galaxy A15 de Rafa no Chrome, com valores medidos no
+ * aparelho (E11; docs/VALIDATION.md §3.3), e, no CI, WebKit para a primeira dobra (Fase 3).
  */
 
 /*
@@ -16,7 +15,7 @@ const baseURL = `http://localhost:${PORT}`;
  * Galaxy A15); não precisam rodar em cada aparelho. As capturas só rodam quando pedidas.
  */
 const deviceProject = {
-  testIgnore: /(specimen|sistema-visual|responsivo|capturas)\.spec\.ts$/,
+  testIgnore: /(specimen|sistema-visual|responsivo|home|capturas)\.spec\.ts$/,
 };
 export default defineConfig({
   testDir: "tests/e2e",
@@ -49,6 +48,18 @@ export default defineConfig({
       ...deviceProject,
       use: galaxyA15Chrome.horizontal,
     },
+    // WebKit (motor do Safari) só no CI, onde é instalado (VALIDATION §3.2): primeira dobra
+    // nos perfis de iPhone e no desktop. Não está instalado no ambiente de desenvolvimento.
+    ...(process.env.CI
+      ? [
+          {
+            name: "webkit",
+            testMatch: /home\.spec\.ts$/,
+            grep: /primeira dobra/,
+            use: { browserName: "webkit" as const },
+          },
+        ]
+      : []),
   ],
   // Sem --hostname: com o servidor preso a 127.0.0.1, o `next start` encaminha as reescritas
   // internas do proxy para um endereço em que não escuta, e a resposta 404 nunca chega.

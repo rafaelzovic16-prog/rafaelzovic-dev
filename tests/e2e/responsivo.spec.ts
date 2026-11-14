@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { auditLayout } from "./auditoria";
 import { matrix } from "./matriz";
 import { PREVIEW_PORT } from "./servers";
 
@@ -21,79 +22,6 @@ function expectedGrid(width: number) {
   return { columns: 4, gap: 16 };
 }
 
-/*
- * Auditoria de layout executada no navegador. Ignora o que está dentro de uma área com rolagem
- * própria (o JSON do diagnóstico), e também essa própria área, cujo conteúdo é maior de
- * propósito. Tolera 4 px no transbordo de texto: é o deslocamento da seta no estado de hover,
- * fixado no /specimen por `data-state` (§6.2).
- */
-function auditLayout() {
-  const viewport = document.documentElement.clientWidth;
-  const describe = (element: Element) =>
-    `${element.tagName.toLowerCase()} "${(element.textContent ?? "").trim().slice(0, 40)}"`;
-  const insideScroller = (element: Element) => {
-    for (
-      let parent = element.parentElement;
-      parent;
-      parent = parent.parentElement
-    ) {
-      const overflow = getComputedStyle(parent).overflowX;
-      if (overflow === "auto" || overflow === "scroll") return true;
-    }
-    return false;
-  };
-
-  const outside: string[] = [];
-  const textOverflow: string[] = [];
-  for (const element of document.body.querySelectorAll("*")) {
-    const rect = element.getBoundingClientRect();
-    if (rect.width === 0 || rect.height === 0 || insideScroller(element))
-      continue;
-    if (rect.right > viewport + 0.5 || rect.left < -0.5)
-      outside.push(describe(element));
-    const style = getComputedStyle(element);
-    const scrolls = style.overflowX === "auto" || style.overflowX === "scroll";
-    if (
-      !scrolls &&
-      style.display !== "inline" &&
-      element.clientWidth > 0 &&
-      element.scrollWidth > element.clientWidth + 4
-    ) {
-      textOverflow.push(describe(element));
-    }
-  }
-
-  const interactive = [
-    ...document.querySelectorAll("a[href], button, summary"),
-  ].filter((element) => element.getBoundingClientRect().width > 0);
-  const overlaps: string[] = [];
-  interactive.forEach((a, i) => {
-    const ra = a.getBoundingClientRect();
-    interactive.slice(i + 1).forEach((b) => {
-      const rb = b.getBoundingClientRect();
-      const x = Math.min(ra.right, rb.right) - Math.max(ra.left, rb.left);
-      const y = Math.min(ra.bottom, rb.bottom) - Math.max(ra.top, rb.top);
-      if (x > 1 && y > 1) overlaps.push(`${describe(a)} × ${describe(b)}`);
-    });
-  });
-
-  // Botões e controles: alvo de toque de 48 px (§5). Links em texto: composição da Fase 3 (S7).
-  const smallTargets = [
-    ...document.querySelectorAll("button, summary, a.min-h-12"),
-  ]
-    .filter((element) => element.getBoundingClientRect().height < 48)
-    .map(describe);
-
-  return {
-    pageWidth: document.documentElement.scrollWidth,
-    viewport,
-    outside,
-    textOverflow,
-    overlaps,
-    smallTargets,
-  };
-}
-
 /* Larguras da matriz e os limites de cada faixa (767/768 e 1023/1024). */
 const layoutCases = [
   ...matrix,
@@ -107,7 +35,7 @@ for (const viewport of layoutCases) {
     await page.goto("/specimen");
     await page.evaluate(() => document.fonts.ready);
 
-    const report = await page.evaluate(auditLayout);
+    const report = await page.evaluate(auditLayout, "");
     expect(report.viewport).toBe(viewport.width);
     expect(report.pageWidth, "rolagem horizontal").toBeLessThanOrEqual(
       viewport.width,

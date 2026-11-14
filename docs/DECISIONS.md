@@ -151,6 +151,25 @@ Pontos em que a especificação não define o detalhe, resolvidos na implementa�
 
 ---
 
+## F3 — Divergências e interpretações da Fase 3
+
+Evidências e opções em [`FASE-3.md`](FASE-3.md).
+
+| # | Registro | Data | Status |
+|---|---|---|---|
+| F3-1 | Recuo da segunda linha da assinatura: o recuo até a coluna 3 (§9.2) invade a coluna da foto (medido: PT a 1024 px; EN a 1024, 1280 e 1440 px). Provisório: recuo de uma coluna, sem sobreposição. | 2026-11-14 | **Depende de Rafa** |
+| F3-2 | Faixa "Índice" abaixo da dobra a 1440 × 800 e 1280 × 720, por causa da altura da foto 4:5 nas colunas 9–12. Implementado como especificado; dois testes marcados como falha esperada. | 2026-11-14 | **Depende de Rafa** |
+| F3-3 | `min(100svh, 880px)` para a primeira tela inteira, cabeçalho incluído. | 2026-11-14 | Proposta |
+| F3-4 | Assinatura com uma palavra por linha no mobile, como no wireframe da §9.3. | 2026-11-14 | Proposta |
+| F3-5 | Cabeçalho no fluxo; item ativo, esconder ao rolar e borda depois do hero na Fase 6. | 2026-11-14 | Proposta |
+| F3-6 | Links do menu do mobile no estilo `h2` (a §8 pede 40 px, fora da escala). | 2026-11-14 | Proposta |
+| F3-7 | Legenda "Rafa · 2026" só com a foto real (ano desconhecido, C2). | 2026-11-14 | Proposta |
+| F3-8 | Faixa do tablet com "Projetos (2)"; texto longo a partir de 1024 px. | 2026-11-14 | Proposta |
+| F3-9 | `scroll-margin` de 16 px nos elementos focáveis, para o contorno de foco não ser cortado na borda da tela. | 2026-11-14 | Proposta |
+| F3-10 | Resumo do SaldoZen igual ao do briefing, ao lado do status "Em desenvolvimento"; revisão contra o estágio real na Fase 4. | 2026-11-14 | Proposta |
+
+---
+
 ## R — Guardrails e colaboração registrados por Rafa
 
 Registrados por Rafa na `main` em 2026-11-05 (commit `fc69d43`), transcritos aqui sem alteração de conteúdo na reconciliação da Fase 0. Valem junto com G1–G3; em caso de dúvida, prevalece a regra mais restritiva.

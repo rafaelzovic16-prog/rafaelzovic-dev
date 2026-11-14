@@ -13,8 +13,13 @@ export const en: Dictionary = {
     caseStudyTitle: "{project} — Case study · Rafa",
     notFoundTitle: "Page not found · Rafa",
   },
+  skipLink: "Skip to content",
+  pending: "pending",
   nav: {
     label: "Main navigation",
+    menu: "Menu",
+    close: "Close",
+    footerLabel: "Footer navigation",
     home: "Home",
     projects: "Projects",
     about: "About",
@@ -31,12 +36,48 @@ export const en: Dictionary = {
     signature: "Less noise. More intention.",
     position:
       "Web Developer in training, working towards becoming a Software Engineer.",
+    photo: "Photograph",
+    index: "Index",
+    indexProjects: "Selected projects",
+    indexProjectsShort: "Projects",
   },
   sections: {
     projects: "Selected work",
     about: "About",
     capabilities: "Capabilities",
     contact: "Contact",
+  },
+  work: {
+    readCase: "Read case study",
+    capture: "Screenshot",
+    status: {
+      done: "Completed",
+      "in-progress": "In development",
+      planned: "Planned",
+    },
+    statusDate: "status as of",
+  },
+  about: {
+    opening: "About opening",
+    body: "About text",
+    howTitle: "How I work",
+    how: ["Intention", "Engineering", "Evolution"],
+    statement: "Statement",
+  },
+  capabilities: {
+    area: "Sentence and evidence",
+    used: "Used in projects",
+    studying: "Currently studying",
+    studyingList: "List",
+  },
+  contact: {
+    primary: "Main channels",
+    secondary: "Other contacts",
+    email: "Email",
+    whatsapp: "WhatsApp — decision",
+  },
+  footer: {
+    top: "Top",
   },
   caseStudy: {
     label: "Case study",
