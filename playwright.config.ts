@@ -11,8 +11,13 @@ const baseURL = `http://localhost:${PORT}`;
  * junto com os testes de primeira dobra.
  */
 
-/* A página /medir tem perfil próprio no seu arquivo de teste; não precisa rodar em cada aparelho. */
-const deviceProject = { testIgnore: /medir\.spec\.ts$/ };
+/*
+ * Os testes do /specimen e do sistema visual definem as próprias larguras (e o perfil medido do
+ * Galaxy A15); não precisam rodar em cada aparelho. As capturas só rodam quando pedidas.
+ */
+const deviceProject = {
+  testIgnore: /(specimen|sistema-visual|responsivo|capturas)\.spec\.ts$/,
+};
 export default defineConfig({
   testDir: "tests/e2e",
   forbidOnly: Boolean(process.env.CI),

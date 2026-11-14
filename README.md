@@ -4,7 +4,7 @@
 
 Repositório do portfólio pessoal de Rafa, publicado futuramente em `rafaelzovic.dev`.
 
-> **Status atual:** Fase 0 aprovada em 2026-11-06. Fase 1 (fundação) concluída pelo desenvolvimento e **em validação**: projeto, ferramentas, CI e rotas PT/EN, ainda **sem visual**. Cada fase depende de aprovação explícita; veja o [roadmap](docs/ROADMAP.md).
+> **Status atual:** Fase 0 aprovada em 2026-11-06. Fase 1 (fundação) concluída, com merge na `main` em 2026-11-14. Fase 2 (sistema visual: tokens, tipografia, grid, primitivos e a página interna `/specimen`) **aprovada em 2026-11-14**. Fase 3 (home) autorizada; a home ainda não tem a composição final. Cada fase depende de aprovação explícita; veja o [roadmap](docs/ROADMAP.md).
 
 ## Documentação
 
@@ -18,7 +18,7 @@ Repositório do portfólio pessoal de Rafa, publicado futuramente em `rafaelzovi
 | [Validação](docs/VALIDATION.md) | Testes automatizados × avaliação visual humana |
 | [Inventário de conteúdo](docs/CONTENT-INVENTORY.md) | O que falta e o que já foi verificado |
 | [Roadmap](docs/ROADMAP.md) | Fases e critérios de conclusão |
-| [Fase 0](docs/FASE-0.md) · [Fase 1](docs/FASE-1.md) | Registro de cada fase |
+| [Fase 0](docs/FASE-0.md) · [Fase 1](docs/FASE-1.md) · [Fase 2](docs/FASE-2.md) | Registro de cada fase |
 
 ## Princípios
 
@@ -50,6 +50,14 @@ npm run dev       # http://localhost:3000
 | `npm run build` | Build de produção |
 | `npm run test:e2e` | Testes E2E no Chromium, contra o build de produção (rode `npm run build` antes; na primeira vez, `npx playwright install chromium`) |
 | `npm run check` | Lint, formatação, tipos, testes unitários e build, em sequência |
+
+### Página interna `/specimen`
+
+Catálogo do sistema visual e diagnóstico de viewport. Existe só no servidor de desenvolvimento (`npm run dev`) e nos previews da Vercel; em produção, responde 404. Para gerar as capturas da matriz de validação (depois de `npm run build`):
+
+```bash
+CAPTURAS_DIR=/caminho/da/pasta npx playwright test capturas --project=chromium-desktop
+```
 
 ### Fontes
 

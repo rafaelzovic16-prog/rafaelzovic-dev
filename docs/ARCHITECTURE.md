@@ -13,7 +13,7 @@
    - Nenhuma prop, variante ou configuração para casos hipotéticos.
    - Nenhum "construtor de seção" genérico: cada seção da home é um componente próprio, porque cada uma tem composição própria (Briefing §15.6).
    - Preferir HTML e CSS nativos a JavaScript. Preferir um arquivo legível a três arquivos "organizados".
-3. **Servidor por padrão.** Só os componentes da pasta `enhance/` rodam no navegador. Cada um é um aprimoramento: sem JavaScript, o site continua completo (Briefing §12).
+3. **Servidor por padrão.** Só os componentes da pasta `enhance/` rodam no navegador. Cada um é um aprimoramento: sem JavaScript, o site continua completo (Briefing §12). Exceção: as ferramentas da página interna `/specimen` (diagnóstico, tamanhos calculados, sobreposição do grid) ficam junto dela, em `app/(pt)/specimen/`, porque não fazem parte do site publicado.
 4. **Tokens, não valores.** Componentes usam tokens semânticos de cor, tipografia e espaço; nunca hexadecimais nem pixels arbitrários.
 5. **Conteúdo real, validado.** Afirmações sobre projetos exigem evidência (§5).
 
@@ -34,7 +34,7 @@ rafaelzovic-dev/
 │   │   │   └── opengraph-image.tsx   (Fase 5)
 │   │   ├── opengraph-image.tsx       (Fase 5)
 │   │   ├── pagina-nao-encontrada/page.tsx   404 em PT, entregue pelo proxy
-│   │   └── specimen/page.tsx         catálogo do design system (Fase 2; só em preview, noindex)
+│   │   └── specimen/                 catálogo do design system + diagnóstico de viewport (Fase 2; só em preview, noindex)
 │   ├── (en)/                         ← layout raiz EN
 │   │   ├── layout.tsx                <html lang="en">
 │   │   └── en/
@@ -47,8 +47,8 @@ rafaelzovic-dev/
 │   └── robots.ts
 ├── components/
 │   ├── layout/        RootDocument · SiteHeader · Nav · MobileMenu · LanguageSwitch · Footer · SkipLink · Folio
-│   ├── primitives/    Container · Surface · Rule · SectionLabel · IndexLink · Button
-│   │                  StatusMarker · Figure · PhotoFrame · MetaTable
+│   ├── primitives/    Surface · SectionLabel · IndexLink · ButtonLink · StatusMarker · PhotoFrame
+│   │                  (Fase 2) · Figure · MetaTable (Fase 4)
 │   ├── home/          Hero · SelectedWork · ProjectFeature · ProjectIndex · About
 │   │                  Capabilities · Contact
 │   ├── case-study/    CaseHeader · CaseToc · MarginNote · ArchitectureDiagram · NextProject
@@ -87,6 +87,7 @@ Mudanças em relação ao plano v1.0, por A5:
 
 - `IndexStrip`, `Principles`, `CapabilityRow`, `TechLedger` e `ContactLink` deixam de ser arquivos próprios por padrão: começam dentro do componente da seção que os usa e só são extraídos se forem reutilizados.
 - `EditorialGrid` foi retirado: o grid usa as classes de grid do próprio Tailwind dentro do `Container`.
+- Fase 2 (interpretação S6, [`FASE-2.md`](FASE-2.md)): `Container`, `Rule` e o grid viraram utilitários CSS no `globals.css` (`container-editorial`, `<hr>`, `grid-editorial`), não componentes; `Button` se chama `ButtonLink`, porque sempre leva a um endereço.
 - `CaseSection` e `StageLedger` foram retirados: são marcação simples dentro de `CaseStudyView`.
 - As ilhas de cliente não têm lista fixa: são criadas uma por comportamento aprovado (estado da navegação, seção ativa, revelação na rolagem, copiar e-mail, menu, seletor de idioma), e podem ser agrupadas se compartilharem estado.
 
@@ -101,8 +102,8 @@ Mudanças em relação ao plano v1.0, por A5:
 | `/projetos/saldozen` | `/en/projects/saldozen` | Estudo de caso 02 |
 | 404 PT | 404 EN | Página não encontrada no idioma da URL, entregue pelo proxy com status 404 |
 | `/sitemap.xml` · `/robots.txt` | — | SEO |
-| `/specimen` | — | Só quando a variável `ENABLE_SPECIMEN` estiver ativa (previews); retorna 404 em produção |
-| `/medir` | — | Ferramenta interna de diagnóstico de viewport (E9, E10). Liberada pelo proxy só em previews da Vercel (`VERCEL_ENV=preview`, variável de sistema da própria Vercel) e no servidor de desenvolvimento; em produção, 404 |
+| `/specimen` | — | Catálogo do sistema visual com o diagnóstico de viewport (Fase 2). Liberado pelo proxy só em previews da Vercel (`VERCEL_ENV=preview`, variável de sistema da própria Vercel) e no servidor de desenvolvimento; em produção, 404. A variável `ENABLE_SPECIMEN` prevista no plano não foi criada (S5). |
+| ~~`/medir`~~ | — | Ferramenta de diagnóstico de viewport (E9, E10), incorporada ao `/specimen` na Fase 2 (E12). Hoje é 404 em todos os ambientes. |
 
 **Redirecionamentos permanentes (308):**
 
@@ -139,8 +140,8 @@ Todas as páginas são geradas no build. Slugs desconhecidos resultam em 404.
 | **Endereços desconhecidos** | Reescritos para a 404 do idioma, com status 404, `lang` correto e HTML completo, também sem JavaScript. | Testes E2E de 404 com e sem JavaScript. |
 | **Custo de tempo, local** | Medido com o servidor do Next (`next start`), 200 requisições cada: home ≈ 2,2 ms; endereço desconhecido ≈ 1,9 ms. Não representa a Vercel. | — |
 | **Custo na Vercel** | O proxy roda como Routing Middleware: a documentação da Vercel confirma que ele acrescenta latência e custo por requisição. Os limites incluídos no plano Hobby **não constam da documentação consultada**. | A medir no preview (tempo de resposta) e a acompanhar no painel de uso da Vercel. Nenhum serviço pago será contratado (E6). |
-| **Ferramentas de preview** | Rotas internas (`/medir`, E9) ficam numa lista separada (`previewOnlyPaths`) e só passam pelo proxy em previews. | Testes unitários da regra e E2E nos dois cenários (servidor como produção e servidor como preview). |
-| **Manutenção** | Toda rota nova sem extensão precisa entrar no mapa de rotas, senão vira 404. Exemplos já previstos: `/specimen` (Fase 2) e imagens Open Graph (Fase 5). | Teste unitário confere a lista de páginas conhecidas; os testes E2E visitam cada página pública e falham se alguma responder 404. |
+| **Ferramentas de preview** | Rotas internas (hoje só `/specimen`, que incorporou o `/medir` de E9) ficam numa lista separada (`previewOnlyPaths`) e só passam pelo proxy em previews. | Testes unitários da regra e E2E nos dois cenários (servidor como produção e servidor como preview). |
+| **Manutenção** | Toda rota nova sem extensão precisa entrar no mapa de rotas, senão vira 404. Exemplo já previsto: imagens Open Graph (Fase 5); o `/specimen` entrou na lista de ferramentas de preview na Fase 2. | Teste unitário confere a lista de páginas conhecidas; os testes E2E visitam cada página pública e falham se alguma responder 404. |
 | **Caso de borda** | Endereço desconhecido **com extensão** (ex.: `/qualquer.html`) não passa pelo proxy e recebe a 404 padrão do Next: status 404 correto, mas página sem `lang` e sem conteúdo do site. | Aceito: não é um endereço que o site divulga. Registrado para a Fase 6 (SEO). |
 | **Servidor próprio** | Com `next start --hostname 127.0.0.1`, as reescritas do proxy não respondem (achado da Fase 1). Não afeta a Vercel. | Testes E2E usam o servidor sem `--hostname`; motivo comentado em `playwright.config.ts`. |
 
@@ -169,10 +170,10 @@ Todas as páginas são geradas no build. Slugs desconhecidos resultam em 404.
 
 ## 6. Estilo
 
-- **Tailwind 4 com tokens em CSS** (`@theme` no `globals.css`), sem arquivo de configuração JS.
-- **Superfícies:** um único componente `Surface` troca os tokens semânticos para o bloco Charcoal. Nenhum componente referencia cor primitiva.
-- **Tipografia fluida:** cada estilo da especificação é um token com interpolação entre breakpoints.
-- **Guardas no CI:** um script recusa valores hexadecimais fora do `globals.css` e valores arbitrários do Tailwind (ex.: `mt-[13px]`), com lista explícita de exceções justificadas.
+- **Tailwind 4 com tokens em CSS** (`@theme` no `globals.css`), sem arquivo de configuração JS. A paleta padrão do Tailwind foi removida: só os tokens semânticos viram classes.
+- **Superfícies:** um único componente `Surface` troca os tokens semânticos para o bloco Charcoal (`data-surface="dark"`). Nenhum componente referencia cor primitiva.
+- **Tipografia fluida:** cada estilo da especificação é um utilitário (`type-display`, `type-h2`…) com tamanhos interpolados entre 375, 768 e 1440 px (S1) e altura de linha por faixa (S2).
+- **Guardas no CI:** em vez de um script separado, um teste unitário (`tests/unit/sistema-visual.test.ts`, que roda no `npm run check` e no CI) recusa cor hexadecimal, função de cor e classe da paleta do Tailwind fora do `globals.css`, e valores arbitrários do Tailwind (ex.: `mt-[13px]`) fora de uma lista explícita de exceções justificadas.
 
 ---
 

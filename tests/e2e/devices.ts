@@ -2,7 +2,7 @@ import measured from "./devices/galaxy-a15-chrome.json";
 
 /*
  * Perfis do Galaxy A15 de Rafa no Chrome (E7, E10, E11), montados só com os valores medidos
- * no aparelho pela página /medir. Nenhum número aqui é estimado.
+ * no aparelho pela página /medir (hoje parte do /specimen). Nenhum número aqui é estimado.
  *
  * - Barras visíveis: leitura de abertura, a mais restritiva na vertical; referência para a
  *   primeira dobra (Fase 3).

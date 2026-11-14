@@ -1,1 +1,378 @@
 @import "tailwindcss";
+
+/*
+ * Sistema visual RAFA (DESIGN-SPEC v1.1, §3–§6). Fonte única dos valores visuais:
+ * nenhum outro arquivo do site declara valores de cor (verificado em tests/unit/sistema-visual.test.ts).
+ */
+
+/* Paleta do Tailwind removida: só os tokens semânticos abaixo existem como utilitários. */
+@theme {
+  --color-*: initial;
+  --font-*: initial;
+  --breakpoint-*: initial;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1440px;
+  /* §5 Medida de leitura: no máximo 68 caracteres (classe max-w-measure). */
+  --container-measure: 68ch;
+}
+
+@theme inline {
+  --color-surface: var(--surface);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-rule: var(--rule);
+  --color-accent: var(--accent);
+  --color-focus: var(--focus);
+  --color-placeholder: var(--placeholder);
+
+  --font-display: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  --ease-editorial: var(--ease);
+}
+
+:root {
+  /* §3.1 Primitivas. Ivory tem o mesmo valor de Bone. */
+  --bone: #f2f0e9;
+  --graphite: #171817;
+  --stone: #d9d7cf;
+  --sage: #788176;
+  --charcoal: #20211f;
+
+  /* §3.2 Semânticas — superfície clara (padrão). */
+  --surface: var(--bone);
+  --text: var(--graphite);
+  --text-muted: rgb(23 24 23 / 0.72);
+  --rule: var(--stone);
+  --accent: var(--sage);
+  --focus: var(--graphite);
+  /* Moldura de conteúdo pendente (fotografia, capturas): Stone, só decorativo. */
+  --placeholder: var(--stone);
+
+  /* §6.1 Movimento. */
+  --ease: cubic-bezier(0.2, 0.7, 0.1, 1);
+  --dur-fast: 150ms;
+  --dur-base: 250ms;
+  --dur-reveal: 500ms;
+  --dur-route: 200ms;
+
+  /* §5 Grid: margens e intervalos por faixa. */
+  --page-margin: 20px;
+  --gutter: 16px;
+  --columns: 4;
+  /* Nome da faixa ativa, lido pelo diagnóstico de viewport do /specimen. */
+  --bp: "mobile";
+
+  /*
+   * §4 Tipografia. Valores exatos da especificação em 375 (mobile), 768 (tablet) e
+   * 1440 px (desktop), interpolados entre eles. Abaixo de 375 vale o valor de mobile;
+   * o display usa 44 px abaixo de 380 px (ajuste M1). Altura de linha muda por faixa.
+   */
+  --fs-display: 44px;
+  --lh-display: 1;
+  --fs-position: 20px;
+  --lh-position: 1.4;
+  --fs-h2: 34px;
+  --lh-h2: 1.1;
+  --fs-h3: 28px;
+  --lh-h3: 1.15;
+  --fs-contact: 36px;
+  --lh-contact: 1.05;
+  --fs-lead: 22px;
+  --lh-lead: 1.35;
+  --fs-body: 16px;
+  --lh-body: 1.6;
+  --fs-body-sm: 15px;
+  --lh-body-sm: 1.5;
+  --fs-meta: 11px;
+  --lh-meta: 1.4;
+}
+
+@media (width >= 375px) {
+  :root {
+    --fs-position: clamp(20px, calc(20px + 4 * ((100vw - 375px) / 393)), 24px);
+    --fs-h2: clamp(34px, calc(34px + 8 * ((100vw - 375px) / 393)), 42px);
+    --fs-h3: clamp(28px, calc(28px + 4 * ((100vw - 375px) / 393)), 32px);
+    --fs-contact: clamp(36px, calc(36px + 20 * ((100vw - 375px) / 393)), 56px);
+    --fs-lead: clamp(22px, calc(22px + 4 * ((100vw - 375px) / 393)), 26px);
+    --fs-meta: clamp(11px, calc(11px + 1 * ((100vw - 375px) / 393)), 12px);
+  }
+}
+
+@media (width >= 380px) {
+  :root {
+    --fs-display: clamp(48px, calc(48px + 16 * ((100vw - 380px) / 388)), 64px);
+  }
+}
+
+@media (width >= 768px) {
+  :root {
+    --page-margin: clamp(24px, 7vw, 112px);
+    --gutter: 20px;
+    --columns: 8;
+    --bp: "tablet";
+
+    --fs-display: clamp(64px, calc(64px + 32 * ((100vw - 768px) / 672)), 96px);
+    --lh-display: 0.98;
+    --fs-position: clamp(24px, calc(24px + 4 * ((100vw - 768px) / 672)), 28px);
+    --lh-position: 1.35;
+    --fs-h2: clamp(42px, calc(42px + 10 * ((100vw - 768px) / 672)), 52px);
+    --lh-h2: 1.08;
+    --fs-h3: clamp(32px, calc(32px + 8 * ((100vw - 768px) / 672)), 40px);
+    --lh-h3: 1.12;
+    --fs-contact: clamp(56px, calc(56px + 16 * ((100vw - 768px) / 672)), 72px);
+    --lh-contact: 1;
+    --fs-lead: clamp(26px, calc(26px + 6 * ((100vw - 768px) / 672)), 32px);
+    --lh-lead: 1.32;
+    --fs-body: clamp(16px, calc(16px + 1 * ((100vw - 768px) / 672)), 17px);
+    --lh-body: 1.65;
+    --lh-body-sm: 1.55;
+    --fs-meta: 12px;
+  }
+}
+
+@media (width >= 1024px) {
+  :root {
+    --gutter: 24px;
+    --columns: 12;
+    --bp: "desktop";
+    --lh-display: 0.95;
+    --lh-position: 1.3;
+    --lh-h2: 1.05;
+    --lh-h3: 1.1;
+    --lh-lead: 1.3;
+  }
+}
+
+@media (width >= 1280px) {
+  :root {
+    --bp: "desktop-1280";
+  }
+}
+
+@media (width >= 1440px) {
+  :root {
+    --bp: "desktop-1440";
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-base: var(--dur-fast);
+    --dur-reveal: var(--dur-fast);
+  }
+}
+
+/* §3.2 Superfície escura (Charcoal): Competências e Contato formam um bloco contínuo. */
+[data-surface="dark"] {
+  --surface: var(--charcoal);
+  --text: var(--bone);
+  --text-muted: rgb(242 240 233 / 0.7);
+  --rule: rgb(242 240 233 / 0.12);
+  --focus: var(--bone);
+}
+
+@layer base {
+  html {
+    background-color: var(--bone);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--surface);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  [data-surface] {
+    background-color: var(--surface);
+    color: var(--text);
+  }
+
+  /* §5 Regras de 1px na cor `rule`. */
+  hr {
+    border: 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  /* §12 Foco: contorno de 2px na cor `focus`, afastamento de 3px, raio de 4px. Nunca removido. */
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+/* Container: 1440 px no máximo, margens de 20 px no mobile e clamp(24px, 7vw, 112px) depois. */
+@utility container-editorial {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: var(--page-margin);
+}
+
+/* Grid editorial: 4 · 8 · 12 colunas, intervalos de 16 · 20 · 24 px. */
+@utility grid-editorial {
+  display: grid;
+  grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+  column-gap: var(--gutter);
+}
+
+/* §4 Estilos tipográficos. */
+@utility type-display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-display);
+  line-height: var(--lh-display);
+  letter-spacing: -0.04em;
+}
+
+@utility type-position {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-position);
+  line-height: var(--lh-position);
+  letter-spacing: -0.01em;
+}
+
+@utility type-h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-h2);
+  line-height: var(--lh-h2);
+  letter-spacing: -0.03em;
+}
+
+@utility type-h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+  letter-spacing: -0.02em;
+}
+
+@utility type-contact {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-contact);
+  line-height: var(--lh-contact);
+  letter-spacing: -0.03em;
+}
+
+@utility type-lead {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  letter-spacing: -0.01em;
+}
+
+@utility type-body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+@utility type-body-sm {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: var(--fs-body-sm);
+  line-height: var(--lh-body-sm);
+}
+
+@utility type-meta {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+}
+
+/* Rótulo de seção: meta em maiúsculas, +0,06em. */
+@utility type-label {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/*
+ * §6.2 / §12 Estados de interação dos links e botões: no hover, sublinhado Sage desenhado da
+ * esquerda para a direita (§3.3, um dos cinco usos de Sage) e seta deslocada 4 px. Hover só em
+ * dispositivos com ponteiro; no toque, o mesmo feedback vem de :active. O foco é o contorno
+ * da regra base. `data-state` reproduz os estados de forma estática no /specimen (capturas).
+ */
+@layer components {
+  .link-underline {
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    transition: background-size var(--dur-base) var(--ease);
+  }
+
+  .link-arrow {
+    transition: transform var(--dur-base) var(--ease);
+  }
+
+  @media (hover: hover) {
+    .interactive:hover .link-underline {
+      background-size: 100% 1px;
+    }
+    .interactive:hover .link-arrow {
+      transform: translate(var(--arrow-x, 0), var(--arrow-y, 0));
+    }
+  }
+
+  .interactive:active .link-underline,
+  .interactive[data-state="hover"] .link-underline {
+    background-size: 100% 1px;
+  }
+
+  .interactive:active .link-arrow,
+  .interactive[data-state="hover"] .link-arrow {
+    transform: translate(var(--arrow-x, 0), var(--arrow-y, 0));
+  }
+
+  .interactive[data-state="focus"] {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Seta: direção do deslocamento de 4 px no hover. */
+  .arrow-right {
+    --arrow-x: 4px;
+  }
+  .arrow-down {
+    --arrow-y: 4px;
+  }
+  .arrow-up {
+    --arrow-y: -4px;
+  }
+  .arrow-up-right {
+    --arrow-x: 3px;
+    --arrow-y: -3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .link-arrow {
+      transition: none;
+    }
+    .interactive:hover .link-arrow,
+    .interactive:active .link-arrow,
+    .interactive[data-state="hover"] .link-arrow {
+      transform: none;
+    }
+  }
+}

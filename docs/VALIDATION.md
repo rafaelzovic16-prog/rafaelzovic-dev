@@ -25,7 +25,7 @@ O que os testes conseguem afirmar com segurança: regras objetivas, mensuráveis
 | Alvos de toque ≥ 48px no mobile | Playwright (medição das caixas) | 3 |
 | Nenhuma rolagem horizontal a partir de 320px | Playwright | 3 |
 | Linhas de texto com no máximo 68 caracteres | Playwright | 3 |
-| Acessibilidade: zero violação séria ou crítica | axe (`@axe-core/playwright`) | 3 |
+| Acessibilidade: zero violação séria ou crítica | axe (`@axe-core/playwright`) | 3 (já usado no `/specimen` desde a Fase 2, E15, com zero violação de qualquer nível) |
 | Evidência: funcionalidade concluída tem evidência; status tem data; tecnologia usada tem projeto e consta na stack dele | Vitest | 4 |
 | Linguagem: termos de senioridade ou exagero recusados em PT e EN | Vitest | 3 |
 | Nenhum link para repositório privado (C1) | Vitest | 4 |
@@ -105,7 +105,7 @@ Os perfis de iPhone do Playwright já descontam as barras do Safari na maioria d
 | iPhone 16 Pro Max | 440 × 763 | Perfil do Playwright |
 
 
-**Diagnóstico do Galaxy A15 (E7, E9, E10):** a página **`/medir` do preview** lê, no próprio Chrome do aparelho, as APIs nativas `window.innerWidth`/`innerHeight`, `screen.width`/`height` (e `availWidth`/`availHeight`), `window.devicePixelRatio`, `window.visualViewport` e `screen.orientation`. As medidas só podem vir do aparelho: o Playwright emula um perfil, não detecta o celular de Rafa.
+**Diagnóstico do Galaxy A15 (E7, E9, E10):** a página **`/medir` do preview** (incorporada ao **`/specimen`** na Fase 2, E12, com faixa ativa, largura útil, grid e dimensões de elementos) lê, no próprio Chrome do aparelho, as APIs nativas `window.innerWidth`/`innerHeight`, `screen.width`/`height` (e `availWidth`/`availHeight`), `window.devicePixelRatio`, `window.visualViewport` e `screen.orientation`. As medidas só podem vir do aparelho: o Playwright emula um perfil, não detecta o celular de Rafa.
 
 | Leitura | O que registra |
 |---|---|
@@ -132,7 +132,7 @@ Os perfis de iPhone do Playwright já descontam as barras do Safari na maioria d
 - `userAgent` reduzido pelo Chrome (`Android 10; K`): não identifica o modelo nem a versão real do Android. Guardado como veio.
 - Diagnóstico completo, sem alteração: `tests/e2e/devices/galaxy-a15-chrome.json`.
 
-**Como os dados entram no Playwright (implementado, E11):** `tests/e2e/devices.ts` monta, só a partir do diagnóstico medido, três projetos Chromium com `isMobile`, `hasTouch`, densidade 2,7, tela e `userAgent` do aparelho: `galaxy-a15-chrome` (400 × 766, barras visíveis), `galaxy-a15-chrome-barra-recolhida` (400 × 822) e `galaxy-a15-chrome-horizontal` (837 × 299). Na Fase 1, a suíte existente (rotas, 404 por idioma, funcionamento sem JavaScript, fontes) roda nos três; os testes da própria página `/medir` usam o perfil medido e conferem que a emulação reproduz os números do aparelho. Na Fase 3, `galaxy-a15-chrome` (barras visíveis, a leitura mais restritiva do aparelho) é a referência dos testes de primeira dobra.
+**Como os dados entram no Playwright (implementado, E11):** `tests/e2e/devices.ts` monta, só a partir do diagnóstico medido, três projetos Chromium com `isMobile`, `hasTouch`, densidade 2,7, tela e `userAgent` do aparelho: `galaxy-a15-chrome` (400 × 766, barras visíveis), `galaxy-a15-chrome-barra-recolhida` (400 × 822) e `galaxy-a15-chrome-horizontal` (837 × 299). Na Fase 1, a suíte existente (rotas, 404 por idioma, funcionamento sem JavaScript, fontes) roda nos três; os testes da própria página `/medir` (hoje `/specimen`, `tests/e2e/specimen.spec.ts`) usam o perfil medido e conferem que a emulação reproduz os números do aparelho. Na Fase 3, `galaxy-a15-chrome` (barras visíveis, a leitura mais restritiva do aparelho) é a referência dos testes de primeira dobra.
 
 ### 3.4 Confirmação humana
 
@@ -154,7 +154,11 @@ Todas as páginas, nos dois idiomas:
 | 400 × 766 | Chromium (Android) | Galaxy A15 de Rafa no Chrome, barras visíveis (medido, E11) |
 | 400 × 822 | Chromium (Android) | Galaxy A15, barra do Chrome recolhida (medido) |
 | 837 × 299 | Chromium (Android) | Galaxy A15 na horizontal, barras visíveis (medido) |
-| 375 × 548 | WebKit | iPhone SE no Safari (estimativa) |
+| 390 × 844 | Chromium | Matriz de Rafa (E12): tela inteira de um iPhone 12–14, não o viewport efetivo do Safari |
+| 412 × 708 | Chromium | Matriz de Rafa (E12): Android com as barras do navegador visíveis |
+| 360 × 800 | Chromium | Largura comum de Android (E15); a altura é só referência |
+| 837 × 355 | Chromium (Android) | Galaxy A15 na horizontal, leitura de 2026-11-13 (E15), dentro da faixa de 299 a 370 medida em E11 |
+| 375 × 548 | WebKit (Chromium até a Fase 3) | iPhone SE no Safari (estimativa) |
 | 390 × 664 | WebKit | iPhone 13/14 |
 | 393 × 659 | WebKit | iPhone 16 |
 | 768 × 1024 | Chromium | Tablet em pé |
@@ -176,6 +180,6 @@ Todas as páginas, nos dois idiomas:
 ## 6. Itens que dependem de Rafa
 
 - Avaliação visual de cada fase.
-- ~~Medição da área útil do Galaxy A15~~ (feita em 2026-11-07, E11). Falta informar o valor de "Zoom da tela" usado e, na Fase 3, confirmar a primeira dobra no aparelho.
+- ~~Medição da área útil do Galaxy A15~~ (feita em 2026-11-07, E11; confirmada no `/specimen` em 2026-11-13, E15, com os mesmos valores, portanto com a mesma configuração de zoom). Na Fase 3, a primeira dobra é verificada pelos perfis medidos; nenhuma nova coleta manual é necessária (E15).
 - Teste com leitor de tela (TalkBack no Galaxy A15, ou NVDA no computador) na Fase 6, que não pode ser executado no ambiente de desenvolvimento.
 - Revisão de cada afirmação de conteúdo sobre os projetos (Fase 4) e dos textos em inglês (Fase 5).

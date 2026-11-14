@@ -3,6 +3,7 @@
 > **Status:** aprovada por Rafa em 2026-11-05.
 > **Fontes:** [`BRIEFING.md`](BRIEFING.md) (fonte de verdade) e as decisões D1–D9 e A1–A6 em [`DECISIONS.md`](DECISIONS.md).
 > **Regra:** nenhum item deste documento muda durante a implementação sem autorização explícita (regra A6). Uma dúvida de interpretação vira pergunta, não decisão.
+> **Correção numérica (2026-11-13, achado F2-1, autorizada por Rafa em E13):** os contrastes da §3.2 passaram a ser os valores medidos (WCAG 2, calculados a partir das cores aprovadas). Cores, opacidades e composição não mudaram. Valores anteriores, aproximados: `text` ≈ 16:1 e ≈ 15:1; `text-muted` ≈ 7:1 e ≈ 9:1.
 
 ---
 
@@ -72,8 +73,8 @@ Ivory tem o mesmo valor de Bone: é um único valor com dois papéis semânticos
 | Token | Superfície clara | Superfície escura |
 |---|---|---|
 | `surface` | bone | charcoal |
-| `text` | graphite (≈ 16:1) | ivory (≈ 15:1) |
-| `text-muted` | graphite 72% (≈ 7:1) | ivory 70% (≈ 9:1) |
+| `text` | graphite (15,6:1) | ivory (14,2:1) |
+| `text-muted` | graphite 72% (6,7:1) | ivory 70% (7,6:1) |
 | `rule` | stone | ivory 12% |
 | `accent` | sage | sage |
 | `focus` | graphite | ivory |
