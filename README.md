@@ -4,7 +4,7 @@
 
 Repositório do portfólio pessoal de Rafa, publicado futuramente em `rafaelzovic.dev`.
 
-> **Status atual:** Fase 0 aprovada em 2026-11-06. Fase 1 (fundação) pronta para encerrar, aguardando o merge da PR #1. Fase 2 (sistema visual: tokens, tipografia, grid, primitivos e a página interna `/specimen`) aprovada tecnicamente, com a validação responsiva geral concluída e **aguardando a avaliação final de Rafa**. A home ainda não tem a composição final (Fase 3). Cada fase depende de aprovação explícita; veja o [roadmap](docs/ROADMAP.md).
+> **Status atual:** Fase 0 aprovada em 2026-11-06. Fase 1 (fundação) concluída, com merge na `main` em 2026-11-14. Fase 2 (sistema visual: tokens, tipografia, grid, primitivos e a página interna `/specimen`) **aprovada em 2026-11-14**. Fase 3 (home) autorizada; a home ainda não tem a composição final. Cada fase depende de aprovação explícita; veja o [roadmap](docs/ROADMAP.md).
 
 ## Documentação
 

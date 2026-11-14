@@ -1,6 +1,6 @@
 # Fase 1 — Fundação
 
-> **Status:** decisões T1–T5 aprovadas e ajustes aplicados (rodada de validação de 2026-11-06, abaixo). **Preview na Vercel bloqueado por permissão da conexão** (ver "Vercel"). Aguarda a validação final de Rafa; o merge da PR #1 depende dela (E8).
+> **Status:** **concluída.** Merge da PR #1 na `main` em 2026-11-14 (`d5cd387`, merge commit), com autorização expressa de Rafa (E16). O histórico da fase continua abaixo; o status original desta linha era: "decisões T1–T5 aprovadas e ajustes aplicados; preview bloqueado por permissão da conexão; aguarda a validação final de Rafa (E8)".
 > **Autorização:** início aprovado por Rafa em 2026-11-06 (E1). A Fase 2 só começa após a validação desta fase.
 
 ## Objetivo
@@ -227,4 +227,4 @@ Reconferência no mesmo dia: PR #1 aberta e sem conflitos; base `main` inalterad
 | 2026-11-13 | Auditoria de encerramento: todos os critérios técnicos satisfeitos | Ver "Auditoria de encerramento". Fase 2 autorizada (E12), empilhada sobre esta branch. |
 | 2026-11-13 | Rafa considera a auditoria da Fase 1 concluída (E13) | Merge só com autorização específica. T6 (publicação automática da `main` desligada) acrescentada antes do merge. |
 | 2026-11-13 | T6 aprovada com condição (só a `main`; previews funcionando e protegidos) | Conferência antes do merge e reativação na Fase 7 documentadas (ARCHITECTURE §10.1). |
-| — | Merge da PR #1 | Nenhum merge por enquanto (E14); aguarda a validação da Fase 2 no Galaxy A15 e a autorização específica de Rafa |
+| 2026-11-14 | Merge da PR #1 (E16) | Executado por Claude com autorização expressa de Rafa: *merge commit* `d5cd387` (pais `b869a2c` e `70579ad`), sem *squash* e sem reescrita de histórico; a árvore da `main` ficou idêntica à da branch verificada. Antes: conferência da ARCHITECTURE §10.1 (T6 no `vercel.json`, CI verde, nenhuma publicação de produção, Vercel Authentication ativa, nenhum domínio próprio, nenhuma variável). Depois: nenhuma publicação criada pela Vercel para a `main`. A branch `fase-1/fundacao` foi mantida. |

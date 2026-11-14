@@ -1,7 +1,7 @@
 # Fase 2 — Sistema visual
 
-> **Status:** implementada, verificada e aprovada tecnicamente (E13); diagnóstico do Galaxy A15 recebido e **validação responsiva geral concluída** (E15). **Aguarda a avaliação do relatório final por Rafa** para o fechamento formal. Sem merge. Autorizada pelo prompt mestre de 2026-11-13 (E12).
-> **Branch:** `fase-2/sistema-visual`, empilhada sobre `fase-1/fundacao` (E12). A PR tem como base a branch da Fase 1; depois do merge da PR #1, a base passa a ser a `main`.
+> **Status:** **aprovada por Rafa em 2026-11-14** (E16): identidade visual, sistema de design e validação responsiva. Merge da PR #2 autorizado, depois do merge da PR #1. Histórico: aprovada tecnicamente (E13); diagnóstico do Galaxy A15 e validação responsiva geral (E15). Autorizada pelo prompt mestre de 2026-11-13 (E12).
+> **Branch:** `fase-2/sistema-visual`, desenvolvida empilhada sobre `fase-1/fundacao` (E12). Depois do merge da PR #1 (`d5cd387`), a base da PR #2 passou a ser a `main`.
 
 ## Objetivo
 
@@ -212,4 +212,5 @@ O preview é protegido pela Vercel Authentication: só abre com o login da conta
 | 2026-11-13 | F2-1 | Correção autorizada e aplicada na DESIGN-SPEC §3.2 |
 | 2026-11-13 | Merges (E14) | Nenhuma PR é mergeada por enquanto; fechamento formal da Fase 2 depois da validação no aparelho |
 | 2026-11-13 | Diagnóstico físico do Galaxy A15 (E15) | Recebido; registrado como evidência complementar. Validação responsiva geral pedida e executada |
-| — | Fechamento formal da Fase 2 | Aguarda a avaliação do relatório final por Rafa |
+| 2026-11-14 | **Fase 2 aprovada** (E16) | Identidade visual, sistema de design e validação responsiva. As rodadas de validação e os diagnósticos já feitos bastam. |
+| 2026-11-14 | Merge da PR #2 (E16) | Autorizado para Claude, depois do merge da PR #1: base em `main`, conferência da ARCHITECTURE §10.1, CI, conflitos e estado verificados, *merge commit*. O resultado fica registrado no início da Fase 3. |
