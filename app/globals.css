@@ -209,6 +209,15 @@
     outline-offset: 3px;
     border-radius: 4px;
   }
+
+  /*
+   * Ao navegar pelo teclado, o navegador rola até o elemento focado encostar na borda da
+   * tela; o contorno (2 px + 3 px de afastamento) ficaria cortado. A margem de rolagem
+   * mantém o foco inteiro à vista.
+   */
+  :where(a, button, summary, [tabindex]) {
+    scroll-margin-block: 16px;
+  }
 }
 
 /* Container: 1440 px no máximo, margens de 20 px no mobile e clamp(24px, 7vw, 112px) depois. */
@@ -306,6 +315,50 @@
   text-transform: uppercase;
 }
 
+/* §9.5 Número de projeto: 64 px em Manrope 600 ("números de projeto em 64px"). */
+@utility type-index {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 64px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+/*
+ * §9.2 Hero: o topo da foto fica na altura de maiúsculas da primeira linha do display.
+ * Métricas da Manrope medidas no navegador (em em): ascendente 1,066, descendente 0,300,
+ * maiúsculas 0,734. Na caixa de linha, o topo das maiúsculas fica em
+ * (altura de linha − 1,366) / 2 + (1,066 − 0,734), multiplicado pelo tamanho do display.
+ */
+@utility align-display-cap {
+  margin-top: calc(
+    var(--fs-display) * ((var(--lh-display) - 1.366) / 2 + 0.332)
+  );
+}
+
+/*
+ * §9.2 Deslocamento editorial da segunda linha do display. Provisório (F3-1): uma coluna,
+ * porque o recuo de duas colunas da especificação faz a linha invadir a coluna da foto
+ * (medido com a fonte real). O bloco ocupa 7 colunas no desktop: uma coluna = (largura do
+ * bloco − 6 intervalos) / 7.
+ */
+@utility indent-one-column {
+  padding-left: calc((100% - 6 * var(--gutter)) / 7 + var(--gutter));
+}
+
+/*
+ * §9.2 Altura do hero no desktop: min(100svh, 880px) para a primeira tela inteira, incluindo
+ * o cabeçalho de 72 px (interpretação F3-3).
+ */
+@utility hero-height {
+  min-height: calc(min(100svh, 880px) - 72px);
+}
+
+/* §9.2 Linhas do hero a partir do tablet: meta, display, H1 e a faixa "Índice", que vai para a base. */
+@utility hero-rows {
+  grid-template-rows: auto auto auto 1fr;
+}
+
 /*
  * §6.2 / §12 Estados de interação dos links e botões: no hover, sublinhado Sage desenhado da
  * esquerda para a direita (§3.3, um dos cinco usos de Sage) e seta deslocada 4 px. Hover só em
@@ -348,6 +401,39 @@
     outline: 2px solid var(--focus);
     outline-offset: 3px;
     border-radius: 4px;
+  }
+
+  /*
+   * §12 ProjectFeature: o bloco inteiro é clicável e recebe o foco. O link fica no título
+   * (nome acessível = nome do projeto) e se estende sobre o bloco; o contorno de foco é
+   * desenhado no bloco, não removido.
+   */
+  .stretched-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+  .stretched-link:focus-visible {
+    outline: none;
+  }
+  .stretched-link:focus-visible::after {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* §3.3 / §9.8 Links de contato: regra de 1 px que fica Sage no hover (um dos usos de Sage). */
+  .contact-link {
+    border-bottom: 1px solid var(--rule);
+    transition: border-color var(--dur-base) var(--ease);
+  }
+  .contact-link:active {
+    border-color: var(--accent);
+  }
+  @media (hover: hover) {
+    .contact-link:hover {
+      border-color: var(--accent);
+    }
   }
 
   /* Seta: direção do deslocamento de 4 px no hover. */

@@ -3,7 +3,7 @@
 > Tudo o que o site precisa mostrar e ainda não está disponível, ou que precisa de confirmação.
 > **Regra C2:** nada é publicado sem fonte verificável ou confirmação de Rafa. Durante o desenvolvimento, item pendente aparece como marcador "pendente"; na publicação, o comando `check:release` falha se algum item obrigatório continuar pendente.
 
-Atualizado em 2026-11-06.
+Atualizado em 2026-11-06. Revisado em 2026-11-14 (Fase 3): o que a home já usa e onde cada pendência aparece está em [`FASE-3.md`](FASE-3.md). Na home, toda pendência aparece como "<item> — pendente" com o atributo `data-pending`.
 
 ---
 
@@ -15,7 +15,7 @@ Atualizado em 2026-11-06.
 | Posicionamento PT/EN | Aprovado | — | — | D1/D2 em [`DECISIONS.md`](DECISIONS.md) |
 | Assinatura | Aprovada | — | — | Menos ruído. Mais intenção. |
 | Fotografia profissional | Pendente | Fase 3 (moldura "pendente" até lá) | Sim | Especificação em [`DESIGN-SPEC.md`](DESIGN-SPEC.md) §7. |
-| URL do GitHub | **Confirmada em 2026-11-06** (E4) | Fase 3 | — | Perfil `rafaelzovic16-prog` → `https://github.com/rafaelzovic16-prog` |
+| URL do GitHub | **Confirmada em 2026-11-06** (E4) | Fase 3 | — | Perfil `rafaelzovic16-prog` → `https://github.com/rafaelzovic16-prog`. **Em uso na home (Contato) desde a Fase 3.** |
 | URL do LinkedIn | Pendente | Fase 3 | Sim | — |
 | E-mail profissional | Pendente | Fase 3 | Sim | — |
 | WhatsApp | **Decisão pendente:** exibir ou não | Fase 3 | Só se Rafa decidir exibir | Nenhum número fictício. |

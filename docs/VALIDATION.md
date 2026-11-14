@@ -85,7 +85,7 @@ Com a página no topo, **o H1 (posicionamento) e a linha "01 Projetos" ficam int
 
 ### 3.2 Método automatizado
 
-- **Navegador:** Chromium para Android — o motor do Google Chrome, navegador principal de Rafa no Galaxy A15 (E7) — e WebKit (motor do Safari) com perfis de iPhone do Playwright. O Chromium roda no ambiente de desenvolvimento e no CI; o WebKit não está instalado no ambiente de desenvolvimento e roda só no CI (GitHub Actions).
+- **Navegador:** Chromium para Android — o motor do Google Chrome, navegador principal de Rafa no Galaxy A15 (E7) — e WebKit (motor do Safari) com perfis de iPhone do Playwright. O Chromium roda no ambiente de desenvolvimento e no CI; o WebKit não está instalado no ambiente de desenvolvimento e roda só no CI (GitHub Actions), no projeto `webkit` (desde a Fase 3: os testes de primeira dobra de `tests/e2e/home.spec.ts`).
 - **Fontes carregadas:** o teste espera `document.fonts.ready` e confirma que Manrope 500/600, Inter 400 e JetBrains Mono 400 foram de fato carregadas. Medir com a fonte substituta não vale.
 - **Animações concluídas:** o teste espera o fim da entrada do hero; também roda com movimento reduzido.
 - **Medição:** posição inferior do H1 e da linha "Projetos" comparada com `window.innerHeight`.

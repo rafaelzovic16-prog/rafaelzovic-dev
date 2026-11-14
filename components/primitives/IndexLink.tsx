@@ -28,7 +28,7 @@ export function IndexLink({
   children: React.ReactNode;
 } & Omit<ComponentProps<"a">, "href">) {
   const { Icon, className: arrowClass } = arrows[arrow];
-  const classes = ["interactive inline-flex items-baseline gap-2", className]
+  const classes = ["interactive inline-flex items-center gap-2", className]
     .filter(Boolean)
     .join(" ");
   const content = (

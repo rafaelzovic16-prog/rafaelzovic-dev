@@ -35,7 +35,11 @@ test.describe("sem JavaScript", () => {
     page,
   }) => {
     await page.goto("/");
-    await page.getByRole("link", { name: "SaldoZen" }).click();
+    // O nome do projeto também aparece no registro técnico; o link do bloco do projeto é o título.
+    await page
+      .locator("main article")
+      .getByRole("link", { name: "SaldoZen" })
+      .click();
     await expect(page).toHaveURL("/projetos/saldozen");
     await expect(page.locator("h1")).toHaveText("SaldoZen");
 
