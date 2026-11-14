@@ -1,0 +1,77 @@
+name: CI
+
+on:
+  push:
+    branches: [main, "fase-*/**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verificar:
+    name: Segurança, lint, tipos, testes, build e E2E
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NEXT_TELEMETRY_DISABLED: 1
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # Não deixa o token do GitHub gravado no .git/config para os passos seguintes.
+          persist-credentials: false
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Vulnerabilidades em dependências de produção
+        run: npm audit --omit=dev --audit-level=moderate
+
+      # Decisão T4: os alertas das ferramentas de desenvolvimento foram aceitos temporariamente.
+      # Este passo não bloqueia; registra a situação no resumo de cada execução para monitoramento.
+      - name: Alertas em dependências de desenvolvimento (informativo, T4)
+        run: |
+          {
+            echo "### Alertas em dependências de desenvolvimento (T4)"
+            echo '```'
+            npm audit --audit-level=moderate 2>&1 | tail -n 4 || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Formatação
+        run: npm run format:check
+
+      - name: Verificação de tipos
+        run: npm run typecheck
+
+      - name: Testes unitários
+        run: npm test
+
+      - name: Build de produção
+        run: npm run build
+
+      - name: Instalar navegador do Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Testes E2E
+        run: npm run test:e2e
+
+      - name: Relatório do Playwright
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7

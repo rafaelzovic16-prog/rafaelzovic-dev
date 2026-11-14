@@ -1,0 +1,60 @@
+{
+  "fonte": "Diagnóstico de viewport (/medir) executado por Rafa no próprio Samsung Galaxy A15, Google Chrome, em 2026-11-06/07. Copiado sem alteração.",
+  "diagnostico": {
+    "abertura": {
+      "innerWidth": 400,
+      "innerHeight": 766,
+      "devicePixelRatio": 2.700000047683716,
+      "screen": {
+        "width": 400,
+        "height": 867,
+        "availWidth": 400,
+        "availHeight": 823
+      },
+      "visualViewport": {
+        "width": 400,
+        "height": 766,
+        "scale": 1,
+        "offsetTop": 0
+      },
+      "orientation": {
+        "type": "portrait-primary",
+        "angle": 0
+      }
+    },
+    "atual": {
+      "innerWidth": 837,
+      "innerHeight": 370,
+      "devicePixelRatio": 2.700000047683716,
+      "screen": {
+        "width": 867,
+        "height": 400,
+        "availWidth": 838,
+        "availHeight": 355
+      },
+      "visualViewport": {
+        "width": 837,
+        "height": 370,
+        "scale": 1,
+        "offsetTop": 0
+      },
+      "orientation": {
+        "type": "landscape-primary",
+        "angle": 90
+      }
+    },
+    "variacoes": {
+      "vertical": {
+        "largura": 400,
+        "alturaMinima": 766,
+        "alturaMaxima": 822
+      },
+      "horizontal": {
+        "largura": 837,
+        "alturaMinima": 299,
+        "alturaMaxima": 370
+      }
+    },
+    "userAgent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Mobile Safari/537.36"
+  }
+}

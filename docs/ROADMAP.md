@@ -1,43 +1,33 @@
-# RAFA — Roadmap
+# Roadmap
 
-Base: design v1.1 e plano técnico v1.0. Estado: Fase 0, documentação. Código de aplicação não iniciado.
+> **Regra G1:** nenhuma fase começa sem aprovação explícita de Rafa. A conclusão de uma fase exige CI verde **e** aprovação visual humana (A3).
+> A ordem segue o Briefing §16, com a estrutura de i18n antecipada para a Fase 1 (P5) e uma Fase 0 de documentação.
 
-## Fluxo
-Branch própria → PR → CI verde → preview Vercel quando aplicável → relatório/capturas → revisão de Rafa → aprovação explícita → merge. Fase seguinte somente após aprovação da anterior.
+| Fase | Objetivo | Entregas principais | Critério de conclusão | Status |
+|---|---|---|---|---|
+| **0 · Documentação** | Registrar tudo o que foi aprovado antes de escrever código | Briefing, especificação v1.1, decisões, arquitetura, dependências, validação, inventário de conteúdo, `CLAUDE.md` | Rafa revisa e aprova a documentação | **Aprovada em 2026-11-06** |
+| **1 · Fundação** | Projeto rodando, com qualidade e rotas desde o início | Dependências verificadas e teste de fumaça (A1); Next.js, TypeScript, Tailwind; ESLint, Prettier, Vitest, Playwright, CI; fontes; esqueleto das rotas PT/EN com layouts raiz, 404s, redirecionamentos e dicionários tipados; projeto na Vercel com previews (autorização específica) | `npm run check` verde; rotas, `lang`, 404s e redirecionamentos testados; preview no ar; aprovação de Rafa | **Pronta para encerrar** — auditoria concluída e aceita por Rafa em 2026-11-13 (E13); merge da PR #1 aguarda autorização específica. O merge não publica em produção (T6) |
+| **2 · Sistema visual** | Identidade materializada em tokens e primitivos | Cores e superfícies, escala tipográfica fluida, grid 4/8/12, espaçamentos, primitivos com estados, página `/specimen`, sobreposição do grid | Capturas do `/specimen` em toda a matriz; tokens verificados; **validação visual da identidade por Rafa** | **Em andamento** (autorizada em 2026-11-13, E12) |
+| **3 · Página principal** | Home completa, ainda sem animações | Header e menu, hero (com M1), Projetos (A/B), Sobre, Competências, Contato, rodapé — PT e EN | Testes de primeira dobra (Chromium/Android e WebKit), sem JS, teclado, toque, axe; capturas da matriz; confirmação no Galaxy A15 de Rafa; aprovação de Rafa | Não iniciada |
+| **4 · Estudos de caso** | Autoridade baseada em evidência | Modelo de conteúdo com evidência; página de estudo de caso; conteúdo do SaldoZen e do Qualyt Trend; diagramas; capturas reais | Testes de evidência verdes; **revisão de cada afirmação por Rafa**; aprovação visual | Não iniciada |
+| **5 · Inglês e metadados** | Versão EN completa e natural | Revisão do EN, metadados por página, `hreflang`, imagens Open Graph, seletor que preserva a seção | Testes de paridade, troca de idioma e metadados; revisão do EN por Rafa | Não iniciada |
+| **6 · Refinamento** | Experiência final | Movimentos aprovados, movimento reduzido, auditoria de acessibilidade, SEO, desempenho; capturas de referência travadas | Metas de desempenho relatadas (A4); axe limpo; teste com leitor de tela por Rafa; aprovação final da experiência | Não iniciada |
+| **7 · Publicação** | Site no ar no domínio próprio | `check:release` sem pendências; produção na Vercel (religar a publicação automática da `main`, T6, com autorização); consulta de domínio; compra e DNS **apenas com autorização (G2)** | Checklist final no domínio definitivo; aprovação de Rafa para cada ação externa | Não iniciada |
 
-## Fase 0 — Repositório e documentação
-- [x] Confirmar repositório próprio.
-- [x] Registrar design v1.1, decisões D1–D9/P1–P7, roadmap e inventário.
-- [ ] Rafa revisar documentos.
-- [ ] Rafa aprovar início da Fase 1.
-Fora do escopo: código, dependências, build e deploy.
+Detalhes de cada fase ficam em `docs/FASE-N.md`, criado quando a fase começa.
 
-## Fase 1 — Fundação
-Next.js 16, React 19, TypeScript estrito, Tailwind 4; ESLint, Prettier, Vitest, Playwright, npm run check; fontes locais; rotas e layouts PT/EN, 404 por idioma, redirects e dicionários tipados; CI. Integração Vercel somente após autorização/conexão. Critério: checks, rotas, lang, redirects, 404 e preview validados.
+## Fluxo de cada fase
 
-## Fase 2 — Sistema visual
-Tokens, superfícies, tipografia fluida, grid, espaçamento, primitivos, /specimen (preview/noindex) e overlay de grid. Critério: capturas Bone/Charcoal, contraste, foco e tokens validados.
+Registrado por Rafa (commit `9f9501d`):
 
-## Fase 3 — Home
-Header, nav/menu, hero M1, índice, Projetos, Sobre, Competências, Contato e rodapé. Sem animações. PT/EN juntos; conteúdo pendente sinalizado. Critério: primeira dobra, capturas, sem JS, teclado, acessibilidade e sem overflow a 320px.
-
-## Fase 4 — Estudos de caso
-Conteúdo tipado/evidências, 10 seções, sumário e marginália. SaldoZen baseado em README/docs/PRs reais; Qualyt Trend depende de repositório/material fornecido. Capturas reais. Nenhuma conclusão sem evidência e revisão de Rafa.
-
-## Fase 5 — Inglês e metadados
-Revisão EN, metadata por rota, canonical, hreflang, OG e seletor preservando seção. Testes de paridade e troca de idioma.
-
-## Fase 6 — Refinamento
-Movimento CSS, hover/reveal, reduced motion, auditoria acessibilidade, otimização de imagem/fonte, sitemap, robots e JSON-LD Person somente com dados reais. Capturas de referência. Teste manual de leitor de tela por Rafa. Critério: metas de desempenho, axe sem violações sérias/críticas e sem regressão sem JS.
-
-## Fase 7 — Publicação
-npm run check:release sem pendências; deploy produção; consulta de disponibilidade/preço de rafaelzovic.dev. Compra e DNS somente com autorização explícita. Checklist final e aprovação.
-
-## Matriz visual
-320×568; 375×548; 390×844; 768×1024; 1024×768; 1280×720; 1440×900; 1920×1080. Capturas limpas e com grid, URL do preview e observações.
-
-## Critérios mensuráveis
-H1 e link Projetos na primeira dobra; sem overflow a 320px; corpo ≥16px; toque ≥48px; foco visível; contraste AA; status não depende só de cor; conteúdo completo sem JS; reduced motion sem deslocamento/escala. Lighthouse mobile alvo: Performance ≥95, Acessibilidade 100, SEO 100, LCP ≤2s, CLS ≤0,05, TBT ≤150ms. Comparação visual automatizada após congelar referências.
+Branch própria → PR → CI verde → preview Vercel quando aplicável → relatório/capturas → revisão de Rafa → aprovação explícita → merge. Fase seguinte somente após aprovação da anterior. **Nenhum agente faz merge sem autorização explícita de Rafa.**
 
 ## Validações técnicas obrigatórias
+
+Registrado por Rafa (commit `9f9501d`):
+
 Versões exatas e compatibilidade de Next/React/TS/Tailwind e ferramentas devem ser verificadas na implementação, não presumidas. Prototipar dois layouts raiz e catch-all 404 na versão instalada. Mudanças que alterem requisito aprovado precisam de registro e aprovação.
+
+## Matriz visual e critérios mensuráveis
+
+Detalhados em [`VALIDATION.md`](VALIDATION.md). A matriz registrada por Rafa (`320×568; 375×548; 390×844; 768×1024; 1024×768; 1280×720; 1440×900; 1920×1080`) está contida na de `VALIDATION.md`; a diferença é que lá o iPhone 12–14 aparece pelo viewport **efetivo** do Safari (390 × 664) em vez do tamanho total da tela (390 × 844), e o Galaxy A15 de Rafa entra como perfil próprio (E3).
